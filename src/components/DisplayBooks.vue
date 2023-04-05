@@ -1,0 +1,69 @@
+<script lang="ts">
+import { mapState } from 'pinia';
+import { useDataStore } from '@/stores/data';
+import { useVocabStore } from '@/stores/vocab';
+import { useQueryStore } from '@/stores/query';
+
+export default {
+	computed: {
+		...mapState(useQueryStore, []),
+		...mapState(useVocabStore, {
+			vocab: 'vocab',
+		}),
+		...mapState(useDataStore, {
+			books: 'booksFromQuery',
+		}),
+	},
+};
+</script>
+
+<template>
+	<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+		<div v-for="book in books" :key="book['@id']">
+			<div class="pt-[100%] bg-secondary-grey w-full block" />
+
+			<div class="mt-2">
+				<strong>
+					{{ book.title }}
+				</strong>
+
+				<strong v-if="book.originDate != null">
+					&bull; {{ book.originDate }}
+				</strong>
+			</div>
+
+			<div v-if="book.author != null" class="text-sm text-secondary-grey">
+				{{ book.author.name }}
+			</div>
+
+			<div
+				v-if="book.genreForm != null && book.genreForm.length > 0"
+				class="flex flex-wrap mt-2 gap-1"
+			>
+				<div
+					v-for="genre in book.genreForm"
+					:key="genre['@id']"
+					class="rounded-full text-xs px-2 py-1 bg-secondary-turquoise text-primary-white"
+				>
+					{{ genre.prefLabel }}
+				</div>
+
+				<div
+					v-if="book.language != null"
+					class="rounded-full text-xs px-2 py-1 bg-signal-yellow text-primary-white"
+				>
+					{{ book.language.label }}
+				</div>
+
+				<div
+					v-if="book.subject != null"
+					v-for="subject in book.subject"
+					:bind="subject['id']"
+					class="rounded-full text-xs px-2 py-1 bg-primary-orange text-primary-white"
+				>
+					{{ subject.prefLabel }}
+				</div>
+			</div>
+		</div>
+	</div>
+</template>
