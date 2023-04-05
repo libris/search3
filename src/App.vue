@@ -1,13 +1,11 @@
 <script lang="ts">
 import { mapWritableState } from 'pinia';
 import { useQueryStore } from '@/stores/query';
-import DisplayBooks from './components/DisplayBooks.vue';
 import SearchInput from './components/SearchInput.vue';
 
 export default {
   name: 'App',
   components: {
-    DisplayBooks,
     SearchInput
   },
   computed: {
@@ -37,7 +35,7 @@ export default {
   </div>
 
   <div class="px-12 my-12">
-    <DisplayBooks />
+    <router-view />
   </div>
 </template>
 
