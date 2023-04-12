@@ -92,7 +92,7 @@ export const useDataStore = defineStore('data', {
 
 			stateKeys.forEach((stateKey) => {
 				if (Array.isArray(this.$state[stateKey])) {
-					this.$state[stateKey] = this.$state[stateKey].map(this.buildRelations);
+					this.$state[stateKey] = this.$state[stateKey].map(this.calculateDisplayMeta);
 				}
 			});
 		},
@@ -157,6 +157,22 @@ export const useDataStore = defineStore('data', {
 			}
 
 			return item;
+		},
+
+		calculateDisplayMeta(item) {
+			const clone = JSON.parse(JSON.stringify(item));
+
+			if (item['@type'] === 'Text') {
+				const foundTitle = clone.hasTitle?.find((title) =>
+					title['@type'] === 'Title'
+				);
+
+				if (foundTitle != null) {
+					clone.title = foundTitle.mainTitle;
+				}
+			}
+
+			return clone;
 		},
 
 	},
