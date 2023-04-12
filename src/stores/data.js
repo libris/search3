@@ -26,6 +26,7 @@ export const useDataStore = defineStore('data', {
 
 		Instance: [],
 		Print: [],
+		Text: [],
 	}),
 	getters: {
 		context: (state) => state.current != null ? state.current['@context'] : null,
@@ -45,7 +46,7 @@ export const useDataStore = defineStore('data', {
 			return result;
 		},
 		booksFromQuery: (state) => {
-			return [...state.Instance, ...state.Print];
+			return [...state.Text];
 		},
 	},
 	actions: {
@@ -53,7 +54,7 @@ export const useDataStore = defineStore('data', {
 			const response = await getRelatedRecords({
 				'q': '*',
 				'_limit': 20,
-				'@type': 'Instance',
+				'@type': 'Work',
 				'_sort': '',
 			}, 'http://kblocalhost.kb.se:5000');
 
@@ -64,10 +65,12 @@ export const useDataStore = defineStore('data', {
 		async query(values = {}) {
 			const response = await getRelatedRecords({
 				'_limit': 20,
-				'@type': 'Instance',
+				'@type': 'Work',
 				'_sort': '',
 				...values,
 			}, 'http://kblocalhost.kb.se:5000');
+
+			this.$reset();
 
 			console.log('query response', response);
 			this.current = response.items;
@@ -107,7 +110,7 @@ export const useDataStore = defineStore('data', {
 					result = getItemById(item['@id']);
 				}
 
-				return result;
+				return result ?? item;
 			};
 
 			const diveInKey = (_item, key) => {
