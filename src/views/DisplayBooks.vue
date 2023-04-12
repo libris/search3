@@ -14,6 +14,11 @@ export default {
 			books: 'booksFromQuery',
 		}),
 	},
+	watch: {
+		books: (value) => {
+			console.log(JSON.parse(JSON.stringify(value)));
+		}
+	}
 };
 </script>
 

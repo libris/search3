@@ -5,7 +5,7 @@ export const getItemById = (id) => {
 	const data = useDataStore();
 	const vocab = useVocabStore();
 
-	const foundInData = data.graph.find((item) =>
+	const foundInData = data.current.find((item) =>
 		item['@id'] == id
 	);
 

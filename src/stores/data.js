@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { getItemById } from "@/lib/item";
 import { getItemsByRelation } from "../lib/item";
-import { useQueryStore } from "./query";
+import { getRelatedRecords } from '@/lib/http';
 
 export const useDataStore = defineStore('data', {
 	state: () => ({
@@ -23,6 +23,9 @@ export const useDataStore = defineStore('data', {
 		Topic: [],
 		VideoRecording: [],
 		WorkConcept: [],
+
+		Instance: [],
+		Print: [],
 	}),
 	getters: {
 		context: (state) => state.current != null ? state.current['@context'] : null,
@@ -42,50 +45,32 @@ export const useDataStore = defineStore('data', {
 			return result;
 		},
 		booksFromQuery: (state) => {
-			const queryStore = useQueryStore();
-
-			return state.Book
-			.filter((book) => {
-				if (queryStore.freeText.length > 0) {
-					return book.title.toLowerCase().indexOf(queryStore.freeText.toLowerCase()) > -1;
-				}
-
-				return true;
-			})
-			.filter((book) => {
-				if (queryStore.Language.length > 0) {
-					return queryStore.Language.findIndex((lang) => lang['@id'] === book.language['@id']) > -1;
-				}
-
-				return true;
-			})
-			.filter((book) => {
-				if (queryStore.GenreForm.length > 0) {
-					return queryStore.GenreForm.findIndex((genre) =>
-						book.genreForm.find((_g) => _g['@id'] === genre['@id']) != null
-					) > -1;
-				}
-
-				return true;
-			})
-			.filter((book) => {
-				if (queryStore.Topic.length > 0) {
-					return queryStore.Topic.findIndex((topic) =>
-						book.subject?.find((_s) => _s['@id'] === topic['@id']) != null
-					) > -1;
-				}
-
-				return true;
-			})
+			return [...state.Instance, ...state.Print];
 		},
 	},
 	actions: {
 		async _init() {
-			const data = await fetch('/data.jsonld').then((response) =>
-				response.json()
-			);
+			const response = await getRelatedRecords({
+				'q': '*',
+				'_limit': 20,
+				'@type': 'Instance',
+				'_sort': '',
+			}, 'http://kblocalhost.kb.se:5000');
 
-			this.current = data;
+			this.current = response.items;
+			this.memoIndexData();
+		},
+
+		async query(values = {}) {
+			const response = await getRelatedRecords({
+				'_limit': 20,
+				'@type': 'Instance',
+				'_sort': '',
+				...values,
+			}, 'http://kblocalhost.kb.se:5000');
+
+			console.log('query response', response);
+			this.current = response.items;
 			this.memoIndexData();
 		},
 
@@ -96,7 +81,7 @@ export const useDataStore = defineStore('data', {
 
 			const stateKeys = Object.keys(this.$state);
 
-			this.current['@graph'].forEach((item) => {
+			this.current.forEach((item) => {
 				if (stateKeys.indexOf(item['@type']) > -1) {
 					this.$state[item['@type']].push(this.expressItem(item));
 				}
@@ -107,9 +92,6 @@ export const useDataStore = defineStore('data', {
 					this.$state[stateKey] = this.$state[stateKey].map(this.buildRelations);
 				}
 			});
-
-			console.log(JSON.parse(JSON.stringify(this.Book)));
-			console.log(JSON.parse(JSON.stringify(this.WorkConcept)));
 		},
 
 		expressItem(item) {

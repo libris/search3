@@ -1,7 +1,7 @@
 import { RouteRecordRaw } from "vue-router";
 
 // Import routes
-import DisplayBooks from '@/views/DisplayBooks.vue';
+import DisplayBooks from '../views/DisplayBooks.vue';
 
 const routes: Array<RouteRecordRaw> = [
 	{
