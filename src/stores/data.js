@@ -63,6 +63,10 @@ export const useDataStore = defineStore('data', {
 		},
 
 		async query(values = {}) {
+			if (values.q === '') {
+				values.q = '*';
+			}
+
 			const response = await getRelatedRecords({
 				'_limit': 20,
 				'@type': 'Work',
