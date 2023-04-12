@@ -65,7 +65,7 @@ export default defineComponent({
 
 			this.$emit('search', {
 				...searchValue,
-				freeText: this.$refs['textInput'].value,
+				q: this.$refs['textInput'].value,
 			});
 		},
 		onInputKeypress(event) {

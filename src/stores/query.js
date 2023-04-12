@@ -5,6 +5,6 @@ export const useQueryStore = defineStore('query', {
 		GenreForm: [],
 		Topic: [],
 		Language: [],
-		freeText: '',
+		q: '',
 	}),
 });
