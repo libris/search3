@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import { getVocab } from "../lib/http";
 
 export const useVocabStore = defineStore('vocab', {
 	state: () => ({
@@ -10,11 +11,8 @@ export const useVocabStore = defineStore('vocab', {
 	},
 	actions: {
 		async _init() {
-			const data = await fetch('/vocab.jsonld').then((response) =>
-				response.json()
-			);
-
-			this.current = data;
+			const response = await getVocab();
+			this.current = response;
 		},
 	},
 });

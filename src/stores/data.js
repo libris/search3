@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import { getItemById } from "@/lib/item";
 import { getItemsByRelation } from "../lib/item";
 import { getRelatedRecords } from '@/lib/http';
+import { useVocabStore } from "./vocab";
 
 export const useDataStore = defineStore('data', {
 	state: () => ({
@@ -51,6 +52,7 @@ export const useDataStore = defineStore('data', {
 	},
 	actions: {
 		async _init() {
+			const vocabStore = useVocabStore();
 			const response = await getRelatedRecords({
 				'q': '*',
 				'_limit': 20,
@@ -60,6 +62,22 @@ export const useDataStore = defineStore('data', {
 
 			this.current = response.items;
 			this.memoIndexData();
+
+			vocabStore.$subscribe((mutation) => {
+				if (mutation.type === 'direct') {
+					Object.keys(this.$state).forEach((stateKey) => {
+						if (stateKey === 'graph' || stateKey === 'current' || stateKey === 'context') {
+							return false;
+						}
+
+						if (Array.isArray(this.$state[stateKey])) {
+							this.$state[stateKey] = [];
+						}
+					});
+
+					this.memoIndexData();
+				}
+			});
 		},
 
 		async query(values = {}) {

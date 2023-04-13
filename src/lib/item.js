@@ -17,9 +17,7 @@ export const getItemById = (id) => {
 		return null;
 	}
 
-	return vocab.graph.find((item) =>
-		item['@id'] == id
-	);
+	return vocab.graph.find((item) => item['@id'] == id);
 };
 
 export const getItemsByRelation = (id, fieldKey) => {
