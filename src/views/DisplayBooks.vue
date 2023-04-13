@@ -38,7 +38,7 @@ export default {
 				<strong>
 					<router-link :to="this.routerPath(book['@id'])"
 											 :title="book['@id']">
-						{{ this.routerPath(book['@id']) }}
+						{{ book.title }}
 					</router-link>
 				</strong>
 
