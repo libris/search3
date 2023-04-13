@@ -1,15 +1,11 @@
 <script lang="ts">
 import { mapState } from 'pinia';
 import { useDataStore } from '@/stores/data';
-import { useVocabStore } from '@/stores/vocab';
 import { useQueryStore } from '@/stores/query';
 
 export default {
 	computed: {
 		...mapState(useQueryStore, []),
-		...mapState(useVocabStore, {
-			vocab: 'vocab',
-		}),
 		...mapState(useDataStore, {
 			books: 'booksFromQuery',
 		}),

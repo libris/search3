@@ -1,7 +1,8 @@
 <script lang="ts">
-import { mapWritableState } from 'pinia';
+import { mapState, mapWritableState } from 'pinia';
 import { useQueryStore } from '@/stores/query';
 import { useDataStore } from '@/stores/data';
+import { useLoaderStore } from '@/stores/loader';
 import SearchInput from './components/SearchInput.vue';
 import { getDocument } from '@/lib/http';
 
@@ -12,6 +13,7 @@ export default {
 	},
 	computed: {
 		...mapWritableState(useQueryStore, ['Topic', 'GenreForm', 'Language', 'q']),
+		...mapState(useLoaderStore, ['isLoading']),
 	},
 	methods: {
 		onSearch(values) {
@@ -46,7 +48,11 @@ export default {
 	</div>
 
 	<div class="px-12 my-12">
-		<router-view />
+		<div className="text-center text-secondary-grey" v-if="isLoading">
+			Laddar
+		</div>
+
+		<router-view v-if="!isLoading" />
 	</div>
 </template>
 
