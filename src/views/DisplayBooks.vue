@@ -14,6 +14,13 @@ export default {
 			books: 'booksFromQuery',
 		}),
 	},
+	methods: {
+		routerPath(id: string) {
+			const uriParts = id.split('/');
+			const fnurgel = uriParts[uriParts.length - 1];
+			return `/${fnurgel}`;
+		},
+	},
 	watch: {
 		books: (value) => {
 			console.log(JSON.parse(JSON.stringify(value)));
@@ -29,7 +36,10 @@ export default {
 
 			<div class="mt-2">
 				<strong>
-					{{ book.title }}
+					<router-link :to="this.routerPath(book['@id'])"
+											 :title="book['@id']">
+						{{ this.routerPath(book['@id']) }}
+					</router-link>
 				</strong>
 
 				<strong v-if="book.originDate != null">
