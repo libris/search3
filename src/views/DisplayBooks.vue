@@ -16,6 +16,9 @@ export default {
 			const fnurgel = uriParts[uriParts.length - 1];
 			return `/${fnurgel}`;
 		},
+		imageUrl(id: string, isbn: string) {
+			return `https://xinfo.libris.kb.se/xinfo/xinfo?type=record&identifier=libris-bib:${id},isbn:${isbn}`
+		}
 	},
 	watch: {
 		books: (value) => {
@@ -28,8 +31,7 @@ export default {
 <template>
 	<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
 		<div v-for="book in books" :key="book['@id']">
-			<div class="pt-[100%] bg-secondary-grey w-full block" />
-
+			<img :src="imageUrl('10145888','9789185251872')" alt=""/>
 			<div class="mt-2">
 				<strong>
 					<router-link :to="this.routerPath(book['@id'])"

@@ -1,32 +1,60 @@
 <script>
 
 import { getDocument } from '@/lib/http';
+import WorkSummary from "../components/WorkSummary.vue";
+import Instance from "../components/Instance.vue";
 
 export default {
     name: "ProductPage.vue",
+    components: {
+        'work-summary': WorkSummary,
+        'instance': Instance,
+    },
     data() {
         return {
-            documentData: null,
-            documentSummary: null
+            work: null,
+            instances: null,
+            data: null
         };
     },
     computed: {
-        recordId() {
+        workId() {
             return this.$route.params.fnurgel;
         },
+        instanceIds() {
+            if (this.data != null && this.data.hasOwnProperty('@reverse')) {
+                return this.data['@reverse']['instanceOf'];
+            }
+        },
+        workTitle() {
+            if (this.data != null && this.data.hasOwnProperty('hasTitle')) {
+                return this.data['hasTitle'][0]['mainTitle'];
+            }
+        },
+        author() {
+            if (this.data != null && this.data.hasOwnProperty('hasTitle')) {
+                return '';
+            }
+        }
     },
     mounted() {
-        getDocument(`${this.recordId}/data.jsonld?embellished=false`).then((res) => {
-            console.log('getDocument', res);
-            this.documentData = res.data['@graph'][0];
-            this.documentSummary = res.data['@graph'][1];
+        getDocument(`${this.workId}/data.jsonld`).then((res) => {
+            this.data = res.data['@graph'][1];
         });
     }
 }
 </script>
 
 <template>
-<div>
-    {{this.documentData}}
-</div>
+    <div>
+        <work-summary
+                :id="workId"
+                :title="workTitle"
+                :author="author">
+        </work-summary>
+        <div v-for="id in instanceIds">
+            <instance :id="id['@id']"></instance>
+        </div>
+        <pre>{{ this.data }}</pre>
+    </div>
 </template>
