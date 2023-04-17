@@ -33,8 +33,8 @@ export default {
 		<div v-for="book in books" :key="book['@id']">
 			<router-link :to="this.routerPath(book['@id'])" :title="book.title">
 				<div
-					class="w-full pt-[100%] bg-no-repeat bg-contain bg-center"
-					:style="{ backgroundImage: 'url(' + imageUrl('10145888','9789185251872') + ')', color: 'green' }"
+					class="w-full pt-[90%] bg-no-repeat bg-contain bg-center"
+					:style="{ backgroundImage: 'url(' + imageUrl('10145888','9789185251872') + ')' }"
 				/>
 			</router-link>
 
