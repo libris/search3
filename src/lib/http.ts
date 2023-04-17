@@ -178,17 +178,6 @@ export async function getDocument(uri, contentType = 'application/ld+json', embe
 	responseObject.ETag = response.headers.get('ETag');
 	return responseObject;
 }
-
-export function getVocab() {
-	return new Promise((resolve, reject) => {
-		getResourceFromCache(`${settings.apiPath}/vocab/data.jsonld`).then((result) => {
-			resolve(result);
-		}, (error) => {
-			reject(error);
-		});
-	});
-}
-
 export function get(opts: RequestOptions) {
 	const options = opts;
 	options.method = 'GET';

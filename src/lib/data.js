@@ -20,9 +20,9 @@ export function getDisplayDefinitions() {
   });
 }
 
-export function getVocab(apiPath) {
+export function getVocab() {
   return new Promise((resolve, reject) => {
-    HttpUtil.getResourceFromCache(`${apiPath}/vocab/data.jsonld`).then((result) => {
+    HttpUtil.getResourceFromCache(`${settings.apiPath}/vocab/data.jsonld`).then((result) => {
       resolve(result);
     }, (error) => {
       reject(error);
@@ -39,7 +39,6 @@ export function getContext(apiPath) {
     });
   });
 }
-
 
 export function getEmbellished(id, quotedIndex = {}) {
   if (typeof id === 'undefined' || id === '') {
@@ -130,7 +129,7 @@ export function getExternalLinks(obj) {
   if (!isArray(obj) && !isObject(obj)) {
     return [];
   }
-  
+
   const links = [];
   const entities = [];
   const stack = [];
@@ -140,7 +139,7 @@ export function getExternalLinks(obj) {
     if (o['@id']) {
       (Object.keys(o).length > 1 ? entities : links).push(o['@id']);
     }
-    forEach(o, (child) => { 
+    forEach(o, (child) => {
       if (isArray(child) || isObject(child)) {
         stack.push(child);
       }

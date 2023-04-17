@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { getVocab } from "../lib/http";
+import { getVocab } from "../lib/data";
 
 export const useVocabStore = defineStore('vocab', {
 	state: () => ({
