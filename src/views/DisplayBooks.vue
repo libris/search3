@@ -31,11 +31,14 @@ export default {
 <template>
 	<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
 		<div v-for="book in books" :key="book['@id']">
-			<img :src="imageUrl('10145888','9789185251872')" alt=""/>
+			<div
+				class="w-full pt-[100%] bg-no-repeat bg-contain bg-center"
+				:style="{ backgroundImage: 'url(' + imageUrl('10145888','9789185251872') + ')', color: 'green' }"
+			/>
+
 			<div class="mt-2">
 				<strong>
-					<router-link :to="this.routerPath(book['@id'])"
-											 :title="book['@id']">
+					<router-link :to="this.routerPath(book['@id'])" :title="book['@id']">
 						{{ book.title }}
 					</router-link>
 				</strong>
