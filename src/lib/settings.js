@@ -8,7 +8,7 @@ export default {
 	dataPath: import.meta.env.VUE_APP_API_PATH,
 	apiPath: import.meta.env.VUE_APP_API_PATH || 'http://kblocalhost.kb.se:5000',
 	verifyPath: import.meta.env.VUE_APP_VERIFY_PATH,
-	idPath: import.meta.env.VUE_APP_ID_PATH,
+	idPath: import.meta.env.VUE_APP_ID_PATH || 'http://id.kblocalhost.kb.se:5000',
 	authPath: import.meta.env.VUE_APP_AUTHORIZE_PATH,
 	redirectPath: import.meta.env.VUE_APP_REDIRECT_PATH,
 	clientId: import.meta.env.VUE_APP_CLIENT_ID || '51aec4d330bf9cb9af603af778850886',

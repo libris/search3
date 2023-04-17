@@ -7,16 +7,11 @@ import settings from './settings';
 export function getDisplayDefinitions() {
   const baseUri = settings.idPath;
   return new Promise((resolve, reject) => {
-    if (settings.mockDisplay === true) {
-      window.lxlInfo('🎭 MOCKING DISPLAY FILE - Using file from local definitions repository');
-      resolve(DisplayUtil.expandInherited(require('@/../../../definitions/source/vocab/display.jsonld')));
-    } else {
-      HttpUtil.getResourceFromCache(`${baseUri}/vocab/display/data.jsonld`).then((result) => {
-        resolve(DisplayUtil.expandInherited(result));
-      }, (error) => {
-        reject(error);
-      });
-    }
+    HttpUtil.getResourceFromCache(`${settings.apiPath}/vocab/display/data.jsonld`).then((result) => {
+      resolve(DisplayUtil.expandInherited(result));
+    }, (error) => {
+      reject(error);
+    });
   });
 }
 
@@ -30,9 +25,9 @@ export function getVocab() {
   });
 }
 
-export function getContext(apiPath) {
+export function getContext() {
   return new Promise((resolve, reject) => {
-    HttpUtil.getResourceFromCache(`${apiPath}/context.jsonld`).then((result) => {
+    HttpUtil.getResourceFromCache(`${settings.idPath}/context.jsonld`).then((result) => {
       resolve(VocabUtil.preprocessContext(result));
     }, (error) => {
       reject(error);

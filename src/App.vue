@@ -5,6 +5,7 @@ import { useDataStore } from '@/stores/data';
 import { useLoaderStore } from '@/stores/loader';
 import SearchInput from './components/SearchInput.vue';
 import { getDocument } from '@/lib/http';
+import { getResources } from '@/lib/resources';
 
 export default {
 	name: 'App',
@@ -34,6 +35,11 @@ export default {
 			console.log('getDocument', res);
 		});
 	},
+	watch: {
+		isLoading() {
+			console.log('resources in store', JSON.parse(JSON.stringify(getResources())));
+		},
+	}
 };
 </script>
 
