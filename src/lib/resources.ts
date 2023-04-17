@@ -11,5 +11,6 @@ export const getResources = () => {
 		context: contextStore.context,
 		vocab: vocabStore.graph,
 		display: displayStore.current,
+		displayGroups: displayStore.displayGroups,
 	};
 };
