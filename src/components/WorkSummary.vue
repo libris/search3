@@ -22,7 +22,6 @@ export default {
             type: String,
             default: null,
         }
-
     },
     computed: {
         imageUrl() {

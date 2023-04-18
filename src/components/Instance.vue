@@ -50,8 +50,8 @@ export default {
             <div>
                 {{ extent }}
             </div>
-
         </div>
+
         <div>
             <img :src="imageUrl" alt="">
         </div>

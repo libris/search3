@@ -19,7 +19,7 @@ export default {
         ...mapActions(useProductStore, ['getProduct']),
     },
     computed: {
-        ...mapState(useProductStore, ['current', 'workChip', 'instanceIds', 'instances', 'itemSummary', 'imageUrl']),
+        ...mapState(useProductStore, ['workChip', 'instanceIds', 'instances', 'itemSummary', 'imageUrl']),
         workId() {
             return this.$route.params.fnurgel;
         },
