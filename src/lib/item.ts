@@ -1,7 +1,7 @@
 import { useDataStore } from "@/stores/data";
 import { useVocabStore } from "@/stores/vocab";
 
-export const getItemById = (id) => {
+export const getItemById = (id: string) => {
 	const data = useDataStore();
 	const vocab = useVocabStore();
 
@@ -20,7 +20,7 @@ export const getItemById = (id) => {
 	return vocab.graph.find((item) => item['@id'] == id);
 };
 
-export const getItemsByRelation = (id, fieldKey) => {
+export const getItemsByRelation = (id: string, fieldKey: string) => {
 	const data = useDataStore();
 	let result = [];
 
@@ -33,4 +33,8 @@ export const getItemsByRelation = (id, fieldKey) => {
 	});
 
 	return result;
+};
+
+export const getImageUrl = (id: string, isbn: string) => {
+	return `https://xinfo.libris.kb.se/xinfo/xinfo?type=record&identifier=libris-bib:${id},isbn:${isbn}`
 };
