@@ -1,6 +1,9 @@
 <script lang="js">
 import { mapState, mapActions } from 'pinia';
 import { useProductStore } from '@/stores/product';
+import { getItemSummary } from '@/lxljs/display';
+import { getFormattedEntries } from '@/lxljs/string';
+import { getResources } from '@/lib/resources';
 import WorkSummary from "../components/WorkSummary.vue";
 import Instance from "../components/Instance.vue";
 
@@ -30,8 +33,26 @@ export default {
             }
         },
         workTitle() {
-            if (this.mainEntity != null && this.mainEntity.hasOwnProperty('hasTitle')) {
-                return this.mainEntity['hasTitle'][0]['mainTitle'];
+            if (this.mainEntity != null) {
+                const resources = getResources();
+                const headerList = getItemSummary(
+                    this.mainEntity,
+                    resources,
+                    this.quoted,
+                    { language: 'sv' }, // TODO: Set language
+                    resources.displayGroups,
+                ).header;
+
+                const header = getFormattedEntries(
+                    headerList,
+                    resources.vocab,
+                    'sv', // TODO: Set language
+                    resources.context,
+                ).join(', ');
+
+                if (header.length > 0 && header !== '{Unknown}') {
+                    return header;
+                }
             }
         },
         author() {
@@ -42,6 +63,10 @@ export default {
     },
     mounted() {
         this.getProduct(this.$route.params.fnurgel);
+    },
+    beforeRouteLeave() {
+        const productStore = useProductStore();
+        productStore.$reset();
     },
     watch: {
         current() {
