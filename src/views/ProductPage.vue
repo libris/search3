@@ -1,6 +1,6 @@
-<script>
-
-import { getDocument } from '@/lib/http';
+<script lang="js">
+import { mapState, mapActions } from 'pinia';
+import { useProductStore } from '@/stores/product';
 import WorkSummary from "../components/WorkSummary.vue";
 import Instance from "../components/Instance.vue";
 
@@ -14,33 +14,39 @@ export default {
         return {
             work: null,
             instances: null,
-            data: null
         };
     },
+    methods: {
+        ...mapActions(useProductStore, ['getProduct']),
+    },
     computed: {
+        ...mapState(useProductStore, ['current', 'mainEntity', 'quoted', 'record']),
         workId() {
             return this.$route.params.fnurgel;
         },
         instanceIds() {
-            if (this.data != null && this.data.hasOwnProperty('@reverse')) {
-                return this.data['@reverse']['instanceOf'];
+            if (this.mainEntity != null && this.mainEntity.hasOwnProperty('@reverse')) {
+                return this.mainEntity['@reverse']['instanceOf'];
             }
         },
         workTitle() {
-            if (this.data != null && this.data.hasOwnProperty('hasTitle')) {
-                return this.data['hasTitle'][0]['mainTitle'];
+            if (this.mainEntity != null && this.mainEntity.hasOwnProperty('hasTitle')) {
+                return this.mainEntity['hasTitle'][0]['mainTitle'];
             }
         },
         author() {
-            if (this.data != null && this.data.hasOwnProperty('hasTitle')) {
+            if (this.mainEntity != null && this.mainEntity.hasOwnProperty('hasTitle')) {
                 return '';
             }
         }
     },
     mounted() {
-        getDocument(`${this.workId}/data.jsonld`).then((res) => {
-            this.data = res.data['@graph'][1];
-        });
+        this.getProduct(this.$route.params.fnurgel);
+    },
+    watch: {
+        current() {
+            console.log('current data', JSON.parse(JSON.stringify(this.mainEntity)));
+        }
     }
 }
 </script>
@@ -48,13 +54,15 @@ export default {
 <template>
     <div>
         <work-summary
-                :id="workId"
-                :title="workTitle"
-                :author="author">
-        </work-summary>
+            :id="workId"
+            :title="workTitle"
+            :author="author"
+        />
+
         <div v-for="id in instanceIds">
             <instance :id="id['@id']"></instance>
         </div>
+
         <pre>{{ this.data }}</pre>
     </div>
 </template>
