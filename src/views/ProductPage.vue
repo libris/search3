@@ -4,6 +4,7 @@ import { useProductStore } from '@/stores/product';
 import { getItemSummary } from '@/lxljs/display';
 import { getFormattedEntries } from '@/lxljs/string';
 import { getResources } from '@/lib/resources';
+import settings from '@/lib/settings';
 import WorkSummary from "../components/WorkSummary.vue";
 import Instance from "../components/Instance.vue";
 
@@ -39,14 +40,14 @@ export default {
                     this.mainEntity,
                     resources,
                     this.quoted,
-                    { language: 'sv' }, // TODO: Set language
+                    settings, // TODO: Set language
                     resources.displayGroups,
                 ).header;
 
                 const header = getFormattedEntries(
                     headerList,
                     resources.vocab,
-                    'sv', // TODO: Set language
+                    settings.language, // TODO: Set language
                     resources.context,
                 ).join(', ');
 
