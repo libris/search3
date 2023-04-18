@@ -62,7 +62,7 @@ export default {
     },
     watch: {
         current() {
-            console.log('current data', JSON.parse(JSON.stringify(this.workChip)), this.displayObject);
+            console.log('current data', JSON.parse(JSON.stringify(this.workChip)), JSON.parse(JSON.stringify(this.itemSummary)));
         }
     }
 }
