@@ -1,5 +1,5 @@
 <script lang="ts">
-import { mapState } from 'pinia';
+import { mapActions, mapState } from 'pinia';
 import { useDataStore } from '@/views/SearchResults/store';
 import { useQueryStore } from '@/stores/query';
 import { getImageUrl } from '@/lib/item';
@@ -12,6 +12,7 @@ export default {
 		}),
 	},
 	methods: {
+		...mapActions(useDataStore, ['query']),
 		getImageUrl,
 		routerPath(id: string) {
 			const uriParts = id.split('/');
@@ -21,6 +22,7 @@ export default {
 	},
 	mounted() {
 		console.log('books', JSON.parse(JSON.stringify(this.books)));
+		this.query();
 	},
 	watch: {
 		books: (value) => {
