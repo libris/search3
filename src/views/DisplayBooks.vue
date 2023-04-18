@@ -2,6 +2,7 @@
 import { mapState } from 'pinia';
 import { useDataStore } from '@/stores/data';
 import { useQueryStore } from '@/stores/query';
+import { getImageUrl } from '@/lib/item';
 
 export default {
 	computed: {
@@ -11,18 +12,19 @@ export default {
 		}),
 	},
 	methods: {
+		getImageUrl,
 		routerPath(id: string) {
 			const uriParts = id.split('/');
 			const fnurgel = uriParts[uriParts.length - 1];
 			return `/${fnurgel}`;
 		},
-		imageUrl(id: string, isbn: string) {
-			return `https://xinfo.libris.kb.se/xinfo/xinfo?type=record&identifier=libris-bib:${id},isbn:${isbn}`
-		}
+	},
+	mounted() {
+		console.log('books', JSON.parse(JSON.stringify(this.books)));
 	},
 	watch: {
 		books: (value) => {
-			console.log(JSON.parse(JSON.stringify(value)));
+			console.log('books', JSON.parse(JSON.stringify(value)));
 		}
 	}
 };
@@ -34,7 +36,7 @@ export default {
 			<router-link :to="this.routerPath(book['@id'])" :title="book.title">
 				<div
 					class="w-full pt-[90%] bg-no-repeat bg-contain bg-center"
-					:style="{ backgroundImage: 'url(' + imageUrl('10145888','9789185251872') + ')' }"
+					:style="{ backgroundImage: 'url(' + getImageUrl('10145888','9789185251872') + ')' }"
 				/>
 			</router-link>
 
