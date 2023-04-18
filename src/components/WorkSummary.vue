@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang="js">
 export default {
     name: "WorkSummary.vue",
     props: {
@@ -6,16 +6,8 @@ export default {
          type: String,
          default: null
         },
-        title: {
-            type: String,
-            default: null,
-        },
-        author: {
-            type: String,
-            default: null,
-        },
-        genreForm: {
-            type: Array,
+        chip: {
+            type: Object,
             default: null,
         },
         summary: {
@@ -33,8 +25,18 @@ export default {
 
     },
     computed: {
-        imageUrl(id: string, isbn: string) {
+        imageUrl() {
             return `https://xinfo.libris.kb.se/xinfo/xinfo?type=record&identifier=libris-bib:${this.id},isbn:${this.instanceIsbn}`
+        },
+        author() {
+            if (this.chip != null) {
+                return this.chip['contribution'];
+            }
+        },
+        title() {
+            if (this.chip != null) {
+                return this.chip['hasTitle'];
+            }
         }
     }
 }
@@ -42,6 +44,6 @@ export default {
 
 <template>
     <div>
-        {{ title }} av {{ author }}
+        {{ this.title }} av {{ this.author }}
     </div>
 </template>
