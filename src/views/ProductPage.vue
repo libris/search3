@@ -1,7 +1,7 @@
 <script lang="js">
 import { mapState, mapActions } from 'pinia';
 import { useProductStore } from '@/stores/product';
-import { getChip } from '@/lxljs/display';
+import { getChip, getItemSummary } from '@/lxljs/display';
 import { getResources } from '@/lib/resources';
 import { getImageUrl } from '@/lib/item';
 import settings from '@/lib/settings';
@@ -38,10 +38,23 @@ export default {
             if (this.mainEntity != null) {
                 return getChip(this.mainEntity, getResources(), this.quoted, settings);
             }
-        }
+        },
+        itemSummary() {
+            if (this.mainEntity != null) {
+                return getItemSummary(
+                    this.mainEntity,
+                    getResources(),
+                    this.quoted,
+                    settings,
+                    getResources().displayGroups,
+                );
+            }
+
+            return null;
+        },
     },
     mounted() {
-        this.getProduct(this.$route.params.fnurgel);
+        this.getProduct(this.workId);
     },
     beforeRouteLeave() {
         const productStore = useProductStore();
@@ -49,7 +62,7 @@ export default {
     },
     watch: {
         current() {
-            console.log('current data', JSON.parse(JSON.stringify(this.mainEntity)));
+            console.log('current data', JSON.parse(JSON.stringify(this.workChip)), this.displayObject);
         }
     }
 }
