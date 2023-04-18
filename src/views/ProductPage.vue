@@ -6,7 +6,6 @@ import { getResources } from '@/lib/resources';
 import settings from '@/lib/settings';
 import WorkSummary from "../components/WorkSummary.vue";
 import Instance from "../components/Instance.vue";
-import settings from '../lib/settings';
 
 export default {
     name: "ProductPage.vue",
