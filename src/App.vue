@@ -1,8 +1,13 @@
 <script lang="ts">
 import { mapState, mapWritableState } from 'pinia';
+import { useContextStore } from './stores/context';
+import { useDisplayStore } from './stores/display';
+import { useI18nStore } from './stores/i18n';
+import { useVocabStore } from './stores/vocab';
 import { useQueryStore } from '@/stores/query';
 import { useDataStore } from '@/views/SearchResults/store';
 import { useLoaderStore } from '@/stores/loader';
+
 import SearchInput from './components/SearchInput.vue';
 
 export default {
@@ -27,6 +32,12 @@ export default {
 
 			data.query(values);
 		},
+	},
+	mounted() {
+		useContextStore();
+		useDisplayStore();
+		useI18nStore();
+		useVocabStore();
 	},
 };
 </script>
@@ -54,7 +65,7 @@ export default {
 	</div>
 </template>
 
-<style>
+<style lang="postcss">
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
