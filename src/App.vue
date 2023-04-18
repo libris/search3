@@ -1,9 +1,8 @@
 <script lang="ts">
 import { mapState, mapWritableState } from 'pinia';
 import { useQueryStore } from '@/stores/query';
-import { useDataStore } from '@/stores/data';
+import { useDataStore } from '@/views/SearchResults/store';
 import { useLoaderStore } from '@/stores/loader';
-import { getResources } from '@/lib/resources';
 import SearchInput from './components/SearchInput.vue';
 
 export default {
@@ -29,11 +28,6 @@ export default {
 			data.query(values);
 		},
 	},
-	watch: {
-		isLoading() {
-			console.log('resources in store', JSON.parse(JSON.stringify(getResources())));
-		},
-	}
 };
 </script>
 

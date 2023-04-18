@@ -1,8 +1,8 @@
 import { defineStore } from "pinia";
 import { getItemById } from "@/lib/item";
-import { getItemsByRelation } from "../lib/item";
+import { getItemsByRelation } from "../../lib/item";
 import { getRelatedRecords } from '@/lib/http';
-import { useVocabStore } from "./vocab";
+import { useVocabStore } from "../../stores/vocab";
 
 export const useDataStore = defineStore('data', {
 	state: () => ({

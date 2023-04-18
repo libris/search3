@@ -1,8 +1,8 @@
 import { RouteRecordRaw } from "vue-router";
 
 // Import routes
-import DisplayBooks from '../views/DisplayBooks.vue';
-import ProductPage from '../views/ProductPage.vue';
+import DisplayBooks from '../views/SearchResults/index.vue';
+import ProductPage from '../views/ProductPage/index.vue';
 
 const routes: Array<RouteRecordRaw> = [
 	{

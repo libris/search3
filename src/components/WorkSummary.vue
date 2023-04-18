@@ -1,6 +1,6 @@
 <script lang="js">
 export default {
-    name: "WorkSummary.vue",
+    name: "WorkSummary",
     props: {
         id: {
          type: String,

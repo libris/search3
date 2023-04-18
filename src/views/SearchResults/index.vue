@@ -1,6 +1,6 @@
 <script lang="ts">
 import { mapState } from 'pinia';
-import { useDataStore } from '@/stores/data';
+import { useDataStore } from '@/views/SearchResults/store';
 import { useQueryStore } from '@/stores/query';
 import { getImageUrl } from '@/lib/item';
 

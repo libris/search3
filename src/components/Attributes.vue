@@ -52,7 +52,7 @@
 
 <script lang="ts">
 import { mapState } from 'pinia';
-import { useDataStore } from '@/stores/data';
+import { useDataStore } from '@/views/SearchResults/store';
 
 export default {
 	name: 'Attributes',

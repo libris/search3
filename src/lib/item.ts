@@ -1,4 +1,4 @@
-import { useDataStore } from "@/stores/data";
+import { useDataStore } from "@/views/SearchResults/store";
 import { useVocabStore } from "@/stores/vocab";
 
 export const getItemById = (id: string) => {
