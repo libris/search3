@@ -39,7 +39,11 @@ export default {
 
 <template>
 	<div class="sticky top-0 flex items-center justify-between px-12 py-4 bg-primary-white border-b border-b-secondary-grey/20">
-		<div>
+		<div class="flex gap-x-6 items-center">
+			<router-link to="/" class="font-medium">
+				Libris sök
+			</router-link>
+
 			<SearchInput v-on:search="onSearch" />
 		</div>
 
