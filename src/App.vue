@@ -3,9 +3,8 @@ import { mapState, mapWritableState } from 'pinia';
 import { useQueryStore } from '@/stores/query';
 import { useDataStore } from '@/stores/data';
 import { useLoaderStore } from '@/stores/loader';
-import SearchInput from './components/SearchInput.vue';
-import { getDocument } from '@/lib/http';
 import { getResources } from '@/lib/resources';
+import SearchInput from './components/SearchInput.vue';
 
 export default {
 	name: 'App',
@@ -29,11 +28,6 @@ export default {
 
 			data.query(values);
 		},
-	},
-	mounted() {
-		getDocument('2jtl0svr0v89bk25/data.jsonld?lens=card').then((res) => {
-			console.log('getDocument', res);
-		});
 	},
 	watch: {
 		isLoading() {
