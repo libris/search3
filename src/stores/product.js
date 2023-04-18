@@ -12,14 +12,25 @@ export const useProductStore = defineStore('product', {
 		mainEntity: null,
 		quoted: null,
 		record: null,
-		instanceIds: null,
 	}),
 	getters: {
 		instanceIds: (state) => {
             if (state.mainEntity != null && state.mainEntity.hasOwnProperty('@reverse')) {
-                return state.mainEntity['@reverse']['instanceOf'];
+				if (state.mainEntity['@reverse'].hasOwnProperty('instanceOf')) {
+					return state.mainEntity['@reverse']['instanceOf'].map((instance) => instance['@id']);
+				}
             }
+
+			return [];
         },
+		instances: (state) => {
+			return state.instanceIds.map((instanceId) => {
+				const instance = state.quoted[instanceId];
+				if (instance != null) {
+					return instance;
+				}
+			});
+		},
         workChip: (state) => {
             if (state.mainEntity != null) {
                 return getChip(state.mainEntity, getResources(), state.quoted, settings);
@@ -39,6 +50,19 @@ export const useProductStore = defineStore('product', {
             return null;
         },
 		imageUrl: (state) => {
+			const foundInstance = state.instances.find((instance) => {
+				return instance.identifiedBy != null && instance.identifiedBy.find((identify) =>
+					identify['@type'] == 'ISBN'
+				);
+			});
+
+			if (foundInstance != null) {
+				const uriParts = foundInstance['@id'].split('/');
+				const fnurgel = uriParts[uriParts.length - 1];
+
+				return getImageUrl(fnurgel, foundInstance.identifiedBy[0].value);
+			}
+
 			return getImageUrl('10145888','9789185251872');
 		},
 	},

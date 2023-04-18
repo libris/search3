@@ -13,14 +13,13 @@ export default {
     data() {
         return {
             work: null,
-            instances: null,
         };
     },
     methods: {
         ...mapActions(useProductStore, ['getProduct']),
     },
     computed: {
-        ...mapState(useProductStore, ['workChip', 'instanceIds', 'itemSummary', 'imageUrl']),
+        ...mapState(useProductStore, ['current', 'workChip', 'instanceIds', 'instances', 'itemSummary', 'imageUrl']),
         workId() {
             return this.$route.params.fnurgel;
         },
@@ -33,8 +32,8 @@ export default {
         productStore.$reset();
     },
     watch: {
-        current() {
-            console.log('current data', JSON.parse(JSON.stringify(this.itemSummary)));
+        instanceIds() {
+            console.log('current data', JSON.parse(JSON.stringify(this.instances)));
         }
     }
 }
@@ -53,8 +52,10 @@ export default {
                 :chip="workChip"
             />
 
-            <div v-for="id in instanceIds">
-                <instance :id="id['@id']"></instance>
+            <div class="mt-4">
+                <div v-for="instance in instances">
+                    <instance :key="instance['@id']" :instance="instance" />
+                </div>
             </div>
         </div>
     </div>
