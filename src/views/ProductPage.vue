@@ -1,7 +1,6 @@
 <script lang="js">
 import { mapState, mapActions } from 'pinia';
 import { useProductStore } from '@/stores/product';
-import { getItemSummary } from '@/lxljs/display';
 import { getChip } from '@/lxljs/display';
 import { getResources } from '@/lib/resources';
 import settings from '@/lib/settings';
