@@ -13,7 +13,6 @@ export const useProductStore = defineStore('product', {
 		async getProduct(documentId) {
 			const response = await getDocument(`${documentId}/data.jsonld`);
 			const split = splitJson(response.data);
-			console.log('splitJson', JSON.parse(JSON.stringify(split)));
 
 			this.current = response.data;
 			this.mainEntity = split.mainEntity;
