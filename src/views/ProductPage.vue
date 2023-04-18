@@ -2,10 +2,11 @@
 import { mapState, mapActions } from 'pinia';
 import { useProductStore } from '@/stores/product';
 import { getItemSummary } from '@/lxljs/display';
-import { getFormattedEntries } from '@/lxljs/string';
+import { getChip } from '@/lxljs/display';
 import { getResources } from '@/lib/resources';
 import WorkSummary from "../components/WorkSummary.vue";
 import Instance from "../components/Instance.vue";
+import settings from '../lib/settings';
 
 export default {
     name: "ProductPage.vue",
@@ -32,32 +33,10 @@ export default {
                 return this.mainEntity['@reverse']['instanceOf'];
             }
         },
-        workTitle() {
+        workChip() {
             if (this.mainEntity != null) {
-                const resources = getResources();
-                const headerList = getItemSummary(
-                    this.mainEntity,
-                    resources,
-                    this.quoted,
-                    { language: 'sv' }, // TODO: Set language
-                    resources.displayGroups,
-                ).header;
-
-                const header = getFormattedEntries(
-                    headerList,
-                    resources.vocab,
-                    'sv', // TODO: Set language
-                    resources.context,
-                ).join(', ');
-
-                if (header.length > 0 && header !== '{Unknown}') {
-                    return header;
-                }
-            }
-        },
-        author() {
-            if (this.mainEntity != null && this.mainEntity.hasOwnProperty('hasTitle')) {
-                return '';
+                let chip = getChip(this.mainEntity, getResources(), this.quoted, settings);
+                return chip;
             }
         }
     },
@@ -80,14 +59,12 @@ export default {
     <div>
         <work-summary
             :id="workId"
-            :title="workTitle"
-            :author="author"
+            :chip="workChip"
         />
 
         <div v-for="id in instanceIds">
             <instance :id="id['@id']"></instance>
         </div>
 
-        <pre>{{ this.data }}</pre>
     </div>
 </template>
