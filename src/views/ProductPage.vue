@@ -32,6 +32,11 @@ export default {
         productStore.$reset();
     },
     watch: {
+        workId() {
+            const productStore = useProductStore();
+            productStore.$reset();
+            this.getProduct(this.workId);
+        },
         instanceIds() {
             console.log('current data', JSON.parse(JSON.stringify(this.instances)));
         }
