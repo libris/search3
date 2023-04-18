@@ -1,10 +1,6 @@
 <script lang="js">
 import { mapState, mapActions } from 'pinia';
 import { useProductStore } from '@/stores/product';
-import { getChip, getItemSummary } from '@/lxljs/display';
-import { getResources } from '@/lib/resources';
-import { getImageUrl } from '@/lib/item';
-import settings from '@/lib/settings';
 import WorkSummary from "../components/WorkSummary.vue";
 import Instance from "../components/Instance.vue";
 
@@ -21,36 +17,12 @@ export default {
         };
     },
     methods: {
-        getImageUrl,
         ...mapActions(useProductStore, ['getProduct']),
     },
     computed: {
-        ...mapState(useProductStore, ['current', 'mainEntity', 'quoted', 'record']),
+        ...mapState(useProductStore, ['workChip', 'instanceIds', 'itemSummary', 'imageUrl']),
         workId() {
             return this.$route.params.fnurgel;
-        },
-        instanceIds() {
-            if (this.mainEntity != null && this.mainEntity.hasOwnProperty('@reverse')) {
-                return this.mainEntity['@reverse']['instanceOf'];
-            }
-        },
-        workChip() {
-            if (this.mainEntity != null) {
-                return getChip(this.mainEntity, getResources(), this.quoted, settings);
-            }
-        },
-        itemSummary() {
-            if (this.mainEntity != null) {
-                return getItemSummary(
-                    this.mainEntity,
-                    getResources(),
-                    this.quoted,
-                    settings,
-                    getResources().displayGroups,
-                );
-            }
-
-            return null;
         },
     },
     mounted() {
@@ -62,7 +34,7 @@ export default {
     },
     watch: {
         current() {
-            console.log('current data', JSON.parse(JSON.stringify(this.workChip)), JSON.parse(JSON.stringify(this.itemSummary)));
+            console.log('current data', JSON.parse(JSON.stringify(this.itemSummary)));
         }
     }
 }
@@ -72,7 +44,7 @@ export default {
     <div class="flex gap-x-6">
         <img
             class="h-72"
-            :src="getImageUrl('10145888','9789185251872')"
+            :src="imageUrl"
         />
 
         <div>
