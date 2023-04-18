@@ -35,8 +35,7 @@ export default {
         },
         workChip() {
             if (this.mainEntity != null) {
-                let chip = getChip(this.mainEntity, getResources(), this.quoted, settings);
-                return chip;
+                return getChip(this.mainEntity, getResources(), this.quoted, settings);
             }
         }
     },
