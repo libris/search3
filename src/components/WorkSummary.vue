@@ -1,6 +1,9 @@
 <script lang="js">
 import { mapState } from "pinia";
 import { useProductStore } from "@/views/ProductPage/store";
+import { getItemLabel } from "@/lxljs/display";
+import { getResources } from "@/lib/resources";
+import settings from '@/lib/settings';
 
 export default {
     name: "WorkSummary",
@@ -11,7 +14,7 @@ export default {
         },
     },
     computed: {
-        ...mapState(useProductStore, ['workCard']),
+        ...mapState(useProductStore, ['quoted', 'workCard']),
         contributions() {
             if (this.workCard != null) {
                 return this.workCard['contribution'];
@@ -27,6 +30,16 @@ export default {
                 return this.workCard['genreForm'];
             }
         },
+        subjects() {
+            if (this.workCard != null) {
+                return this.workCard['subject'];
+            }
+        },
+        summary() {
+            if (this.workData != null)  {
+                return getItemLabel(this.workData.summary[0], getResources(), this.quoted, settings);
+            }
+        }
 
     }
 }
@@ -36,14 +49,24 @@ export default {
     <div>
     </div>
     <div>
-        <div v-for="title in titles">
+        <strong class="py-6" v-for="title in titles">
             {{ title }}
-        </div>
+        </strong>
         <div v-for="contribution in contributions">
             {{ contribution }}
         </div>
-        <div v-for="gf in genreForm">
+        <div class="flex flex-wrap mt-2 gap-1">
+        <div class="rounded-full text-xs px-2 py-1 bg-secondary-turquoise text-primary-white"
+             v-for="gf in genreForm">
             {{ gf }}
+        </div>
+        <div class="rounded-full text-xs px-2 py-1 bg-primary-orange text-primary-white"
+            v-for="subject in subjects">
+            {{ subject }}
+        </div>
+        </div>
+        <div class="max-w-2xl py-3">
+            {{ summary }}
         </div>
     </div>
 </template>
