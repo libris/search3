@@ -43,7 +43,7 @@ export default {
 <template>
     <div class="flex justify-between mb-6">
         <div>
-            <router-link :to="`/${this.fnurgel}`" v-for="publication in publications" class="mt-4">
+            <router-link :to="`/${this.fnurgel}`" v-for="publication in publications" class="mt-4 underline">
                 {{ publication.year }} &bull; {{ publication.agent }}
             </router-link>
 
