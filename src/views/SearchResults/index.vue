@@ -1,18 +1,18 @@
 <script lang="ts">
 import { mapActions, mapState } from 'pinia';
-import { useDataStore } from '@/views/SearchResults/store';
+import { useSearchResults } from '@/views/SearchResults/store';
 import { useQueryStore } from '@/stores/query';
 import { getImageUrl } from '@/lib/item';
 
 export default {
 	computed: {
 		...mapState(useQueryStore, []),
-		...mapState(useDataStore, {
+		...mapState(useSearchResults, {
 			books: 'booksFromQuery',
 		}),
 	},
 	methods: {
-		...mapActions(useDataStore, ['query']),
+		...mapActions(useSearchResults, ['query']),
 		getImageUrl,
 		routerPath(id: string) {
 			const uriParts = id.split('/');

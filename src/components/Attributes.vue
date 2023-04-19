@@ -52,7 +52,7 @@
 
 <script lang="ts">
 import { mapState } from 'pinia';
-import { useDataStore } from '@/views/SearchResults/store';
+import { useSearchResults } from '@/views/SearchResults/store';
 
 export default {
 	name: 'Attributes',
@@ -60,7 +60,7 @@ export default {
 		'attributes'
 	],
 	computed: {
-		...mapState(useDataStore, ['GenreForm', 'Language', 'Topic']),
+		...mapState(useSearchResults, []),
 	},
 };
 </script>

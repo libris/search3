@@ -4,7 +4,7 @@ import { getResources } from "@/lib/resources";
 import settings from "@/lib/settings";
 import { getRelatedRecords } from '@/lib/http';
 
-export const useDataStore = defineStore('data', {
+export const useSearchResults = defineStore('searchResults', {
 	state: () => ({
 		current: null,
 

@@ -5,7 +5,7 @@ import { useDisplayStore } from './stores/display';
 import { useI18nStore } from './stores/i18n';
 import { useVocabStore } from './stores/vocab';
 import { useQueryStore } from '@/stores/query';
-import { useDataStore } from '@/views/SearchResults/store';
+import { useSearchResults } from '@/views/SearchResults/store';
 import { useLoaderStore } from '@/stores/loader';
 
 import SearchInput from './components/SearchInput.vue';
@@ -22,7 +22,7 @@ export default {
 	methods: {
 		onSearch(values) {
 			const store = useQueryStore();
-			const data = useDataStore();
+			const data = useSearchResults();
 			console.log('search value', JSON.parse(JSON.stringify(values)));
 
 			store.$reset();
