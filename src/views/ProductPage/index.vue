@@ -41,7 +41,7 @@ export default {
 
 <template>
     <div class="flex gap-x-6 flex-col">
-        <div class="flex gap-x-6 flex-row">
+        <div class="flex gap-x-6 flex-row border-b border-b-secondary-grey/20 max-w-6xl rounded py-6">
             <img
                 class="w-full max-w-xs"
                 :src="imageUrl"
