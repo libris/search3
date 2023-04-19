@@ -56,14 +56,16 @@ export default {
             {{ contribution }}
         </div>
         <div class="flex flex-wrap mt-2 gap-1">
-        <div class="rounded-full text-xs px-2 py-1 bg-secondary-turquoise text-primary-white"
-             v-for="gf in genreForm">
-            {{ gf }}
+            <div class="rounded-full text-xs px-2 py-1 bg-secondary-turquoise text-primary-white"
+                 v-for="gf in genreForm">
+                {{ gf }}
+            </div>
         </div>
+        <div class="flex flex-wrap mt-2 gap-1">
         <div class="rounded-full text-xs px-2 py-1 bg-primary-orange text-primary-white"
-            v-for="subject in subjects">
-            {{ subject }}
-        </div>
+                 v-for="subject in subjects">
+                {{ subject }}
+            </div>
         </div>
         <div class="max-w-2xl py-3">
             {{ summary }}
