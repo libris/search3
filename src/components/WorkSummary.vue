@@ -1,4 +1,4 @@
-<script lang="js">
+<script lang="ts">
 import { mapState } from "pinia";
 import { useProductStore } from "@/views/ProductPage/store";
 import { getItemLabel } from "@/lxljs/display";
@@ -36,7 +36,7 @@ export default {
             }
         },
         summary() {
-            if (this.workData != null)  {
+            if (this.workData != null && this.workData.hasOwnProperty('summary'))  {
                 return getItemLabel(this.workData.summary[0], getResources(), this.quoted, settings);
             }
         }
