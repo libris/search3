@@ -35,6 +35,11 @@ export default {
                 return this.workCard['subject'];
             }
         },
+        languages() {
+            if (this.workCard != null) {
+                return this.workCard['language'];
+            }
+        },
         summary() {
             if (this.workData != null && this.workData.hasOwnProperty('summary'))  {
                 return getItemLabel(this.workData.summary[0], getResources(), this.quoted, settings);
@@ -49,12 +54,20 @@ export default {
     <div>
     </div>
     <div>
-        <strong class="py-6" v-for="title in titles">
-            {{ title }}
-        </strong>
+
+        <div class="flex flex-wrap mt-2 gap-1 py-3">
+            <strong v-for="title in titles">
+                {{ title }}
+            </strong>
+            <div class="rounded-full max-h-6 text-xs px-2 py-1 bg-signal-yellow text-primary-white"
+                 v-for="language in languages">
+                {{ language }}
+            </div>
+        </div>
         <div v-for="contribution in contributions">
             {{ contribution }}
         </div>
+
         <div class="flex flex-wrap mt-2 gap-1">
             <div class="rounded-full text-xs px-2 py-1 bg-secondary-turquoise text-primary-white"
                  v-for="gf in genreForm">
