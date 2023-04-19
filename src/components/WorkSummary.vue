@@ -1,48 +1,49 @@
 <script lang="js">
+import { mapState } from "pinia";
+import { useProductStore } from "@/views/ProductPage/store";
+
 export default {
     name: "WorkSummary",
     props: {
-        id: {
-         type: String,
-         default: null
-        },
-        chip: {
+        workData: {
             type: Object,
-            default: null,
+            default: null
         },
-        summary: {
-            type: String,
-            default: null,
-        },
-        language: {
-            type: String,
-            default: null,
-        },
-        classification: {
-            type: String,
-            default: null,
-        }
     },
     computed: {
-        imageUrl() {
-            return `https://xinfo.libris.kb.se/xinfo/xinfo?type=record&identifier=libris-bib:${this.id},isbn:${this.instanceIsbn}`
-        },
-        author() {
-            if (this.chip != null) {
-                return this.chip['contribution'];
+        ...mapState(useProductStore, ['workCard']),
+        contributions() {
+            if (this.workCard != null) {
+                return this.workCard['contribution'];
             }
         },
-        title() {
-            if (this.chip != null) {
-                return this.chip['hasTitle'];
+        titles() {
+            if (this.workCard != null) {
+                return this.workCard['hasTitle'];
             }
-        }
+        },
+        genreForm() {
+            if (this.workCard != null) {
+                return this.workCard['genreForm'];
+            }
+        },
+
     }
 }
 </script>
 
 <template>
     <div>
-        {{ this.title }} av {{ this.author }}
+    </div>
+    <div>
+        <div v-for="title in titles">
+            {{ title }}
+        </div>
+        <div v-for="contribution in contributions">
+            {{ contribution }}
+        </div>
+        <div v-for="gf in genreForm">
+            {{ gf }}
+        </div>
     </div>
 </template>

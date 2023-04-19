@@ -10,16 +10,11 @@ export default {
         'work-summary': WorkSummary,
         'instance': Instance,
     },
-    data() {
-        return {
-            work: null,
-        };
-    },
     methods: {
         ...mapActions(useProductStore, ['getProduct']),
     },
     computed: {
-        ...mapState(useProductStore, ['workChip', 'instanceIds', 'instances', 'itemSummary', 'imageUrl']),
+        ...mapState(useProductStore, ['work', 'instanceIds', 'instances', 'itemSummary', 'imageUrl']),
         workId() {
             return this.$route.params.fnurgel;
         },
@@ -45,19 +40,20 @@ export default {
 </script>
 
 <template>
-    <div class="flex gap-x-6">
-        <img
-            class="h-72"
-            :src="imageUrl"
-        />
-
-        <div>
-            <work-summary
-                :id="workId"
-                :chip="workChip"
+    <div class="flex gap-x-6 flex-col">
+        <div class="flex gap-x-6 flex-row">
+            <img
+                class="w-full max-w-xs"
+                :src="imageUrl"
             />
-
-            <div class="mt-4">
+            <div>
+                <work-summary
+                    :work-data="work"
+                />
+            </div>
+        </div>
+        <div>
+            <div class="mt-4 max-w-6xl">
                 <div v-for="instance in instances">
                     <instance :key="instance['@id']" :instance="instance" />
                 </div>
