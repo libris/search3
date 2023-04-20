@@ -52,9 +52,6 @@ export default {
 
 <template>
     <div>
-    </div>
-    <div>
-
         <div class="flex flex-wrap mt-2 gap-1 py-3">
             <strong v-for="title in titles">
                 {{ title }}

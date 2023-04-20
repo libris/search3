@@ -4,6 +4,7 @@ import { useProductStore } from '@/views/WorkPage/store';
 import { getResources } from '@/lib/resources';
 import settings from '@/lib/settings';
 import { getChip, getItemLabel } from '@/lxljs/display';
+import { getLabelByLang } from "@/lxljs/string";
 import { mapState } from 'pinia';
 import { getImageUrl } from '@/lib/item';
 
@@ -26,33 +27,49 @@ export default {
                 return getChip(publication, getResources(), this.quoted, settings);
             });
         },
+        title() {
+            console.log('this.instance.title[0]', this.instance);
+            return getItemLabel(this.instance.hasTitle[0], getResources(), this.quoted, settings)
+        },
         extent() {
             return getItemLabel(this.instance.extent[0], getResources(), this.quoted, settings);
         },
         imageUrl() {
             return getImageUrl(this.fnurgel, this.instance.identifiedBy[0].value);
         },
-    },
-    data() {
-        return {
-            type: null
+        identifiedBy() {
+            return getItemLabel(this.instance.identifiedBy[0], getResources(), this.quoted, settings);
+        },
+        type() {
+            return getLabelByLang(
+                this.instance['@type'],
+                settings.language,
+                getResources()
+            );
         }
     },
 }
 </script>
 <template>
-    <div class="flex justify-between mb-6 border-b-2 border-b-secondary-grey/20 py-3">
-        <div>
-            <router-link :to="`/${this.fnurgel}`" v-for="publication in publications" class="mt-4 underline">
-                {{ publication.year }} &bull; {{ publication.agent }}
+    <div class="flex justify-between mb-4 border-2 border-secondary-grey/20 py-2">
+        <div class="pl-3">
+            <router-link :to="`/${this.fnurgel}`" class="mt-4 underline">
+                {{ title }}
             </router-link>
-
+            <div>
+                {{ type }}
+            </div>
+            <div>
+                {{ identifiedBy }}
+            </div>
+            <div v-for="publication in publications">
+                {{ publication.year }}
+            </div>
             <div>
                 {{ extent }}
             </div>
         </div>
-
-        <div>
+        <div class="pb-2 pt-1 pr-3">
             <img :src="imageUrl" alt="">
         </div>
     </div>

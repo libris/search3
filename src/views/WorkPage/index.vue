@@ -33,7 +33,7 @@ export default {
             this.getProduct(this.workId);
         },
         instanceIds() {
-            console.log('current data', JSON.parse(JSON.stringify(this.instances)));
+            console.log('current data', JSON.stringify(this.instances));
         }
     }
 }
@@ -41,16 +41,18 @@ export default {
 
 <template>
     <div class="flex gap-x-6 flex-col">
-        <div class="flex gap-x-6 flex-row border-b border-b-secondary-grey/20 max-w-6xl rounded py-6">
-            <img
-                class="w-full max-w-xs"
-                :src="imageUrl"
-            />
+        <div class="flex gap-x-6 flex-row max-w-6xl rounded py-6">
             <div>
                 <work-summary
                     :work-data="work"
                 />
             </div>
+            <div>
+                <img
+                    class="w-full max-w-xs"
+                :src="imageUrl"
+            />
+        </div>
         </div>
         <div>
             <div class="mt-4 max-w-6xl">
