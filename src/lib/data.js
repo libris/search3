@@ -7,7 +7,7 @@ import settings from './settings';
 export function getDisplayDefinitions() {
   const baseUri = settings.idPath;
   return new Promise((resolve, reject) => {
-    HttpUtil.getResourceFromCache(`${settings.apiPath}/vocab/display/data.jsonld`).then((result) => {
+    HttpUtil.getResourceFromCache(`${settings.idPath}/vocab/display/data.jsonld`).then((result) => {
       resolve(DisplayUtil.expandInherited(result));
     }, (error) => {
       reject(error);
@@ -17,7 +17,7 @@ export function getDisplayDefinitions() {
 
 export function getVocab() {
   return new Promise((resolve, reject) => {
-    HttpUtil.getResourceFromCache(`${settings.apiPath}/vocab/data.jsonld`).then((result) => {
+    HttpUtil.getResourceFromCache(`${settings.idPath}/vocab/data.jsonld`).then((result) => {
       resolve(result);
     }, (error) => {
       reject(error);
