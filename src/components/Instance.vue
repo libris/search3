@@ -1,6 +1,6 @@
 
 <script>
-import { useProductStore } from '@/views/ProductPage/store';
+import { useProductStore } from '@/views/WorkPage/store';
 import { getResources } from '@/lib/resources';
 import settings from '@/lib/settings';
 import { getChip, getItemLabel } from '@/lxljs/display';

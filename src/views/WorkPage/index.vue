@@ -1,11 +1,11 @@
 <script lang="js">
 import { mapState, mapActions } from 'pinia';
-import { useProductStore } from '@/views/ProductPage/store';
+import { useProductStore } from '@/views/WorkPage/store';
 import WorkSummary from '../../components/WorkSummary.vue';
 import Instance from '../../components/Instance.vue';
 
 export default {
-    name: "ProductPage.vue",
+    name: "WorkPage.vue",
     components: {
         'work-summary': WorkSummary,
         'instance': Instance,
