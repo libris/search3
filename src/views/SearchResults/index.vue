@@ -2,7 +2,7 @@
 import { mapActions, mapState } from 'pinia';
 import { useSearchResults } from '@/views/SearchResults/store';
 import { useQueryStore } from '@/stores/query';
-import { getImageUrl } from '@/lib/item';
+import { getFnurgelFromUri, getImageUrl} from '@/lib/item';
 
 export default {
 	computed: {
@@ -14,10 +14,9 @@ export default {
 	methods: {
 		...mapActions(useSearchResults, ['query']),
 		getImageUrl,
+		getFnurgelFromUri,
 		routerPath(id: string) {
-			const uriParts = id.split('/');
-			const fnurgel = uriParts[uriParts.length - 1];
-			return `/${fnurgel}`;
+			return `/${getFnurgelFromUri(id)}`;
 		},
 	},
 	mounted() {

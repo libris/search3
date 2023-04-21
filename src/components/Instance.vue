@@ -6,7 +6,7 @@ import settings from '@/lib/settings';
 import { getChip, getItemLabel } from '@/lxljs/display';
 import { getLabelByLang } from "@/lxljs/string";
 import { mapState } from 'pinia';
-import { getImageUrl } from '@/lib/item';
+import { getImageUrl, getFnurgelFromUri } from '@/lib/item';
 
 export default {
     name: "Instance",
@@ -18,10 +18,7 @@ export default {
     },
     computed: {
         ...mapState(useProductStore, ['quoted']),
-        fnurgel() {
-            const uriParts = this.instance['@id'].split('/');
-            return uriParts[uriParts.length - 1].replaceAll('#it', '');
-        },
+
         publications() {
             return this.instance.publication.map((publication) => {
                 return getChip(publication, getResources(), this.quoted, settings);
@@ -35,7 +32,7 @@ export default {
             return getItemLabel(this.instance.extent[0], getResources(), this.quoted, settings);
         },
         imageUrl() {
-            return getImageUrl(this.fnurgel, this.instance.identifiedBy[0].value);
+            return getImageUrl(getFnurgelFromUri(this.instance['@id']), this.instance.identifiedBy[0].value);
         },
         identifiedBy() {
             return getItemLabel(this.instance.identifiedBy[0], getResources(), this.quoted, settings);
@@ -48,12 +45,15 @@ export default {
             );
         }
     },
+    methods: {
+        getFnurgelFromUri
+    }
 }
 </script>
 <template>
     <div class="flex justify-between mb-4 border-2 border-secondary-grey/20 py-2">
         <div class="pl-3">
-            <router-link :to="`/${this.fnurgel}`" class="mt-4 underline">
+            <router-link :to="`/${getFnurgelFromUri(this.instance['@id'])}`" class="mt-4 underline">
                 {{ title }}
             </router-link>
             <div>

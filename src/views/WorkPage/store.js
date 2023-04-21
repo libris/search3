@@ -3,7 +3,7 @@ import { getDocument } from '@/lib/http';
 import { splitJson } from "@/lxljs/data";
 import { getCard, getChip, getItemSummary } from '@/lxljs/display';
 import { getResources } from '@/lib/resources';
-import { getFullImageUrl } from '@/lib/item';
+import {getFnurgelFromUri, getFullImageUrl} from '@/lib/item';
 import settings from '@/lib/settings';
 
 export const useProductStore = defineStore('product', {
@@ -67,9 +67,7 @@ export const useProductStore = defineStore('product', {
 			});
 
 			if (foundInstance != null) {
-				const uriParts = foundInstance['@id'].split('/');
-				const fnurgel = uriParts[uriParts.length - 1].replaceAll('#it', '');
-				return getFullImageUrl(fnurgel, foundInstance.identifiedBy[0].value);
+				return getFullImageUrl(getFnurgelFromUri(foundInstance['@id']), foundInstance.identifiedBy[0].value);
 			}
 
 			return getFullImageUrl('10145888','9789185251872');
