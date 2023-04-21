@@ -38,11 +38,14 @@ export default {
             return getItemLabel(this.instance.identifiedBy[0], getResources(), this.quoted, settings);
         },
         type() {
-            return getLabelByLang(
-                this.instance['@type'],
-                settings.language,
-                getResources()
-            );
+            return getLabelByLang(this.instance['@type'], settings.language, getResources());
+        },
+        numberOfHoldings() {
+            if (this.instance.hasOwnProperty('@reverse')) {
+                return this.instance['@reverse']['itemOf'].length;
+            } else {
+                return 0;
+            }
         }
     },
     methods: {
@@ -67,6 +70,9 @@ export default {
             </div>
             <div>
                 {{ extent }}
+            </div>
+            <div>
+                Finns på {{ numberOfHoldings }} bibliotek
             </div>
         </div>
         <div class="pb-2 pt-1 pr-3">
