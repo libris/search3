@@ -27,7 +27,7 @@
 		</div>
 
 		<button
-			class="bg-primary-blue hover:bg-secondary-blue/80 rounded-md py-2 px-4 text-primary-white transition-colors"
+			class="bg-libris-green hover:bg-libris-green/80 rounded-md py-2 px-4 text-primary-white transition-colors"
 			@click="submit"
 		>
 			Sök

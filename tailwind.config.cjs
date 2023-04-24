@@ -19,7 +19,8 @@ module.exports = {
       "secondary-grey": "#707070",
       "signal-red": "#D1333A",
       "signal-yellow": "#F4B54F",
-      "signal-green": "#01C281"
+      "signal-green": "#01C281",
+      "libris-green": "#81b864",
     },
     extend: {
       // https://github.com/Kungbib/styles/blob/master/src/styles/_variables.scss
