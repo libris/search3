@@ -27,13 +27,16 @@ export default {
 </script>
 
 <template>
-	<Header />
-	<div class="px-12 my-12">
-		<div className="text-center text-secondary-grey" v-if="isLoading">
-			Laddar
-		</div>
+	<div>
+		<Header />
 
-		<router-view v-if="!isLoading" />
+		<div class="px-12 my-12">
+			<div className="text-center text-secondary-grey" v-if="isLoading">
+				Laddar
+			</div>
+
+			<router-view v-if="!isLoading" />
+		</div>
 	</div>
 
 	<Footer />
