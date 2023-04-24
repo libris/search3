@@ -7,9 +7,18 @@ import { getChip, getItemLabel } from '@/lxljs/display';
 import { getLabelByLang } from "@/lxljs/string";
 import { mapState } from 'pinia';
 import { getImageUrl, getFnurgelFromUri } from '@/lib/item';
+import Holding from "./Holding.vue";
 
 export default {
     name: "Instance",
+    components: {
+        'holding': Holding,
+    },
+    data() {
+        return {
+            isExpanded: false,
+        }
+    },
     props: {
         instance: {
             type: Object,
@@ -40,21 +49,29 @@ export default {
         type() {
             return getLabelByLang(this.instance['@type'], settings.language, getResources());
         },
-        numberOfHoldings() {
+        holdings() {
             if (this.instance.hasOwnProperty('@reverse')) {
-                return this.instance['@reverse']['itemOf'].length;
+                return this.instance['@reverse']['itemOf'].map((holdingId) => {
+                        return this.quoted[holdingId['@id']];
+                })
             } else {
-                return 0;
+                return [];
             }
-        }
+        },
+        numberOfHoldings() {
+            return this.holdings.length
+        },
     },
     methods: {
-        getFnurgelFromUri
+        getFnurgelFromUri,
+        toggleExpanded() {
+            this.isExpanded = !this.isExpanded;
+        },
     }
 }
 </script>
 <template>
-    <div class="flex justify-between mb-4 border-2 border-secondary-grey/20 py-2">
+    <span @click="toggleExpanded" :class="{'is-expanded': this.isExpanded}" class="flex justify-between mb-4 border-2 border-secondary-grey/20 py-2">
         <div class="pl-3">
             <router-link :to="`/${getFnurgelFromUri(this.instance['@id'])}`" class="mt-4 underline">
                 {{ title }}
@@ -74,10 +91,19 @@ export default {
             <div>
                 Finns på {{ numberOfHoldings }} bibliotek
             </div>
+            <div v-if="isExpanded" v-for="holding in holdings">
+                <holding :key="holding['@id']" :holding="holding" />
+            </div>
         </div>
         <div class="pb-2 pt-1 pr-3">
             <img :src="imageUrl" alt="">
         </div>
-    </div>
+    </span>
 </template>
+<style>
+
+.is-expanded {
+    border-color: deepskyblue;
+}
+</style>
 
