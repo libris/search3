@@ -9,9 +9,9 @@ export default {
 		<div class="w-full lg:w-1/5 flex items-center flex-col">
 			<img src="/kb_logo_black.svg" class="h-[75px] mb-3" alt="Kungliga bibliotekets logotyp" />
 
-			<router-link to="#" class="text-secondary-turquoise hover:underline hover:decoration-secondary-darker-turquoise hover:text-secondary-darker-turquoise">
+			<a href="https://kb.se" target="_blank" class="text-secondary-turquoise hover:underline hover:decoration-secondary-darker-turquoise hover:text-secondary-darker-turquoise">
 				Kungliga biblioteket
-			</router-link>
+			</a>
 		</div>
 
 		<div class="flex w-full lg:w-4/5 lg:pl-6 mt-8 lg:mt-0 flex-wrap">
