@@ -111,7 +111,6 @@ export default defineComponent({
 }
 
 .search-input {
-	min-width: 350px;
 	border: 1px solid #e4e4eb;
 	border-top-left-radius: 6px;
 	border-bottom-left-radius: 6px;

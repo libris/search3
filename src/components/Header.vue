@@ -31,15 +31,15 @@ export default {
 
 <template>
 	<div class="sticky top-0 flex items-center justify-between px-12 py-4 bg-primary-white border-b border-b-secondary-grey/10">
-		<div class="flex gap-x-6 items-center">
+		<div class="flex gap-x-8 items-center">
 			<router-link to="/" title="Startsida">
-				<img src="/libris_logotyp.gif" alt="Startsida" heigh="25" />
+				<img src="/libris_logotyp.gif" alt="Startsida" width="141" height="25" />
 			</router-link>
 
 			<SearchInput v-on:search="onSearch" />
 		</div>
 
-		<div class="flex gap-x-4">
+		<div class="hidden lg:flex gap-x-4">
 			<router-link to="#" class="text-secondary-turquoise hover:underline hover:decoration-secondary-darker-turquoise hover:text-secondary-darker-turquoise">
 				Hjälp
 			</router-link>
