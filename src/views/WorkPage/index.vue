@@ -42,17 +42,12 @@ export default {
 <template>
     <div class="flex gap-x-6 flex-col">
         <div class="flex gap-x-6 flex-row max-w-6xl rounded py-6">
-            <div>
-                <work-summary
-                    :work-data="work"
-                />
+            <div class="flex-1">
+                <work-summary :work-data="work"/>
             </div>
             <div>
-                <img
-                    class="w-full max-w-xs"
-                :src="imageUrl"
-            />
-        </div>
+                <img class="w-full max-w-xs" :src="imageUrl"/>
+            </div>
         </div>
         <div>
             <div class="mt-4 max-w-6xl">
