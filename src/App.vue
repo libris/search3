@@ -1,37 +1,21 @@
 <script lang="ts">
-import { mapState, mapWritableState } from 'pinia';
+import { mapState } from 'pinia';
 import { useContextStore } from './stores/context';
 import { useDisplayStore } from './stores/display';
 import { useI18nStore } from './stores/i18n';
 import { useVocabStore } from './stores/vocab';
-import { useQueryStore } from '@/stores/query';
-import { useSearchResults } from '@/views/SearchResults/store';
 import { useLoaderStore } from '@/stores/loader';
-
-import SearchInput from './components/SearchInput.vue';
+import Header from './components/Header.vue';
+import Footer from './components/Footer.vue';
 
 export default {
 	name: 'App',
 	components: {
-		SearchInput
+		Header,
+		Footer,
 	},
 	computed: {
-		...mapWritableState(useQueryStore, ['Topic', 'GenreForm', 'Language', 'q']),
 		...mapState(useLoaderStore, ['isLoading']),
-	},
-	methods: {
-		onSearch(values) {
-			const store = useQueryStore();
-			const data = useSearchResults();
-			console.log('search value', JSON.parse(JSON.stringify(values)));
-
-			store.$reset();
-			Object.keys(values).forEach((key) => {
-				this[key] = values[key];
-			});
-
-			data.query(values);
-		},
 	},
 	mounted() {
 		useContextStore();
@@ -43,19 +27,7 @@ export default {
 </script>
 
 <template>
-	<div class="sticky top-0 flex items-center justify-between px-12 py-4 bg-primary-white border-b border-b-secondary-grey/20">
-		<div class="flex gap-x-6 items-center">
-			<router-link to="/" class="font-medium">
-				Libris sök
-			</router-link>
-
-			<SearchInput v-on:search="onSearch" />
-		</div>
-
-		<div>
-		</div>
-	</div>
-
+	<Header />
 	<div class="px-12 my-12">
 		<div className="text-center text-secondary-grey" v-if="isLoading">
 			Laddar
@@ -63,6 +35,8 @@ export default {
 
 		<router-view v-if="!isLoading" />
 	</div>
+
+	<Footer />
 </template>
 
 <style lang="postcss">
