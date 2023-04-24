@@ -1,5 +1,5 @@
 <template>
-	<div class="flex gap-x-4 items-center">
+	<div class="flex items-center">
 		<div class="focustrap" tabindex="0" @focusin="onInputFocus" @focusout="onInputBlur">
 			<Popper
 				arrow
@@ -27,7 +27,7 @@
 		</div>
 
 		<button
-			class="bg-libris-green hover:bg-libris-green/80 rounded-md py-2 px-4 text-primary-white transition-colors"
+			class="bg-libris-green hover:bg-libris-green/80 border border-libris-green rounded-r-md py-3 px-5 text-primary-white transition-colors"
 			@click="submit"
 		>
 			Sök
@@ -113,7 +113,8 @@ export default defineComponent({
 .search-input {
 	min-width: 350px;
 	border: 1px solid #e4e4eb;
-	border-radius: 6px;
+	border-top-left-radius: 6px;
+	border-bottom-left-radius: 6px;
 	display: flex;
 	align-items: center;
 }
@@ -130,7 +131,8 @@ export default defineComponent({
 input[type="search"] {
 	padding: .75rem 0;
 	border: 0;
-	border-radius: 6px;
+	border-top-left-radius: 6px;
+	border-bottom-left-radius: 6px;
 	flex: 1;
 	padding-left: 6px;
 }
