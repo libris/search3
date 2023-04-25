@@ -1,17 +1,9 @@
 <template>
-			<!-- FACET GROUP <div class="flex flex-wrap mt-2 gap-1">
-				<div
-					class="rounded-full text-xs px-2 py-1 bg-secondary-turquoise text-primary-white cursor-pointer"
-					:class="attributes.find((att) => att['@id'] == genre['@id']) != null ? 'opacity-100' : 'opacity-70'"
-					v-for="genre in GenreForm"
-					v-bind:key="genre['id']"
-					@click="$emit('attributeSelect', genre)"
-				>
-					{{genre.prefLabel}}
-				</div>
-			</div> -->
-
 	<div class="grid grid-cols-2 gap-x-6 gap-y-10">
+		<div v-if="Object.keys(sortedFacets).length == 0" class="text-secondary-grey">
+			Inga förslag hittades
+		</div>
+
 		<FacetGroup
 			v-for="(dimensionValue, dimensionKey, index) in sortedFacets"
 			:key="dimensionKey"
@@ -39,7 +31,7 @@ export default {
 
 		sortedFacets(): Object {
 			if (this.stats == null) {
-				return [];
+				return {};
 			}
 
 			const facetSettings = settings.propertyChains;
@@ -52,6 +44,8 @@ export default {
 					..._sortedObj,
 					[key]: unordered[key],
 				}), {});
+
+			console.log('ordered', ordered);
 
 			return ordered;
 		},
