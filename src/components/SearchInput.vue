@@ -21,7 +21,7 @@
 				</div>
 
 				<template #content>
-					<Attributes v-on:attribute-select="addAttribute" :attributes="attributes" />
+					<Facets v-on:attribute-select="addAttribute" :attributes="attributes" />
 				</template>
 			</Popper>
 		</div>
@@ -38,11 +38,11 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import Popper from "vue3-popper";
-import Attributes from './Attributes.vue';
+import Facets from './Facets.vue';
 
 export default defineComponent({
 	components: {
-		Attributes,
+		Facets,
 		Popper,
 	},
 	data() {
