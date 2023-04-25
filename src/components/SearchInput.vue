@@ -49,6 +49,7 @@ export default defineComponent({
 		return {
 			visible: false,
 			attributes: [],
+			timer: null,
 		}
 	},
 	methods: {
@@ -69,9 +70,13 @@ export default defineComponent({
 			});
 		},
 		onInputKeypress(event) {
+			clearTimeout(this.timer);
+
 			if (event.keyCode === 13) {
 				event.preventDefault();
 				this.submit();
+			} else {
+				this.timer = setTimeout(this.submit, 250);
 			}
 		},
 		onInputFocus() {
