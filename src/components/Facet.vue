@@ -21,9 +21,6 @@ export default {
 			return 'bg-libris-green';
 		},
 	},
-	mounted() {
-		console.log('Facet item', JSON.parse(JSON.stringify(this.facet)));
-	}
 };
 </script>
 

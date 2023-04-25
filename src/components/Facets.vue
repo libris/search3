@@ -53,8 +53,6 @@ export default {
 					[key]: unordered[key],
 				}), {});
 
-			console.log('sortedFacets', JSON.parse(JSON.stringify(ordered)));
-
 			return ordered;
 		},
 	},
