@@ -45,8 +45,6 @@ export default {
 					[key]: unordered[key],
 				}), {});
 
-			console.log('ordered', ordered);
-
 			return ordered;
 		},
 	},
