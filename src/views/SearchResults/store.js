@@ -7,6 +7,7 @@ import { getRelatedRecords } from '@/lib/http';
 export const useSearchResults = defineStore('searchResults', {
 	state: () => ({
 		current: null,
+		stats: null,
 
 		Instance: [],
 		Print: [],
@@ -51,6 +52,7 @@ export const useSearchResults = defineStore('searchResults', {
 			this.$reset();
 
 			this.current = response.items;
+			this.stats = response.stats;
 			this.indexData();
 		},
 
@@ -83,7 +85,9 @@ export const useSearchResults = defineStore('searchResults', {
 			});
 
 			stateKeys.forEach((key) => {
-				this.$state[key] = this.$state[key].map(this.calculateDisplayMeta);
+				if (key === 'Text') {
+					this.$state[key] = this.$state[key].map(this.calculateDisplayMeta);
+				}
 			});
 		},
 
