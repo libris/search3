@@ -2,7 +2,7 @@
 import { mapActions, mapState } from 'pinia';
 import { useSearchResults } from '@/views/SearchResults/store';
 import { useQueryStore } from '@/stores/query';
-import { getFnurgelFromUri, getImageUrl} from '@/lib/item';
+import { getFnurgelFromUri, getWorkImageUrl} from '@/lib/item';
 
 export default {
 	computed: {
@@ -13,7 +13,7 @@ export default {
 	},
 	methods: {
 		...mapActions(useSearchResults, ['query']),
-		getImageUrl,
+		getWorkImageUrl,
 		getFnurgelFromUri,
 		routerPath(id: string) {
 			return `/${getFnurgelFromUri(id)}`;
@@ -37,7 +37,7 @@ export default {
 			<router-link :to="this.routerPath(book['@id'])" :title="book.title">
 				<div
 					class="w-full pt-[90%] bg-no-repeat bg-contain bg-center"
-					:style="{ backgroundImage: 'url(' + getImageUrl('10145888','9789185251872') + ')' }"
+					:style="{ backgroundImage: 'url(' + getWorkImageUrl(book) + ')' }"
 				/>
 			</router-link>
 

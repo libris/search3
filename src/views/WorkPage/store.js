@@ -4,6 +4,7 @@ import { splitJson } from "@/lxljs/data";
 import { getCard, getChip, getItemSummary } from '@/lxljs/display';
 import { getResources } from '@/lib/resources';
 import {getFnurgelFromUri, getFullImageUrl} from '@/lib/item';
+
 import settings from '@/lib/settings';
 
 export const useProductStore = defineStore('product', {
