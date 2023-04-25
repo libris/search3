@@ -21,7 +21,7 @@ export const getWorkImageUrl = (work) => {
 	const isbns = getAtPath(i, ['*', 'identifiedBy', {'@type': 'ISBN'}, 'value']);
 	const isbn = isbns.length > 0 ? head(isbns) : '';
 	console.log(`fnurgel: ${fnurgel} isbn: ${JSON.stringify(isbn)}`);
-	return getImageUrl(fnurgel, isbn);
+	return getFullImageUrl(fnurgel, isbn);
 }
 
 export const publicationYear = (instance) => {
