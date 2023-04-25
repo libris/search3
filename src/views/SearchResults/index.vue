@@ -57,32 +57,16 @@ export default {
 				{{ book.author.name }}
 			</div>
 
+			<!--
 			<div class="flex flex-wrap mt-2 gap-1">
-				<div
-					v-if="book.genreForm != null && book.genreForm.length > 0"
-					v-for="genre in book.genreForm"
-					:key="genre['@id']"
-					class="rounded-full text-xs px-2 py-1 bg-secondary-turquoise text-primary-white"
-				>
-					{{ genre.prefLabel != null ? genre.prefLabel : genre['@id'] }}
-				</div>
-
 				<div
 					v-if="book.language != null"
 					class="rounded-full text-xs px-2 py-1 bg-signal-yellow text-primary-white"
 				>
-					{{ book.language.label }}
-				</div>
-
-				<div
-					v-if="book.subject != null"
-					v-for="subject in book.subject"
-					:bind="subject['id']"
-					class="rounded-full text-xs px-2 py-1 bg-primary-orange text-primary-white"
-				>
-					{{ subject.prefLabel }}
+					{{ 'book.language.label' }}
 				</div>
 			</div>
+			-->
 		</div>
 	</div>
 </template>
