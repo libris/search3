@@ -16,7 +16,6 @@ export default {
 		onSearch(values) {
 			const store = useQueryStore();
 			const data = useSearchResults();
-			console.log('search value', JSON.parse(JSON.stringify(values)));
 
 			store.$reset();
 			Object.keys(values).forEach((key) => {
