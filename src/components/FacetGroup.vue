@@ -115,7 +115,7 @@ export default {
 
 <template>
 	<div>
-		<h4 className="font-semibold mb-2">
+		<h4 className="text-sm text-secondary-grey mb-1">
 			{{ facetLabel }}
 		</h4>
 

@@ -40,6 +40,10 @@ export default {
 <template>
 	<div className="flex gap-x-6">
 		<div className="w-1/4">
+			<h3 className="font-semibold mb-2">
+				Förfina sökning
+			</h3>
+
 			<Facets />
 		</div>
 
