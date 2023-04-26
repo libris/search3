@@ -93,7 +93,10 @@ export default {
                 Finns på {{ numberOfHoldings }} bibliotek
             </div>
             <div v-if="isExpanded" v-for="holding in holdings">
-                <holding :key="holding['@id']" :holding="holding" />
+                <holding :key="holding['@id']"
+                         :holding="holding"
+                         :instance-id="getFnurgelFromUri(this.instance['@id'])"
+                />
             </div>
         </div>
         <div class="pb-2 pt-1 pr-3">

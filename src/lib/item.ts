@@ -15,6 +15,17 @@ export const getFullImageUrl = (id: string, isbn: string) => {
 	return `https://xinfo.libris.kb.se/xinfo/xinfo?type=orginal&identifier=libris-bib:${id},isbn:${isbn}`
 };
 
+export const getLoanStatus = async (sigel: string, instance_id: string) => {
+	const url = `http://lanstatus.libris.kb.se/status/status.php?output=xml&sigel=${sigel}&bib_id=${instance_id}`;
+	const result = await fetch(url);
+	// FIXME: 'Access to fetch at 'http://lanstatus.libris.kb.se/status/status.php?output=xml&sigel=Vetb&bib_id=4d0ktz1p27hpdl4s'
+	//  from origin 'http://localhost:5173' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is
+	//  present on the requested resource. If an opaque response serves your needs, set the request's mode to 'no-cors'
+	//  to fetch the resource with CORS disabled.
+	let status = 'OK';
+	return status;
+};
+
 export const getWorkImageUrl = (work) => {
 	const i = instances(work)
 	const fnurgel = i.length > 0 ? getFnurgelFromUri(head(i)['@id']) : '';
