@@ -6,7 +6,13 @@ export default {
 	},
 	computed: {
 		backgroundClass() {
-			if (this.facet.link.indexOf('language') > -1) {
+			let type = this.facet['@type'];
+
+			if (type == null && this.facet.object != null) {
+				type = this.facet.object['@type'];
+			}
+
+			if (type === 'Language') {
 				return 'bg-signal-yellow';
 			}
 

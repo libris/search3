@@ -3,12 +3,17 @@ import { getResources } from '@/lib/resources';
 import { getItemLabel } from '@/lxljs/display';
 import settings from '@/lib/settings';
 import Facet from './Facet.vue';
+import Checkbox from './Checkbox.vue';
 
 export default {
 	name: 'FacetGroup',
 	components: {
 		Facet,
+		Checkbox,
 	},
+	data: () => ({
+		selected: [],
+	}),
 	props: {
 		group: Object,
 	},
@@ -119,7 +124,8 @@ export default {
 			:key="facet.link"
 			class="mb-1 last-of-type:mb-0"
 		>
-			<Facet :facet="facet" />
+			<!-- <Facet :facet="facet" /> -->
+			<Checkbox :label="facet.label" :value="facet.link" v-model="selected" />
 		</div>
 	</div>
 </template>

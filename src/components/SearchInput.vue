@@ -21,7 +21,7 @@
 				</div>
 
 				<template #content>
-					<Facets v-on:attribute-select="addAttribute" :attributes="attributes" />
+					Inga sökförslag hittades
 				</template>
 			</Popper>
 		</div>
@@ -38,11 +38,9 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import Popper from "vue3-popper";
-import Facets from './Facets.vue';
 
 export default defineComponent({
 	components: {
-		Facets,
 		Popper,
 	},
 	data() {

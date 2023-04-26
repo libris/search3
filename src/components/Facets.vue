@@ -1,5 +1,5 @@
 <template>
-	<div class="grid grid-cols-2 gap-x-6 gap-y-10">
+	<div class="flex flex-col gap-y-6">
 		<div v-if="Object.keys(sortedFacets).length == 0" class="text-secondary-grey">
 			Inga förslag hittades
 		</div>
