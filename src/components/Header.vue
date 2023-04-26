@@ -29,7 +29,7 @@ export default {
 </script>
 
 <template>
-	<div class="sticky top-0 flex items-center justify-between px-12 py-4 bg-primary-white border-b border-b-secondary-grey/10">
+	<div class="sticky top-0 flex items-center justify-between px-12 py-4 bg-primary-white border-b border-b-secondary-grey/10 z-50">
 		<div class="flex gap-x-8 items-center">
 			<router-link to="/" title="Startsida">
 				<img src="/libris_logotyp.gif" alt="Startsida" width="141" height="25" />
