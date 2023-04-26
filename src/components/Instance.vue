@@ -1,6 +1,6 @@
 
 <script>
-import { useProductStore } from '@/views/WorkPage/store';
+import { useProductStore } from '@/views/ProductPage/store';
 import { getResources } from '@/lib/resources';
 import settings from '@/lib/settings';
 import { getChip, getItemLabel } from '@/lxljs/display';
@@ -66,14 +66,15 @@ export default {
         getFnurgelFromUri,
         toggleExpanded() {
             this.isExpanded = !this.isExpanded;
+            console.log('this.Expanded', this.isExpanded);
         },
     }
 }
 </script>
 <template>
-    <span @click="toggleExpanded" :class="{'is-expanded': this.isExpanded}" class="flex justify-between mb-4 border-2 border-secondary-grey/20 py-2">
+    <span @click="toggleExpanded" :class="{ ['border-primary-blue']: this.isExpanded, ['border-secondary-grey/20'] :!this.isExpanded }" class="flex justify-between mb-4 border py-2">
         <div class="pl-3">
-            <router-link :to="`/${getFnurgelFromUri(this.instance['@id'])}`" class="mt-4 underline">
+            <router-link :to="`/${getFnurgelFromUri(this.instance['@id'])}`">
                 {{ title }}
             </router-link>
             <div>
@@ -101,9 +102,5 @@ export default {
     </span>
 </template>
 <style>
-
-.is-expanded {
-    border-color: deepskyblue;
-}
 </style>
 

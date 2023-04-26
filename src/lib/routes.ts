@@ -2,7 +2,7 @@ import { RouteRecordRaw } from "vue-router";
 
 // Import routes
 import DisplayBooks from '../views/SearchResults/index.vue';
-import WorkPage from '../views/WorkPage/index.vue';
+import ProductPage from "../views/ProductPage/index.vue";
 
 const routes: Array<RouteRecordRaw> = [
 	{
@@ -11,7 +11,7 @@ const routes: Array<RouteRecordRaw> = [
 	},
 	{
 		path: '/:fnurgel',
-		component: WorkPage,
+		component: ProductPage,
 	},
 ];
 

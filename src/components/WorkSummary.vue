@@ -1,6 +1,6 @@
 <script lang="ts">
 import { mapState } from "pinia";
-import { useProductStore } from "@/views/WorkPage/store";
+import { useProductStore } from "@/views/ProductPage/store";
 import { getItemLabel } from "@/lxljs/display";
 import { getResources } from "@/lib/resources";
 import settings from '@/lib/settings';
