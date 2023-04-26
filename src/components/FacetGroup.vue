@@ -4,6 +4,7 @@ import { getItemLabel } from '@/lxljs/display';
 import settings from '@/lib/settings';
 import Facet from './Facet.vue';
 import Checkbox from './Checkbox.vue';
+import { getCompactNumber } from '@/lib/math';
 
 export default {
 	name: 'FacetGroup',
@@ -109,6 +110,9 @@ export default {
 			}
 			return false;
 		},
+		getFacetLabel(facet) {
+			return facet.label + ' (' + getCompactNumber(facet.amount) + ')';
+		},
 	},
 };
 </script>
@@ -125,7 +129,7 @@ export default {
 			class="mb-1 last-of-type:mb-0"
 		>
 			<!-- <Facet :facet="facet" /> -->
-			<Checkbox :label="facet.label" :value="facet.link" v-model="selected" />
+			<Checkbox :label="getFacetLabel(facet)" :value="facet.link" v-model="selected" />
 		</div>
 	</div>
 </template>
