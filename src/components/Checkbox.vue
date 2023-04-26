@@ -54,6 +54,7 @@ export default {
 			flex
 			items-center
 			justify-center
+			flex-shrink-0
 			relative
 			h-5 w-5
 			rounded-md
