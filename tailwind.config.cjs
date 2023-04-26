@@ -15,7 +15,7 @@ module.exports = {
       "primary-blue": "#65C6FD",
       "primary-orange": "#F7A07B",
       "secondary-turquoise": "#058194",
-      "secondary-darker-turquoise": "#023840",
+      "secondary-darker-turquoise": "#036c7c",
       "secondary-blue": "#236FC8",
       "secondary-grey": "#707070",
       "signal-red": "#D1333A",
