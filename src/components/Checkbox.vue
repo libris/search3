@@ -1,9 +1,6 @@
 <script lang="ts">
 export default {
-	model: {
-		prop: 'modelValue',
-		event: 'change'
-	},
+	emits: ['update:modelValue'],
 	props: {
 		"value": { type: String },
 		"modelValue": { type: [String, Array], default: "" },
@@ -22,7 +19,7 @@ export default {
 	},
 	methods: {
 		updateInput(event) {
-			let isChecked = event.target.checked
+			const isChecked = event.target.checked;
 			if (this.modelValue instanceof Array) {
 				let newValue = [...this.modelValue]
 				if (isChecked) {
@@ -30,9 +27,10 @@ export default {
 				} else {
 					newValue.splice(newValue.indexOf(this.value), 1)
 				}
-				this.$emit('change', newValue)
+
+				this.$emit('update:modelValue', newValue)
 			} else {
-				this.$emit('change', isChecked ? this.trueValue : this.falseValue)
+				this.$emit('update:modelValue', isChecked ? this.trueValue : this.falseValue);
 			}
 		}
 	}
