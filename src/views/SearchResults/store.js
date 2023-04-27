@@ -90,6 +90,11 @@ export const useSearchResults = defineStore('searchResults', {
 
 			if (item['@type'] === 'Text') {
 				clone.title = getItemLabel(item.hasTitle[0], getResources(), [], settings);
+				if (clone.genreForm != null && Array.isArray(clone.genreForm)) {
+					clone.genreFormCalculated = clone.genreForm.map((genre) => {
+						return getItemLabel(genre, getResources(), [], settings);
+					});
+				}
 			}
 
 			return clone;
