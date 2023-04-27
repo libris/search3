@@ -10,7 +10,7 @@ import App from './App.vue';
 const pinia = createPinia();
 const app = createApp(App);
 const router = createRouter({
-	history: createWebHistory(),
+	history: createWebHistory(import.meta.env.VITE_VUE_APP_BASE_URL || '/'),
 	routes,
 });
 

@@ -10,7 +10,7 @@ export const useDisplayStore = defineStore('display', {
 		async _init() {
 			const response = await getDisplayDefinitions();
 			this.current = response;
-			this.groups = await fetch('/json/displayGroups.json').then((response) =>
+			this.groups = await fetch('./json/displayGroups.json').then((response) =>
 				response.json()
 			);
 		},

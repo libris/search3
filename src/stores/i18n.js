@@ -6,7 +6,7 @@ export const useI18nStore = defineStore('i18n', {
 	}),
 	actions: {
 		async _init() {
-			const result = await fetch('/json/i18n.json').then((response) =>
+			const result = await fetch('./json/i18n.json').then((response) =>
 				response.json()
 			);
 
