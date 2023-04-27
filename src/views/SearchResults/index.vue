@@ -37,6 +37,7 @@ export default {
 		},
 		selectedFacets() {
 			this.facets = this.selectedFacets;
+			this.query();
 		},
 	}
 };
