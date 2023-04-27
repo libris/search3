@@ -60,7 +60,6 @@ export default {
 			rounded-md
 			border-2
 			border-secondary-turquoise
-			hover:border-secondary-darker-turquoise
 		`" />
 
 		<span className="inline-block ml-2">
@@ -70,6 +69,10 @@ export default {
 </template>
 
 <style lang="css" scoped>
+.wrapper:hover .checkmark {
+	@apply border-secondary-darker-turquoise;
+}
+
 .wrapper input:checked~.checkmark {
 	@apply bg-secondary-turquoise;
 }
