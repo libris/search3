@@ -49,7 +49,7 @@ export function decomposeQueryString(q) {
 	return params;
 }
 
-function request(opts: RequestOptions, data) {
+function request(opts: RequestOptions, data = undefined) {
 	// method, url, token, accept
 	const options = opts;
 	options.method = options.method || 'GET';
@@ -87,14 +87,14 @@ function request(opts: RequestOptions, data) {
 				if (responseHeader && responseHeader.indexOf('json') !== -1) {
 					try {
 						resp = JSON.parse(resp);
-						if (req.getResponseHeader('ETag')) {
-							resp.ETag = req.getResponseHeader('ETag');
-						}
+						//if (req.getResponseHeader('ETag')) {
+						//	resp.ETag = req.getResponseHeader('ETag');
+						//}
 					} catch (e) {
 						console.error('Failed to parse response said to be JSON', e, resp);
 					}
 				}
-				resolve(resp, req);
+				resolve(resp);
 			} else if (req.status === 201 || req.status === 204) {
 				resolve(req);
 			} else if (req.status === 304) {
@@ -164,18 +164,18 @@ export async function getDocument(uri, contentType = 'application/ld+json', embe
 		headers,
 	};
 	const response = await fetch(translatedUri, options);
-	responseObject.status = response.status;
+	responseObject['status'] = response.status;
 	if (response.status !== 200) {
 		if (translatedUri === uri) {
 			console.warn('HttpUtil.getDocument failed to fetch any data for:', uri);
 		} else {
 			console.warn('HttpUtil.getDocument failed to fetch any data for:', uri, `(as ${translatedUri})`);
 		}
-		responseObject.data = null;
+		responseObject['data'] = null;
 		return responseObject;
 	}
-	responseObject.data = await response.json();
-	responseObject.ETag = response.headers.get('ETag');
+	responseObject['data'] = await response.json();
+	responseObject['ETag'] = response.headers.get('ETag');
 	return responseObject;
 }
 
