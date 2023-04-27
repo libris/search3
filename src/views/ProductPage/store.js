@@ -1,9 +1,9 @@
 import { defineStore } from "pinia";
 import { getDocument } from '@/lib/http';
 import { splitJson } from "@/lxljs/data";
-import { getCard, getChip, getItemSummary } from '@/lxljs/display';
+import {getCard, getChip, getItemLabel, getItemSummary} from '@/lxljs/display';
 import { getResources } from '@/lib/resources';
-import { getFnurgelFromUri, getFullImageUrl } from '@/lib/item';
+import {getAtPath, getFnurgelFromUri, getFullImageUrl} from '@/lib/item';
 
 import settings from '@/lib/settings';
 
@@ -45,6 +45,18 @@ export const useProductStore = defineStore('product', {
 		workCard: (state) => {
 			if (state.mainEntity != null) {
 				return getCard(state.mainEntity, getResources(), state.quoted, settings);
+			}
+		},
+		contributions: (state) => {
+			// FIXME
+			if (state.mainEntity != null) {
+				return getAtPath(state.mainEntity, ['contribution', '*']).map(c => {
+					return {
+						'role': getAtPath(c, ['role']).map(r => getItemLabel(r, getResources(), state.quoted, settings)),
+						'agent': getItemLabel(c.agent, getResources(), state.quoted, settings),
+						'link': getFnurgelFromUri(c.agent['@id'])
+					}
+				});
 			}
 		},
         itemSummary: (state) => {

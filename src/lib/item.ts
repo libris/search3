@@ -5,6 +5,10 @@ export const getImageUrl = (id: string, isbn: string) => {
 };
 
 export const getFnurgelFromUri = (id: string) => {
+	if (!id) {
+		return id;
+	}
+	
 	const uriParts = id.split('/');
 	const fnurgel = uriParts[uriParts.length - 1].replaceAll('#it', '');
 	return fnurgel;
