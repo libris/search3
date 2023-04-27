@@ -52,7 +52,7 @@ export const useProductStore = defineStore('product', {
 			if (state.mainEntity != null) {
 				return getAtPath(state.mainEntity, ['contribution', '*']).map(c => {
 					return {
-						'role': getAtPath(c, ['role']).map(r => getItemLabel(r, getResources(), state.quoted, settings)),
+						'role': getAtPath(c, ['role', '*']).map(r => getItemLabel(r, getResources(), state.quoted, settings)),
 						'agent': getItemLabel(c.agent, getResources(), state.quoted, settings),
 						'link': getFnurgelFromUri(c.agent['@id'])
 					}
