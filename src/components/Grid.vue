@@ -1,6 +1,6 @@
 <template>
 	<div class="block w-full">
-		<div class="flex w-full justify-between mb-2">
+		<div class="flex w-full justify-between mb-8">
 			<div class="flex-1"></div>
 
 			<div class="flex gap-x-2">
@@ -47,7 +47,7 @@ export default {
 		containerClassNames() {
 			switch (this.mode) {
 				case 'cards':
-					return 'grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-full';
+					return 'grid lg:grid-cols-2 xl:grid-cols-3 gap-x-6 gap-y-8 w-full';
 
 				case 'list':
 					return 'grid grid-cols-1 gap-y-6 w-full';
