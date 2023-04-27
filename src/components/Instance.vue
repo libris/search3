@@ -6,7 +6,7 @@ import settings from '@/lib/settings';
 import { getChip, getItemLabel } from '@/lxljs/display';
 import { getLabelByLang } from "@/lxljs/string";
 import { mapState } from 'pinia';
-import { getImageUrl, getFnurgelFromUri } from '@/lib/item';
+import {getImageUrl, getFnurgelFromUri, getAtPath} from '@/lib/item';
 import Holding from "./Holding.vue";
 
 export default {
@@ -29,34 +29,33 @@ export default {
         ...mapState(useProductStore, ['quoted']),
 
         publications() {
-            return this.instance.publication.map((publication) => {
+            return getAtPath(this.instance, ['publication']).map((publication) => {
                 return getChip(publication, getResources(), this.quoted, settings);
             });
         },
         title() {
             console.log('this.instance.title[0]', this.instance);
-            return getItemLabel(this.instance.hasTitle[0], getResources(), this.quoted, settings)
+            return getItemLabel(getAtPath(this.instance, ['hasTitle', 0]), getResources(), this.quoted, settings)
         },
         extent() {
-            return getItemLabel(this.instance.extent[0], getResources(), this.quoted, settings);
+            return getItemLabel(getAtPath(this.instance, ['extent', 0]), getResources(), this.quoted, settings);
         },
         imageUrl() {
-            return getImageUrl(getFnurgelFromUri(this.instance['@id']), this.instance.identifiedBy[0].value);
+            return getImageUrl(
+                getFnurgelFromUri(this.instance['@id']), 
+                getAtPath(this.instance, ['identifiedBy', {'@type': 'ISBN'}, 'value'])
+            );
         },
         identifiedBy() {
-            return getItemLabel(this.instance.identifiedBy[0], getResources(), this.quoted, settings);
+            return getItemLabel(getAtPath(this.instance, ['identifiedBy', 0]), getResources(), this.quoted, settings);
         },
         type() {
             return getLabelByLang(this.instance['@type'], settings.language, getResources());
         },
         holdings() {
-            if (this.instance.hasOwnProperty('@reverse')) {
-                return this.instance['@reverse']['itemOf'].map((holdingId) => {
-                        return this.quoted[holdingId['@id']];
-                })
-            } else {
-                return [];
-            }
+            return getAtPath(this.instance, ['@reverse', 'itemOf', '*', '@id']).map((holdingId) => {
+                return this.quoted[holdingId];
+            });
         },
         numberOfHoldings() {
             return this.holdings.length
