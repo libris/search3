@@ -47,7 +47,7 @@ export default {
 		containerClassNames() {
 			switch (this.mode) {
 				case 'cards':
-					return 'grid lg:grid-cols-2 xl:grid-cols-3 gap-x-6 gap-y-8 w-full';
+					return 'grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-x-6 gap-y-8 w-full';
 
 				case 'list':
 					return 'grid grid-cols-1 gap-y-6 w-full';
