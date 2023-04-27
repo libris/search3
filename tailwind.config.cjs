@@ -23,6 +23,9 @@ module.exports = {
       "signal-green": "#01C281",
       "libris-green": "#81b864",
     },
+    fontFamily: {
+      'sans': ['"Open Sans"'],
+    },
     extend: {
       // https://github.com/Kungbib/styles/blob/master/src/styles/_variables.scss
     },

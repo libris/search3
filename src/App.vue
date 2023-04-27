@@ -46,4 +46,16 @@ export default {
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+	font-family: 'Open Sans';
+	src: url('/fonts/OpenSans-VariableFont_wdth,wght.ttf');
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Open Sans';
+	src: url('/fonts/OpenSans-Italic-VariableFont_wdth,wght.ttf');
+	font-style: italic;
+}
 </style>
