@@ -1,14 +1,14 @@
-export function getCompactNumber(number: Number): String {
+export function getCompactNumber(n: number): String {
 	let compact = '';
 	let compactNo = 0;
-	if (number > 999 && number < 1000000) {
-		compactNo = parseInt(number / 1000);
+	if (n > 999 && n < 1000000) {
+		compactNo = Math.floor(n / 1000);
 		compact = `${compactNo}k`;
-	} else if (number > 999999) {
-		compactNo = Math.round(number / 1000000);
+	} else if (n > 999999) {
+		compactNo = Math.round(n / 1000000);
 		compact = `${compactNo}M`;
 	} else {
-		compact = `${number}`;
+		compact = `${n}`;
 	}
 
 	return compact;
