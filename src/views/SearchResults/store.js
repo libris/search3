@@ -47,7 +47,7 @@ export const useSearchResults = defineStore('searchResults', {
 				'@type': 'Text',
 				'_sort': '',
 				...values,
-			}, 'http://kblocalhost.kb.se:5000');
+			}, settings.apiPath);
 
 			this.$reset();
 
