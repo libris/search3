@@ -2,9 +2,9 @@
 import { mapActions, mapState, mapWritableState } from 'pinia';
 import { useSearchResults } from '@/views/SearchResults/store';
 import { useQueryStore } from '@/stores/query';
-import { getFnurgelFromUri, getWorkImageUrl} from '@/lib/item';
-import Grid from '../../components/Grid.vue';
-import Facets from '../../components/Facets.vue';
+import Grid from '@/components/Grid.vue';
+import Facets from '@/components/Facets.vue';
+import BookListItem from '@/components/BookListItem.vue';
 
 export default {
 	data: () => ({
@@ -13,6 +13,7 @@ export default {
 	components: {
 		Facets,
 		Grid,
+		BookListItem,
 	},
 	computed: {
 		...mapWritableState(useQueryStore, ['facets']),
@@ -22,11 +23,6 @@ export default {
 	},
 	methods: {
 		...mapActions(useSearchResults, ['query']),
-		getWorkImageUrl,
-		getFnurgelFromUri,
-		routerPath(id: string) {
-			return `/${getFnurgelFromUri(id)}`;
-		},
 	},
 	mounted() {
 		this.query();
@@ -54,41 +50,11 @@ export default {
 		</div>
 
 		<Grid>
-			<div class="mt-4" v-for="book in books" :key="book['@id']">
-				<router-link :to="this.routerPath(book['@id'])" :title="book.title">
-					<div
-						class="w-full pt-[70%] bg-no-repeat bg-contain bg-center"
-						:style="{ backgroundImage: 'url(' + getWorkImageUrl(book) + ')' }"
-					/>
-				</router-link>
-
-				<div class="mt-2">
-					<strong>
-						<router-link :to="this.routerPath(book['@id'])" :title="book.title">
-							{{ book.title }}
-						</router-link>
-					</strong>
-
-					<strong v-if="book.originDate != null">
-						&bull; {{ book.originDate }}
-					</strong>
-				</div>
-
-				<div v-if="book.author != null" class="text-sm text-secondary-grey">
-					{{ book.author.name }}
-				</div>
-
-				<!--
-				<div class="flex flex-wrap mt-2 gap-1">
-					<div
-						v-if="book.language != null"
-						class="rounded-full text-xs px-2 py-1 bg-signal-yellow text-primary-white"
-					>
-						{{ 'book.language.label' }}
-					</div>
-				</div>
-				-->
-			</div>
+			<BookListItem
+				v-for="book in books"
+				:key="book['@id']"
+				:book="book"
+			/>
 		</Grid>
 	</div>
 </template>
