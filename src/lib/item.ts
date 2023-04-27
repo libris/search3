@@ -80,6 +80,17 @@ export const getAtPath = (thing, path, defaultTo = []) => {
 	return t;
 }
 
+export const asArray = (x) => {
+	if (x == null) {
+		return [];
+	}
+	return x instanceof Array ? x : [x];
+}
+
 const isSubMap = (a, b) => {
 	return a instanceof Object && b instanceof Object && Object.keys(a).every(k => a[k] == b[k]);
+}
+
+export const unwrap = (x) => {
+	return x instanceof Array && x.length > 0 ? x[0] : x;
 }

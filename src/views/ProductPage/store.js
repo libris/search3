@@ -3,7 +3,7 @@ import { getDocument } from '@/lib/http';
 import { splitJson } from "@/lxljs/data";
 import {getCard, getChip, getItemLabel, getItemSummary} from '@/lxljs/display';
 import { getResources } from '@/lib/resources';
-import {getAtPath, getFnurgelFromUri, getFullImageUrl} from '@/lib/item';
+import {getAtPath, getFnurgelFromUri, getFullImageUrl, asArray, unwrap} from '@/lib/item';
 
 import settings from '@/lib/settings';
 
@@ -52,9 +52,9 @@ export const useProductStore = defineStore('product', {
 			if (state.mainEntity != null) {
 				return getAtPath(state.mainEntity, ['contribution', '*']).map(c => {
 					return {
-						'role': getAtPath(c, ['role', '*']).map(r => getItemLabel(r, getResources(), state.quoted, settings)),
-						'agent': getItemLabel(c.agent, getResources(), state.quoted, settings),
-						'link': getFnurgelFromUri(c.agent['@id'])
+						'role':  asArray(c.role).map(r => getItemLabel(r, getResources(), state.quoted, settings)),
+						'agent': getItemLabel(unwrap(c.agent), getResources(), state.quoted, settings),
+						'link': getFnurgelFromUri(unwrap(asArray(c.agent).map(a => a['@id'])))
 					}
 				});
 			}
