@@ -35,6 +35,11 @@ export default {
                 return this.workCard['subject'];
             }
         },
+        classifications() {
+            if (this.workCard != null) {
+                return this.workCard['classification'];
+            }
+        },
         languages() {
             if (this.workCard != null) {
                 return this.workCard['language'];
@@ -77,6 +82,14 @@ export default {
                 {{ subject }}
             </div>
         </div>
+        <!--
+        <div class="flex flex-wrap mt-2 gap-1">
+            <div class="rounded-full text-xs px-2 py-1 bg-primary-green text-primary-white"
+                 v-for="classification in classifications">
+                {{ classification }}
+            </div>
+        </div>
+        -->
         <div class="max-w-2xl py-3">
             {{ summary }}
         </div>
