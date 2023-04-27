@@ -71,7 +71,7 @@ export const useProductStore = defineStore('product', {
 				return getFullImageUrl(getFnurgelFromUri(foundInstance['@id']), foundInstance.identifiedBy[0].value);
 			}
 
-			return getFullImageUrl('10145888','9789185251872');
+			return '';
 		},
 	},
 	actions: {
