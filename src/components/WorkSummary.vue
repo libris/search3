@@ -4,6 +4,7 @@ import { useProductStore } from "@/views/ProductPage/store";
 import { getItemLabel } from "@/lxljs/display";
 import { getResources } from "@/lib/resources";
 import settings from '@/lib/settings';
+import {getAtPath} from "@/lib/item";
 
 export default {
     name: "WorkSummary",
@@ -14,11 +15,10 @@ export default {
         },
     },
     computed: {
-        ...mapState(useProductStore, ['quoted', 'workCard']),
-        contributions() {
-            if (this.workCard != null) {
-                return this.workCard['contribution'];
-            }
+        ...mapState(useProductStore, ['quoted', 'workCard', 'contributions']),
+        contribution() {
+            console.log(`COTRIBUTIONS: ${this.contributions}`)
+            return this.contributions;
         },
         titles() {
             if (this.workCard != null) {
@@ -66,8 +66,10 @@ export default {
                 {{ language }}
             </div>
         </div>
-        <div v-for="contribution in contributions">
-            {{ contribution }}
+        <div v-for="c in contribution">
+            {{c.role.join(', ')}} 
+            <a v-if="c.link" :href="`/${c.link}`" class="underline">{{c.agent}}</a>
+            <span v-else>{{c.agent}}</span>
         </div>
 
         <div class="flex flex-wrap mt-2 gap-1">
