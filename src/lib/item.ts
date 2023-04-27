@@ -1,5 +1,4 @@
 import { sortBy, head, get } from 'lodash-es';
-import {arrayPathToString} from "@/lxljs/string";
 
 export const getImageUrl = (id: string, isbn: string) => {
 	return `https://xinfo.libris.kb.se/xinfo/xinfo?type=record&identifier=libris-bib:${id},isbn:${isbn}`
@@ -32,7 +31,7 @@ export const getWorkImageUrl = (work) => {
 	const isbns = getAtPath(i, ['*', 'identifiedBy', {'@type': 'ISBN'}, 'value']);
 	const isbn = isbns.length > 0 ? head(isbns) : '';
 	console.log(`fnurgel: ${fnurgel} isbn: ${JSON.stringify(isbn)}`);
-	return getFullImageUrl(fnurgel, isbn);
+	return getImageUrl(fnurgel, isbn);
 }
 
 export const publicationYear = (instance) => {
