@@ -3,6 +3,7 @@ import { getChip, getItemSummary, getItemLabel } from "@/lxljs/display";
 import { getResources } from "@/lib/resources";
 import settings from "@/lib/settings";
 import { getRelatedRecords } from '@/lib/http';
+import { useQueryStore } from "@/stores/query";
 
 export const useSearchResults = defineStore('searchResults', {
 	state: () => ({
@@ -35,19 +36,12 @@ export const useSearchResults = defineStore('searchResults', {
 		},
 	},
 	actions: {
-		async query(values = {}) {
-			if (values.q == null || values.q == '') {
-				values.q = '*';
-			}
+		async query() {
+			const query = useQueryStore().query;
 
-			console.log('run query......', values);
+			console.log('run query......', query);
 
-			const response = await getRelatedRecords({
-				'_limit': 20,
-				'@type': 'Text',
-				'_sort': '',
-				...values,
-			}, settings.apiPath);
+			const response = await getRelatedRecords(query, settings.apiPath);
 
 			this.$reset();
 

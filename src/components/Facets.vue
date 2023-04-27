@@ -8,6 +8,7 @@
 			v-for="(dimensionValue, dimensionKey, index) in sortedFacets"
 			:key="dimensionKey"
 			:group="dimensionValue"
+			@change="onGroupChange"
 		/>
 	</div>
 </template>
@@ -20,6 +21,10 @@ import FacetGroup from './FacetGroup.vue';
 
 export default {
 	name: 'Facets',
+	emits: ['update:facets'],
+	data: () => ({
+		queries: {},
+	}),
 	components: {
 		FacetGroup,
 	},
@@ -48,5 +53,22 @@ export default {
 			return ordered;
 		},
 	},
+	methods: {
+		onGroupChange(value) {
+			const newValue = {...this.queries}
+			newValue[value.dimension] = value.selected;
+			this.queries = newValue;
+		},
+	},
+	watch: {
+		queries() {
+			let results = [];
+			Object.keys(this.queries).forEach((dimension) =>
+				results.push(...this.queries[dimension])
+			);
+
+			this.$emit('update:facets', results);
+		}
+	}
 };
 </script>

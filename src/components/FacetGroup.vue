@@ -12,8 +12,9 @@ export default {
 		Facet,
 		Checkbox,
 	},
+	emits: ['change'],
 	data: () => ({
-		selected: [],
+		selectedFacets: [],
 	}),
 	props: {
 		group: Object,
@@ -48,6 +49,7 @@ export default {
 					object: o.object,
 					amount: o.totalItems,
 					link: o.view['@id'],
+					query: self.getFacetQueryParam(o.view['@id']),
 					featured: self.featuredComparison(o),
 				};
 			});
@@ -113,7 +115,19 @@ export default {
 		getFacetLabel(facet) {
 			return facet.label + ' (' + getCompactNumber(facet.amount) + ')';
 		},
+		getFacetQueryParam(link) {
+			const split = link.split('&');
+			return split[split.length-1];
+		},
 	},
+	watch: {
+		selectedFacets() {
+			this.$emit('change', {
+				dimension: this.group.dimension,
+				selected: this.selectedFacets
+			});
+		},
+	}
 };
 </script>
 
@@ -129,7 +143,11 @@ export default {
 			class="mb-1 last-of-type:mb-0"
 		>
 			<!-- <Facet :facet="facet" /> -->
-			<Checkbox :label="getFacetLabel(facet)" :value="facet.link" v-model="selected" />
+			<Checkbox
+				:label="getFacetLabel(facet)"
+				:value="facet.query"
+				v-model="selectedFacets"
+			/>
 		</div>
 	</div>
 </template>

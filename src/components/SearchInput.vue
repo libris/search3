@@ -8,10 +8,6 @@
 				arrow-padding="16"
 			>
 				<div class="search-input">
-					<div class="search-input-attribute" v-for="item in attributes" v-bind:key="item['@id']">
-						{{ item.prefLabel != null ? item.prefLabel : item.label }}
-					</div>
-
 					<input
 						placeholder="Sök innehåll"
 						type="search"
@@ -46,24 +42,12 @@ export default defineComponent({
 	data() {
 		return {
 			visible: false,
-			attributes: [],
 			timer: null,
 		}
 	},
 	methods: {
 		submit() {
-			let searchValue = {};
-
-			this.attributes.forEach((attribute) => {
-				if (searchValue[attribute['@type']] == null) {
-					searchValue[attribute['@type']] = [];
-				}
-
-				searchValue[attribute['@type']].push(attribute);
-			});
-
 			this.$emit('search', {
-				...searchValue,
 				q: this.$refs['textInput'].value,
 			});
 		},
@@ -83,14 +67,6 @@ export default defineComponent({
 		},
 		onInputBlur() {
 			this.visible = false;
-		},
-		addAttribute(attribute) {
-			const inList = this.attributes.indexOf(attribute);
-			if (inList == -1) {
-				this.attributes.push(attribute);
-			} else {
-				this.attributes.splice(inList, 1);
-			}
 		},
 	},
 });
@@ -119,15 +95,6 @@ export default defineComponent({
 	border-bottom-left-radius: 6px;
 	display: flex;
 	align-items: center;
-}
-
-.search-input-attribute {
-	font-size: .6rem;
-	border-radius: 6px;
-	padding: 4px 6px;
-	background-color: blue;
-	color: white;
-	margin-left: 6px;
 }
 
 input[type="search"] {

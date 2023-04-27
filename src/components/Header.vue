@@ -10,19 +10,16 @@ export default {
 		SearchInput,
 	},
 	computed: {
-		...mapWritableState(useQueryStore, ['Topic', 'GenreForm', 'Language', 'q']),
+		...mapWritableState(useQueryStore, ['q']),
 	},
 	methods: {
 		onSearch(values) {
-			const store = useQueryStore();
+			// const queryStore = useQueryStore();
+			// queryStore.$reset();
 			const data = useSearchResults();
 
-			store.$reset();
-			Object.keys(values).forEach((key) => {
-				this[key] = values[key];
-			});
-
-			data.query(values);
+			this.q = values.q;
+			data.query();
 		},
 	},
 };

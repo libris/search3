@@ -1,5 +1,5 @@
 <script lang="ts">
-import { mapActions, mapState } from 'pinia';
+import { mapActions, mapState, mapWritableState } from 'pinia';
 import { useSearchResults } from '@/views/SearchResults/store';
 import { useQueryStore } from '@/stores/query';
 import { getFnurgelFromUri, getWorkImageUrl} from '@/lib/item';
@@ -7,12 +7,15 @@ import Grid from '../../components/Grid.vue';
 import Facets from '../../components/Facets.vue';
 
 export default {
+	data: () => ({
+		selectedFacets: [],
+	}),
 	components: {
 		Facets,
 		Grid,
 	},
 	computed: {
-		...mapState(useQueryStore, []),
+		...mapWritableState(useQueryStore, ['facets']),
 		...mapState(useSearchResults, {
 			books: 'booksFromQuery',
 		}),
@@ -26,13 +29,15 @@ export default {
 		},
 	},
 	mounted() {
-		console.log('books', JSON.parse(JSON.stringify(this.books)));
 		this.query();
 	},
 	watch: {
-		books: (value) => {
+		books(value) {
 			console.log('books', JSON.parse(JSON.stringify(value)));
-		}
+		},
+		selectedFacets() {
+			this.facets = this.selectedFacets;
+		},
 	}
 };
 </script>
@@ -44,7 +49,7 @@ export default {
 				Förfina sökning
 			</h3>
 
-			<Facets />
+			<Facets v-model:facets="selectedFacets" />
 		</div>
 
 		<Grid>
