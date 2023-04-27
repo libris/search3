@@ -6,6 +6,6 @@ type DisplayPreferences = {
 
 export const useDisplayPreferences = defineStore('displayPreferences', {
 	state: (): DisplayPreferences => ({
-		mode: 'cards',
+		mode: 'list',
 	}),
 });
