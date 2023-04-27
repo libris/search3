@@ -46,7 +46,7 @@ export default {
             }
         },
         summary() {
-            if (this.workData != null && this.workData.hasOwnProperty('summary'))  {
+            if (this.workData != null && this.workData.hasOwnProperty('summary')) {
                 return getItemLabel(this.workData.summary[0], getResources(), this.quoted, settings);
             }
         }
@@ -61,11 +61,13 @@ export default {
             <strong v-for="title in titles">
                 {{ title }}
             </strong>
+
             <div class="rounded-full max-h-6 text-xs px-2 py-1 bg-signal-yellow text-primary-white"
                  v-for="language in languages">
                 {{ language }}
             </div>
         </div>
+
         <div v-for="c in contribution">
             {{c.role.join(', ')}} 
             <a v-if="c.link" :href="`/${c.link}`" class="underline">{{c.agent}}</a>
@@ -78,8 +80,9 @@ export default {
                 {{ gf }}
             </div>
         </div>
+
         <div class="flex flex-wrap mt-2 gap-1">
-        <div class="rounded-full text-xs px-2 py-1 bg-primary-orange text-primary-white"
+            <div class="rounded-full text-xs px-2 py-1 bg-primary-orange text-primary-white"
                  v-for="subject in subjects">
                 {{ subject }}
             </div>
