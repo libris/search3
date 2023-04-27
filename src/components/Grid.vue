@@ -1,31 +1,31 @@
 <template>
 	<div class="block w-full">
-		<div class="flex w-full justify-between">
+		<div class="flex w-full justify-between mb-2">
 			<div class="flex-1"></div>
 
 			<div class="flex gap-x-2">
 				<div
-					class="cursor-pointer"
+					class="cursor-pointer text-lg"
 					:class="mode == 'cards' ? 'text-secondary-blue' : 'text-primary-black'"
 					@click="setDisplayMode('cards')"
 				>
-					Cards
+					<font-awesome-icon icon="fa-solid fa-table-cells-large" />
 				</div>
 
 				<div
-					class="cursor-pointer"
+					class="cursor-pointer text-lg"
 					:class="mode == 'list' ? 'text-secondary-blue' : 'text-primary-black'"
 					@click="setDisplayMode('list')"
 				>
-					List
+					<font-awesome-icon icon="fa-solid fa-list" />
 				</div>
 
 				<div
-					class="cursor-pointer"
+					class="cursor-pointer text-lg"
 					:class="mode == 'compactlist' ? 'text-secondary-blue' : 'text-primary-black'"
 					@click="setDisplayMode('compactlist')"
 				>
-					Compact list
+					<font-awesome-icon icon="fa-solid fa-table-list" />
 				</div>
 			</div>
 		</div>
