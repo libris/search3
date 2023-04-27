@@ -48,7 +48,7 @@ export default {
 		</div>
 
 		<Grid>
-			<div v-for="book in books" :key="book['@id']">
+			<div class="mt-4" v-for="book in books" :key="book['@id']">
 				<router-link :to="this.routerPath(book['@id'])" :title="book.title">
 					<div
 						class="w-full pt-[70%] bg-no-repeat bg-contain bg-center"
