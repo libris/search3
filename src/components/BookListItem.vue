@@ -79,7 +79,7 @@
 				</div>
 
 				<div v-if="book.genreFormCalculated != null" class="mt-4">
-					<div class="font-semibold text-secondary-turquoise">Genre / form</div>
+					<div class="font-semibold text-secondary-turquoise">{{ getPropertyLabel('genreForm') }}</div>
 
 					<div class="flex flex-wrap gap-1">
 						<span
@@ -172,7 +172,7 @@
 </template>
 
 <script lang="ts">
-import { getFnurgelFromUri, getWorkImageUrl } from '@/lib/item';
+import { getFnurgelFromUri, getPropertyLabel, getWorkImageUrl } from '@/lib/item';
 import { useDisplayPreferences } from '@/stores/displayPreferences';
 import { mapState } from 'pinia';
 
@@ -185,6 +185,7 @@ export default {
 		...mapState(useDisplayPreferences, ['mode']),
 	},
 	methods: {
+		getPropertyLabel,
 		getWorkImageUrl,
 		getFnurgelFromUri,
 		routerPath(id: string) {

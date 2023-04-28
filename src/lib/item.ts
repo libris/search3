@@ -1,6 +1,14 @@
 import { useI18nStore } from '@/stores/i18n';
 import { sortBy, head, get } from 'lodash-es';
 import { getUiPhraseByLang } from '@/lxljs/string';
+import { getLabelByLang } from "@/lxljs/string";
+import settings from "@/lib/settings";
+import { getResources } from "@/lib/resources";
+
+export const getPropertyLabel = (property: string) => {
+	const label = getLabelByLang(property, settings.language, getResources());
+	return label.charAt(0).toUpperCase() + label.slice(1);
+}
 
 export const getImageUrl = (id: string, isbn: string) => {
 	return `https://xinfo.libris.kb.se/xinfo/xinfo?type=record&identifier=libris-bib:${id},isbn:${isbn}`

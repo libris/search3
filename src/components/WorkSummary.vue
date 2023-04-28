@@ -5,6 +5,7 @@ import { getItemLabel } from "@/lxljs/display";
 import { getResources } from "@/lib/resources";
 import settings from '@/lib/settings';
 import {getAtPath} from "@/lib/item";
+import { getPropertyLabel } from "@/lib/item";
 
 export default {
     name: "WorkSummary",
@@ -30,10 +31,16 @@ export default {
                 return this.workCard['genreForm'];
             }
         },
+        gfLabel() {
+          return getPropertyLabel('genreForm');
+        },
         subjects() {
             if (this.workCard != null) {
                 return this.workCard['subject'];
             }
+        },
+        subjectLabel() {
+            return getPropertyLabel('subject');
         },
         classifications() {
             if (this.workCard != null) {
@@ -75,14 +82,16 @@ export default {
             <a v-if="c.link" :href="`/${c.link}`" class="underline">{{c.agent}}</a>
             <span v-else>{{c.agent}}</span>
         </div>
-        <div v-if="genreForm" class="font-semibold text-secondary-turquoise mt-3">Genre / form</div>
+        <div v-if="genreForm" class="font-semibold text-secondary-turquoise mt-3">
+            {{ gfLabel }}
+        </div>
         <div class="flex flex-wrap mt-1 gap-1">
             <div class="text-s border border-secondary-turquoise text-secondary-turquoise rounded-full py-0.5 px-2"
                  v-for="gf in genreForm">
                 {{ gf }}
             </div>
         </div>
-        <div v-if="subjects" class="font-semibold text-secondary-turquoise mt-3">Ämne</div>
+        <div v-if="subjects" class="font-semibold text-secondary-turquoise mt-3">{{ subjectLabel }}</div>
         <div class="flex flex-wrap mt-1 gap-1">
             <div class="text-s border border-secondary-turquoise text-secondary-turquoise rounded-full py-0.5 px-2"
                  v-for="subject in subjects">

@@ -1,9 +1,9 @@
 import { defineStore } from "pinia";
 import { getDocument } from '@/lib/http';
 import { splitJson } from "@/lxljs/data";
-import {getCard, getChip, getItemLabel, getItemSummary} from '@/lxljs/display';
+import { getCard, getChip, getItemLabel, getItemSummary } from '@/lxljs/display';
 import { getResources } from '@/lib/resources';
-import {getAtPath, getFnurgelFromUri, getFullImageUrl, asArray, unwrap} from '@/lib/item';
+import { getAtPath, getFnurgelFromUri, getFullImageUrl, asArray, unwrap } from '@/lib/item';
 
 import settings from '@/lib/settings';
 
