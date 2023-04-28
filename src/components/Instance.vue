@@ -71,10 +71,13 @@ export default {
 }
 </script>
 <template>
-    <span @click="toggleExpanded" :class="{ ['border-primary-blue']: this.isExpanded, ['border-secondary-grey/20'] :!this.isExpanded }" class="flex justify-between mb-4 border py-2">
+    <span @click="toggleExpanded" :class="{ ['border-primary-blue']: this.isExpanded, ['border-secondary-grey/20'] :!this.isExpanded }" class="flex justify-between mb-4 border py-2 rounded-lg">
         <div class="pl-3">
+
             <router-link :to="`/${getFnurgelFromUri(this.instance['@id'])}`">
-                {{ title }}
+                <h2 class="font-semibold">
+                    {{ title }}
+                </h2>
             </router-link>
             <div>
                 {{ type }}
@@ -88,17 +91,18 @@ export default {
             <div>
                 {{ extent }}
             </div>
-            <div>
+            <div class="text-secondary-grey mt-2">
                 Finns på {{ numberOfHoldings }} bibliotek
             </div>
-            <div v-if="isExpanded" v-for="holding in holdings">
+            <div class="text-secondary-grey mt-1"
+                 v-if="isExpanded" v-for="holding in holdings">
                 <holding :key="holding['@id']"
                          :holding="holding"
                          :instance-id="getFnurgelFromUri(this.instance['@id'])"
                 />
             </div>
         </div>
-        <div class="pb-2 pt-1 pr-3">
+        <div class="pb-2 pt-1 pr-3 rounded-lg">
             <img :src="imageUrl" alt="">
         </div>
     </span>

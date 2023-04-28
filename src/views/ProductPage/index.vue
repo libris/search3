@@ -52,7 +52,7 @@ export default {
                 <work-summary :work-data="work"/>
             </div>
             <div>
-                <img class="w-full max-w-xs" :src="imageUrl"/>
+                <img class="w-full max-w-xs rounded-lg" :src="imageUrl"/>
             </div>
         </div>
         <div>
