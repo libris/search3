@@ -132,14 +132,14 @@
 					<div class="flex items-center">
 						<h3 class="text-xl font-semibold">
 							{{ book.title }}
-						</h3>
 
-						<div v-if="book.language != null" class="text-secondary-grey">
-							<span class="mx-2 font-bold">&bull;</span>
-							<span v-for="language in book.language">
-								{{ language }}
-							</span>
-						</div>
+							<div v-if="book.language != null" class="inline text-sm text-secondary-grey">
+								<span v-for="language in book.language">
+									<span class="mx-1 font-bold">&bull;</span>
+									{{ language }}
+								</span>
+							</div>
+						</h3>
 					</div>
 				</router-link>
 

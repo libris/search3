@@ -7,7 +7,7 @@
 			border
 			border-secondary-grey
 			py-2 px-4
-			rounded-md
+			rounded-sm
 			bg-primary-white
 		`"
 		:class="class"
