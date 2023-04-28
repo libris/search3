@@ -4,8 +4,8 @@ export const useQueryStore = defineStore('query', {
 	state: () => ({
 		facets: [],
 		q: '',
-		'_limit': 20,
-		'_sort': '',
+		limit: 20,
+		sort: '',
 		'@type': 'Text',
 	}),
 	getters: {
@@ -18,8 +18,8 @@ export const useQueryStore = defineStore('query', {
 
 			return {
 				'q': state['q'] != '' ? state['q'] : '*',
-				'_limit': state['_limit'],
-				'_sort': state['_sort'],
+				'_limit': state['limit'],
+				'_sort': state['sort'],
 				'@type': state['@type'],
 				...facets,
 			};
