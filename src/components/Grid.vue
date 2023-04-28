@@ -34,7 +34,7 @@
 							v-for="option in sortOptions"
 							:value="option.query.endsWith('_sortKeyByLang') ? `${option.query}.sv` : option.query"
 						>
-							{{ option.label }}
+							{{ translatePhrase(option.label) }}
 						</option>
 					</Select>
 				</div>
@@ -52,6 +52,7 @@ import { mapWritableState } from 'pinia';
 import { useSearchResults } from '@/views/SearchResults/store';
 import { useDisplayPreferences } from '@/stores/displayPreferences';
 import { useQueryStore } from '@/stores/query';
+import { translatePhrase } from '@/lib/item';
 import settings from '@/lib/settings';
 import Select from './Select.vue';
 
@@ -86,6 +87,7 @@ export default {
 		},
 	},
 	methods: {
+		translatePhrase,
 		setDisplayMode(mode: String) {
 			this.mode = mode;
 		},
