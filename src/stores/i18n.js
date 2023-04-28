@@ -3,6 +3,7 @@ import { defineStore } from "pinia";
 export const useI18nStore = defineStore('i18n', {
 	state: () => ({
 		current: null,
+		source: null,
 	}),
 	actions: {
 		async _init() {
@@ -12,6 +13,7 @@ export const useI18nStore = defineStore('i18n', {
 
 			// TODO: Fancy fix this l8er
 			this.current = result['sv'];
+			this.source = result;
 		},
 	},
 });
