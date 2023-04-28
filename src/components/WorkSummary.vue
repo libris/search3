@@ -57,32 +57,34 @@ export default {
 
 <template>
     <div>
-        <div class="flex flex-wrap mt-2 gap-1 py-3">
-            <strong v-for="title in titles">
+        <h3 class="text-xl font-semibold">
+            <span v-for="title in titles">
                 {{ title }}
-            </strong>
+            </span>
 
-            <div class="rounded-full max-h-6 text-xs px-2 py-1 bg-signal-yellow text-primary-white"
-                 v-for="language in languages">
-                {{ language }}
+            <div v-if="languages != null" class="inline text-sm text-secondary-grey">
+								<span v-for="language in languages">
+									<span class="mx-1 font-bold">&bull;</span>
+									{{ language }}
+								</span>
             </div>
-        </div>
+        </h3>
 
-        <div v-for="c in contribution">
+        <div class="text-secondary-grey mt-1" v-for="c in contribution">
             {{c.role.join(', ')}} 
             <a v-if="c.link" :href="`/${c.link}`" class="underline">{{c.agent}}</a>
             <span v-else>{{c.agent}}</span>
         </div>
-
-        <div class="flex flex-wrap mt-2 gap-1">
-            <div class="rounded-full text-xs px-2 py-1 bg-secondary-turquoise text-primary-white"
+        <div v-if="genreForm" class="font-semibold text-secondary-turquoise mt-3">Genre / form</div>
+        <div class="flex flex-wrap mt-1 gap-1">
+            <div class="text-s border border-secondary-turquoise text-secondary-turquoise rounded-full py-0.5 px-2"
                  v-for="gf in genreForm">
                 {{ gf }}
             </div>
         </div>
-
-        <div class="flex flex-wrap mt-2 gap-1">
-            <div class="rounded-full text-xs px-2 py-1 bg-primary-orange text-primary-white"
+        <div v-if="subjects" class="font-semibold text-secondary-turquoise mt-3">Ämne</div>
+        <div class="flex flex-wrap mt-1 gap-1">
+            <div class="text-s border border-secondary-turquoise text-secondary-turquoise rounded-full py-0.5 px-2"
                  v-for="subject in subjects">
                 {{ subject }}
             </div>
