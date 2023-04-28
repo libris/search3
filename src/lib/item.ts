@@ -1,4 +1,6 @@
+import { useI18nStore } from '@/stores/i18n';
 import { sortBy, head, get } from 'lodash-es';
+import { getUiPhraseByLang } from '@/lxljs/string';
 
 export const getImageUrl = (id: string, isbn: string) => {
 	return `https://xinfo.libris.kb.se/xinfo/xinfo?type=record&identifier=libris-bib:${id},isbn:${isbn}`
@@ -94,3 +96,13 @@ const isSubMap = (a, b) => {
 export const unwrap = (x) => {
 	return x instanceof Array && x.length > 0 ? x[0] : x;
 }
+
+export const translatePhrase = (string: string) => {
+	const i18nStore = useI18nStore();
+
+	return getUiPhraseByLang(
+		string,
+		'sv', // FIXME fancy fix this l8er
+		i18nStore.source,
+	);
+};
