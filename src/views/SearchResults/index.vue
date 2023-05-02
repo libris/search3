@@ -23,6 +23,7 @@ export default {
 	},
 	methods: {
 		...mapActions(useSearchResults, ['query']),
+		...mapActions(useQueryStore, ['redirect']),
 	},
 	mounted() {
 		this.query();
@@ -33,6 +34,9 @@ export default {
 		},
 		selectedFacets() {
 			this.facets = this.selectedFacets;
+			this.redirect();
+		},
+		$route() {
 			this.query();
 		},
 	}

@@ -13,6 +13,7 @@
 						type="search"
 						ref="textInput"
 						@keypress="onInputKeypress"
+						v-model="q"
 					/>
 				</div>
 
@@ -32,6 +33,8 @@
 </template>
 
 <script lang="ts">
+import { useQueryStore } from "@/stores/query";
+import { mapWritableState } from "pinia";
 import { defineComponent } from "vue";
 import Popper from "vue3-popper";
 
@@ -45,11 +48,12 @@ export default defineComponent({
 			timer: null,
 		}
 	},
+	computed: {
+		...mapWritableState(useQueryStore, ['q']),
+	},
 	methods: {
 		submit() {
-			this.$emit('search', {
-				q: this.$refs['textInput'].value,
-			});
+			this.$emit('search');
 		},
 		onInputKeypress(event) {
 			clearTimeout(this.timer);
@@ -58,7 +62,9 @@ export default defineComponent({
 				event.preventDefault();
 				this.submit();
 			} else {
-				this.timer = setTimeout(this.submit, 250);
+				if (window.location.pathname === '/find') {
+					this.timer = setTimeout(this.submit, 250);
+				}
 			}
 		},
 		onInputFocus() {

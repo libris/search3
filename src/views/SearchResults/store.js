@@ -2,8 +2,7 @@ import { defineStore } from "pinia";
 import { getChip, getItemSummary, getItemLabel } from "@/lxljs/display";
 import { getResources } from "@/lib/resources";
 import settings from "@/lib/settings";
-import { getRelatedRecords } from '@/lib/http';
-import { useQueryStore } from "@/stores/query";
+import { getQueryParams, getRelatedRecords } from '@/lib/http';
 
 export const useSearchResults = defineStore('searchResults', {
 	state: () => ({
@@ -37,10 +36,7 @@ export const useSearchResults = defineStore('searchResults', {
 	},
 	actions: {
 		async query() {
-			const query = useQueryStore().query;
-
-			console.log('run query......', query);
-
+			const query = getQueryParams();
 			const response = await getRelatedRecords(query, settings.apiPath);
 
 			this.$reset();

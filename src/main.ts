@@ -1,18 +1,13 @@
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
 import { initStore } from './piniaPlugin';
-import { createRouter, createWebHistory } from 'vue-router';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import routes from './lib/routes';
+import router from '@/lib/router';
 import './lib/icons';
 import App from './App.vue';
 
 const pinia = createPinia();
 const app = createApp(App);
-const router = createRouter({
-	history: createWebHistory(import.meta.env.VITE_VUE_APP_BASE_URL || '/'),
-	routes,
-});
 
 pinia.use(initStore);
 app.use(pinia);

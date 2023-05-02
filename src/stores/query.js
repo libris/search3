@@ -1,13 +1,20 @@
 import { defineStore } from "pinia";
+import router from '@/lib/router';
+import { getQueryParams } from "@/lib/http";
 
 export const useQueryStore = defineStore('query', {
-	state: () => ({
-		facets: [],
-		q: '',
-		limit: 20,
-		sort: '',
-		'@type': 'Text',
-	}),
+	state: () => {
+		const queryParams = getQueryParams();
+
+		return {
+			facets: [],
+			q: '',
+			'_limit': 20,
+			'_sort': '',
+			'@type': 'Text',
+			...queryParams,
+		};
+	},
 	getters: {
 		query: (state) => {
 			let facets = {};
@@ -18,11 +25,20 @@ export const useQueryStore = defineStore('query', {
 
 			return {
 				'q': state['q'] != '' ? state['q'] : '*',
-				'_limit': state['limit'],
-				'_sort': state['sort'],
+				'_limit': state['_limit'],
+				'_sort': state['_sort'],
 				'@type': state['@type'],
 				...facets,
 			};
+		},
+	},
+	actions: {
+		redirect() {
+			if (window.location.pathname == '/find') {
+				router.replace({ path: '/find', query: this.query });
+			} else {
+				router.push({ path: '/find', query: this.query });
+			}
 		},
 	},
 });
