@@ -20,7 +20,7 @@
 export default {
 	name: 'Select',
 	props: {
-		value: {
+		modelValue: {
 			type: [String, Number],
 			default: '',
 		},
@@ -35,13 +35,13 @@ export default {
 	},
 	data() {
 		return {
-			selected: this.value,
+			selected: this.modelValue,
 		};
 	},
 	methods: {
 		handleChange(event) {
 			this.selected = event.target.value;
-			this.$emit('update:value', this.selected);
+			this.$emit('update:modelValue', this.selected);
 			this.$emit('change', this.selected);
 		},
 	},
