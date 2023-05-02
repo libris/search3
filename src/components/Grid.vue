@@ -29,7 +29,7 @@
 				</div>
 
 				<div class="ml-1">
-					<Select name="sortOptions" v-model="this.sort" @change="onSortChange">
+					<Select name="sortOptions" v-model="_sort" @change="redirect">
 						<option
 							v-for="option in sortOptions"
 							:value="option.query.endsWith('_sortKeyByLang') ? `${option.query}.sv` : option.query"
@@ -48,8 +48,7 @@
 </template>
 
 <script lang="ts">
-import { mapWritableState } from 'pinia';
-import { useSearchResults } from '@/views/SearchResults/store';
+import { mapActions, mapWritableState } from 'pinia';
 import { useDisplayPreferences } from '@/stores/displayPreferences';
 import { useQueryStore } from '@/stores/query';
 import { translatePhrase } from '@/lib/item';
@@ -68,7 +67,7 @@ export default {
 	},
 	computed: {
 		...mapWritableState(useDisplayPreferences, ['mode']),
-		...mapWritableState(useQueryStore, ['sort']),
+		...mapWritableState(useQueryStore, ['_sort']),
 		containerClassNames() {
 			switch (this.mode) {
 				case 'cards':
@@ -87,13 +86,11 @@ export default {
 		},
 	},
 	methods: {
+		...mapActions(useQueryStore, ['redirect']),
 		translatePhrase,
 		setDisplayMode(mode: String) {
 			this.mode = mode;
 		},
-		onSortChange() {
-			useSearchResults().query();
-		},
-	}
+	},
 };
 </script>
