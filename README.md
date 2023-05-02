@@ -1,3 +1,34 @@
+Get started:
+
+```
+yarn install
+yarn dev
+```
+
+Build for production:
+
+```
+yarn build
+```
+
+Settings are in `src/lib/settings.js`. Many can be set with environment variables.
+For example, to use libris-dev/id-dev instead of local API endpoints:
+
+```
+export VITE_VUE_APP_API_PATH="https://libris-dev.kb.se"
+export VITE_VUE_APP_ID_PATH="https://id-dev.kb.se"
+yarn dev  # or yarn build
+```
+
+A few settings (`idPath`, `apiPath`) can be set at runtime in production (but currently not development!) mode; see
+`public/runtimeConfig.js`. So you can `yarn build`, write a `runtimeConfig.js` to the `dist/` directory, and the app
+will use settings from that file.
+
+Note that Vite only exposes environment variables prefixed with `VITE_`.
+
+
+---
+
 # Vue 3 + TypeScript + Vite
 
 This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
