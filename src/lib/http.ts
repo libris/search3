@@ -133,6 +133,23 @@ function request(opts: RequestOptions, data = undefined) {
 	});
 }
 
+export function getHoldings(instanceUri) {
+	const queryPairs = {
+		q: '*',
+		'_limit': 200,
+		'_sort': '',
+		'itemOf.@id': instanceUri,
+		'@type': 'Item',
+	};
+
+	let query = `${settings.apiPath}/find.jsonld?`;
+	each(queryPairs, (v, k) => {
+		query += (`${encodeURIComponent(k)}=${encodeURIComponent(v)}&`);
+	});
+
+	return fetch(query);
+}
+
 export function getRelatedRecords(queryPairs, apiPath) {
 	// Returns a list of records that links to <id> with <property>
 	return new Promise((resolve, reject) => {
