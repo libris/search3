@@ -136,7 +136,7 @@ function request(opts: RequestOptions, data = undefined) {
 export function getHoldings(instanceUri) {
 	const queryPairs = {
 		q: '*',
-		'_limit': 20,
+		'_limit': 200,
 		'_sort': '',
 		'itemOf.@id': instanceUri,
 		'@type': 'Item',
