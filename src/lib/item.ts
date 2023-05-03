@@ -44,7 +44,6 @@ export const getWorkImageUrl = (work) => {
 	const fnurgel = i.length > 0 ? getFnurgelFromUri(head(i)['@id']) : '';
 	const isbns = getAtPath(i, ['*', 'identifiedBy', {'@type': 'ISBN'}, 'value']);
 	const isbn = isbns.length > 0 ? head(isbns) : '';
-	console.log(`fnurgel: ${fnurgel} isbn: ${JSON.stringify(isbn)}`);
 	return getImageUrl(fnurgel, isbn);
 }
 
