@@ -1,8 +1,10 @@
 import { defineStore } from "pinia";
 import { getChip, getItemSummary, getItemLabel } from "@/lxljs/display";
 import { getResources } from "@/lib/resources";
+import { splitJson } from "@/lxljs/data";
+import { getAtPath } from "@/lib/item";
 import settings from "@/lib/settings";
-import { getQueryParams, getRelatedRecords } from '@/lib/http';
+import { getQueryParams, getRelatedRecords, getDocument } from '@/lib/http';
 
 export const useSearchResults = defineStore('searchResults', {
 	state: () => ({
@@ -77,6 +79,11 @@ export const useSearchResults = defineStore('searchResults', {
 			stateKeys.forEach((key) => {
 				if (key === 'Text') {
 					this.$state[key] = this.$state[key].map(this.calculateDisplayMeta);
+					const promises = this.$state[key].map(this.calculateFetchedMeta);
+
+					Promise.all(promises).then((results) => {
+						this.$state[key] = results;
+					});
 				}
 			});
 		},
@@ -89,6 +96,35 @@ export const useSearchResults = defineStore('searchResults', {
 				if (clone.genreForm != null && Array.isArray(clone.genreForm)) {
 					clone.genreFormCalculated = clone.genreForm.map((genre) => {
 						return getItemLabel(genre, getResources(), [], settings);
+					});
+				}
+			}
+
+			return clone;
+		},
+
+		async calculateFetchedMeta(item) {
+			const clone = JSON.parse(JSON.stringify(item));
+			const response = await getDocument(`${clone['@id']}/data.jsonld`);
+			const split = splitJson(response.data);
+
+			if (item['@type'] === 'Text') {
+				if (clone['@reverse'].hasOwnProperty('instanceOf')) {
+					clone.instanceIds = clone['@reverse']['instanceOf'].map((instance) => instance['@id']);
+					if (clone.instanceIds != null) {
+						clone.instances = clone.instanceIds.map((instanceId) => {
+							const instance = split.quoted[instanceId];
+							if (instance != null) {
+								return instance;
+							}
+						});
+					}
+				}
+
+				if (clone.instances != null) {
+					clone.holdings = 0;
+					clone.instances.forEach((instance) => {
+						clone.holdings += getAtPath(instance, ['@reverse', 'itemOf', '*', '@id']).length;
 					});
 				}
 			}

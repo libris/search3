@@ -102,7 +102,9 @@
 
 		<div class="flex items-end justify-between border-t border-t-secondary-grey/20 mt-4 pt-4">
 			<div>
-				Finns på <u class="text-secondary-turquoise">79 bibliotek</u>
+				<div v-if="book.holdings != null && book.holdings > 0">
+					Finns på <u class="text-secondary-turquoise">{{ book.holdings }} bibliotek</u>
+				</div>
 
 				<div class="flex gap-x-2">
 					<div class="rounded-md bg-secondary-grey/20 mt-2 py-2 px-4">
