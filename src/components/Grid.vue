@@ -1,6 +1,6 @@
 <template>
 	<div class="block w-full">
-		<div class="flex w-full justify-between mb-8">
+		<div class="flex w-full justify-between mb-8" v-if="displayViewOptions">
 			<div class="flex-1"></div>
 
 			<div class="flex gap-x-3 items-center">
@@ -62,6 +62,12 @@ interface SortOption {
 
 export default {
 	name: 'Grid',
+	props: {
+		displayViewOptions: {
+			type: Boolean,
+			default: true,
+		},
+	},
 	components: {
 		Select,
 	},
