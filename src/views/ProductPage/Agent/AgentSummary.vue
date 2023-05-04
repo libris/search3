@@ -1,15 +1,20 @@
 <script lang="ts">
-import { getResources } from '@/lib/resources';
-import settings from '@/lib/settings';
 import { useProductStore } from '@/views/ProductPage/store';
 import { mapState } from 'pinia';
+import Query from '@/views/SearchResults/Query.vue';
 
 export default {
 	name: 'PersonSummary',
+	components: {
+		Query,
+	},
 	computed: {
 		...mapState(useProductStore, {
 			person: 'mainEntity',
 		}),
+		searchValue() {
+			return `?@type=Text&_limit=20&and-contribution.agent.@id=${this.person['@id']}`;
+		},
 	},
 };
 </script>
@@ -26,5 +31,9 @@ export default {
 				{{ person.lifeSpan }}
             </div>
         </h2>
+	</div>
+
+	<div class="mt-8">
+		<Query :queryString="searchValue" />
 	</div>
 </template>
