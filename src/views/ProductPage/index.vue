@@ -29,7 +29,7 @@ export default {
         productStore.$reset();
     },
     watch: {
-        workId() {
+        productId() {
             const productStore = useProductStore();
             productStore.$reset();
             this.getProduct(this.productId);
