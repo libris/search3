@@ -12,8 +12,8 @@ import { each } from 'lodash-es';
 import { translateAliasedUri } from './data';
 import settings from './settings';
 
-export function getQueryParams() {
-	const params = new URLSearchParams(window.location.search);
+export function getQueryParams(queryString = window.location.search) {
+	const params = new URLSearchParams(queryString);
 	let query = {};
 	for(var value of params.keys()) {
 		query[value] = params.get(value);
