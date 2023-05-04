@@ -4,17 +4,27 @@ import { splitJson } from "@/lxljs/data";
 import { getCard, getChip, getItemLabel, getItemSummary } from '@/lxljs/display';
 import { getResources } from '@/lib/resources';
 import { getAtPath, getFnurgelFromUri, getFullImageUrl, asArray, unwrap } from '@/lib/item';
+import { getRecordType } from "@/lxljs/vocab";
 
 import settings from '@/lib/settings';
 
 export const useProductStore = defineStore('product', {
 	state: () => ({
 		current: null,
+		parentEntity: null,
 		mainEntity: null,
 		quoted: null,
 		record: null,
 	}),
 	getters: {
+		productType: (state) => {
+			if (state.mainEntity != null) {
+				const resources = getResources();
+				return getRecordType(state.mainEntity['@type'], resources.vocab, resources.context).toLowerCase();
+			}
+
+			return null;
+		},
 		instanceIds: (state) => {
             if (state.mainEntity != null && state.mainEntity.hasOwnProperty('@reverse')) {
 				if (state.mainEntity['@reverse'].hasOwnProperty('instanceOf')) {
@@ -32,11 +42,6 @@ export const useProductStore = defineStore('product', {
 				}
 			});
 		},
-		work: (state) => {
-			if (state.mainEntity != null) {
-				return state.mainEntity;
-			}
-		},
         workChip: (state) => {
             if (state.mainEntity != null) {
                 return getChip(state.mainEntity, getResources(), state.quoted, settings);
@@ -52,7 +57,7 @@ export const useProductStore = defineStore('product', {
 			if (state.mainEntity != null) {
 				return getAtPath(state.mainEntity, ['contribution', '*']).map(c => {
 					return {
-						'role':  asArray(c.role).map(r => getItemLabel(r, getResources(), state.quoted, settings)),
+						'role': asArray(c.role).map(r => getItemLabel(r, getResources(), state.quoted, settings)),
 						'agent': getItemLabel(unwrap(c.agent), getResources(), state.quoted, settings),
 						'link': getFnurgelFromUri(unwrap(asArray(c.agent).map(a => a['@id'])))
 					}
@@ -88,8 +93,16 @@ export const useProductStore = defineStore('product', {
 	},
 	actions: {
 		async getProduct(documentId) {
-			const response = await getDocument(`${documentId}/data.jsonld`);
-			const split = splitJson(response.data);
+			let response = await getDocument(`${documentId}/data.jsonld`);
+			let split = splitJson(response.data);
+
+			console.log('split', JSON.parse(JSON.stringify(split)));
+			if (split.mainEntity.instanceOf != null) {
+				this.parentEntity = split.mainEntity;
+
+				response = await getDocument(`${this.parentEntity.instanceOf['@id']}/data.jsonld`);
+				split = splitJson(response.data);
+			}
 
 			this.current = response.data;
 			this.mainEntity = split.mainEntity;

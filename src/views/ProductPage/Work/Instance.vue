@@ -66,7 +66,10 @@ export default {
             if (this.holdings != null) {
                 return this.holdings.items;
             }
-        }
+        },
+        fnurgel() {
+            return this.$route.params.fnurgel;
+        },
     },
     methods: {
         getFnurgelFromUri,
@@ -80,45 +83,50 @@ export default {
         this.holdings = await getHoldings(this.instance['@id']).then((response) =>
             response.json()
         );
+
+        if (this.instance != null && getFnurgelFromUri(this.instance['@id']) == this.fnurgel) {
+            this.isExpanded = true;
+        }
     }
 }
 </script>
 <template>
-    <span @click="toggleExpanded" :class="{ ['border-primary-blue']: this.isExpanded, ['border-secondary-grey/20'] :!this.isExpanded }" class="flex justify-between mb-4 border py-2 rounded-lg">
-        <div class="pl-3">
-
-            <router-link :to="`/${getFnurgelFromUri(this.instance['@id'])}`">
+    <router-link :to="`/${getFnurgelFromUri(this.instance['@id'])}`">
+        <span :class="{ ['border-primary-blue']: this.isExpanded, ['border-secondary-grey/20'] :!this.isExpanded }" class="flex justify-between mb-4 border py-2 rounded-lg">
+            <div class="pl-3">
                 <h2 class="font-semibold">
                     {{ title }}
                 </h2>
-            </router-link>
-            <div>
-                {{ type }}
+
+                <div>
+                    {{ type }}
+                </div>
+
+                <div>
+                    {{ identifiedBy }}
+                </div>
+                <div v-for="publication in publications">
+                    {{ publication.year }}
+                </div>
+                <div>
+                    {{ extent }}
+                </div>
+                <div class="text-secondary-grey mt-2">
+                    Finns på {{ numberOfHoldings }} bibliotek
+                </div>
+                <div class="text-secondary-grey mt-1"
+                    v-if="isExpanded" v-for="holding in items">
+                    <holding :key="holding['@id']"
+                            :holding="holding"
+                            :instance-id="getFnurgelFromUri(this.instance['@id'])"
+                    />
+                </div>
             </div>
-            <div>
-                {{ identifiedBy }}
+            <div class="pb-2 pt-1 pr-3 rounded-lg">
+                <img :src="imageUrl" alt="">
             </div>
-            <div v-for="publication in publications">
-                {{ publication.year }}
-            </div>
-            <div>
-                {{ extent }}
-            </div>
-            <div class="text-secondary-grey mt-2">
-                Finns på {{ numberOfHoldings }} bibliotek
-            </div>
-            <div class="text-secondary-grey mt-1"
-                 v-if="isExpanded" v-for="holding in items">
-                <holding :key="holding['@id']"
-                         :holding="holding"
-                         :instance-id="getFnurgelFromUri(this.instance['@id'])"
-                />
-            </div>
-        </div>
-        <div class="pb-2 pt-1 pr-3 rounded-lg">
-            <img :src="imageUrl" alt="">
-        </div>
-    </span>
+        </span>
+    </router-link>
 </template>
 <style>
 </style>
