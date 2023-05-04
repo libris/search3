@@ -243,7 +243,7 @@ export function getItemLabel(item, resources, quoted, settings, inClass = '') {
   if (!isObject(item)) {
     throw new Error(`getItemLabel was called with a non-object. Type: ${typeof item}. Value: ${item}`);
   }
-  const displayObject = getChip(item, resources, quoted, settings);
+  const displayObject = getToken(item, resources, quoted, settings);
   if (Object.keys(displayObject).length === 0) {
     lxlWarning('getItemLabel returned an empty string for item:', item);
     return '';
