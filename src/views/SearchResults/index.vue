@@ -2,9 +2,8 @@
 import { mapActions, mapState, mapWritableState } from 'pinia';
 import { useSearchResults } from '@/views/SearchResults/store';
 import { useQueryStore } from '@/stores/query';
-import Grid from '@/components/Grid.vue';
 import Facets from '@/components/Facets.vue';
-import BookListItem from '@/components/BookListItem.vue';
+import Query from './Query.vue';
 
 export default {
 	data: () => ({
@@ -12,8 +11,7 @@ export default {
 	}),
 	components: {
 		Facets,
-		Grid,
-		BookListItem,
+		Query,
 	},
 	computed: {
 		...mapWritableState(useQueryStore, ['facets']),
@@ -25,9 +23,6 @@ export default {
 		...mapActions(useSearchResults, ['query']),
 		...mapActions(useQueryStore, ['redirect']),
 	},
-	mounted() {
-		this.query();
-	},
 	watch: {
 		books(value) {
 			console.log('books', JSON.parse(JSON.stringify(value)));
@@ -35,9 +30,6 @@ export default {
 		selectedFacets() {
 			this.facets = this.selectedFacets;
 			this.redirect();
-		},
-		$route() {
-			this.query();
 		},
 	}
 };
@@ -53,12 +45,6 @@ export default {
 			<Facets v-model:facets="selectedFacets" />
 		</div>
 
-		<Grid>
-			<BookListItem
-				v-for="book in books"
-				:key="book['@id']"
-				:book="book"
-			/>
-		</Grid>
+		<Query />
 	</div>
 </template>

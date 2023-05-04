@@ -37,9 +37,11 @@ export const useSearchResults = defineStore('searchResults', {
 		},
 	},
 	actions: {
-		async query() {
-			const query = getQueryParams();
+		async query(queryString) {
+			const query = getQueryParams(queryString);
 			const response = await getRelatedRecords(query, settings.apiPath);
+
+			console.log('search response', JSON.parse(JSON.stringify(response)));
 
 			this.$reset();
 
