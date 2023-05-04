@@ -106,15 +106,10 @@
 					Finns på <u class="text-secondary-turquoise">{{ book.holdings }} bibliotek</u>
 				</div>
 
-				<div class="flex gap-x-2">
-					<div class="rounded-md bg-secondary-grey/20 mt-2 py-2 px-4">
+				<div class="flex gap-x-2" v-if="getInstanceTypes(book).length > 0">
+					<div class="rounded-md bg-secondary-grey/20 mt-2 py-2 px-4" v-for="instanceType in getInstanceTypes(book)">
 						<font-awesome-icon icon="fa fa-book" class="mr-2 text-secondary-grey" />
-						Bok
-					</div>
-
-					<div class="rounded-md bg-secondary-grey/20 mt-2 py-2 px-4">
-						<font-awesome-icon icon="fa fa-file-lines" class="mr-2 text-secondary-grey" />
-						E-Bok
+						{{ getLabel(instanceType) }}
 					</div>
 				</div>
 			</div>
@@ -177,6 +172,9 @@
 import { getFnurgelFromUri, getPropertyLabel, getWorkImageUrl } from '@/lib/item';
 import { useDisplayPreferences } from '@/stores/displayPreferences';
 import { mapState } from 'pinia';
+import { getLabelByLang } from '@/lxljs/string';
+import { getResources } from '@/lib/resources';
+import settings from '@/lib/settings';
 
 export default {
 	name: 'BookListItem',
@@ -193,6 +191,24 @@ export default {
 		routerPath(id: string) {
 			return `/${getFnurgelFromUri(id)}`;
 		},
+		getLabel(label) {
+			return getLabelByLang(label, settings.language, getResources());
+		},
+		getInstanceTypes(book) {
+			if (book.instances == null) {
+				return [];
+			}
+
+			let result = [];
+			book.instances.forEach((instance) => {
+				if (result.indexOf(instance['@type']) == -1) {
+					result.push(instance['@type']);
+				}
+			});
+
+			return result;
+		},
+
 	},
 };
 </script>
