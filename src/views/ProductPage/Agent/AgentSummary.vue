@@ -13,7 +13,7 @@ export default {
 			person: 'mainEntity',
 		}),
 		searchValue() {
-			return `?@type=Text&_limit=20&and-contribution.agent.@id=${this.person['@id']}`;
+			return `?@type=Text&_limit=20&o=${this.person['@id']}`;
 		},
 	},
 };
