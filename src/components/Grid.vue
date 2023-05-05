@@ -41,6 +41,8 @@
 			</div>
 		</div>
 
+		<slot name="top" />
+
 		<div :class="containerClassName">
 			<slot />
 		</div>
