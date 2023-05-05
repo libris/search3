@@ -1,5 +1,7 @@
 <template>
 	<div class="block w-full">
+		<slot name="top" />
+
 		<div class="flex w-full justify-between mb-8" v-if="displayViewOptions">
 			<div class="flex-1"></div>
 
@@ -40,8 +42,6 @@
 				</div>
 			</div>
 		</div>
-
-		<slot name="top" />
 
 		<div :class="containerClassName">
 			<slot />

@@ -57,10 +57,6 @@ export default {
 	<Grid :displayViewOptions="queryString == null">
 		<template #top v-if="item != null">
 			<KnowledgeCard :id="item.object['@id']" />
-
-			<h3 class="text-2xl font-semibold mb-4">
-				Sökresultat
-			</h3>
 		</template>
 
 		<BookListItem
