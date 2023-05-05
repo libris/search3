@@ -7,28 +7,23 @@ export const useQueryStore = defineStore('query', {
 		const queryParams = getQueryParams();
 
 		return {
-			facets: [],
 			q: '',
 			'_limit': 20,
 			'_sort': '',
 			'@type': 'Text',
-			...queryParams,
+			...queryParams
 		};
 	},
 	getters: {
 		query: (state) => {
-			let facets = {};
-			state.facets.forEach((facet) => {
-				let split = facet.split('=');
-				facets[split[0]] = split[1];
-			});
+			const queryParams = getQueryParams();
 
 			return {
+				...queryParams,
 				'q': state['q'] != '' ? state['q'] : '*',
 				'_limit': state['_limit'],
 				'_sort': state['_sort'],
-				'@type': state['@type'],
-				...facets,
+				'@type': 'Text',
 			};
 		},
 	},

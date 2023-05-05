@@ -2,29 +2,33 @@
 import { getResources } from '@/lib/resources';
 import { getItemLabel } from '@/lxljs/display';
 import settings from '@/lib/settings';
-import Facet from './Facet.vue';
-import { getCompactNumber } from '@/lib/math';
+import { mapState } from 'pinia';
+import { useSearchResults } from '@/views/SearchResults/store';
 
 export default {
-	name: 'FacetGroup',
-	components: {
-		Facet,
-	},
-	props: {
-		group: Object,
-	},
+	name: 'SelectedFacets',
 	computed: {
-		groupLabel() {
-			const facetType = this.group.dimension;
-			return (settings.propertyChains[facetType] || {})[settings.language] || facetType;
-		},
+		...mapState(useSearchResults, ['search']),
 		list() {
-			const list = this.group.observation.map(this.getFacetObject);
-			return list;
+			if (this.search != null && this.search.mapping != null) {
+				return this.search.mapping.map((o) =>
+					this.getFacetObject(o)
+				).filter((facet) => facet);
+			}
+
+			return [];
 		},
 	},
 	methods: {
 		getFacetObject(o) {
+			if (o.object == null) {
+				return null;
+			}
+
+			if (o.variable == '@type') {
+				return null;
+			}
+
 			let label;
 			let link;
 			if (o.object.hasOwnProperty('@id')) {
@@ -42,8 +46,8 @@ export default {
 				label = o.object.label;
 			}
 
-			if (o.view != null) {
-				link = o.view['@id'];
+			if (o.up != null) {
+				link = o.up['@id'];
 			}
 
 			// label = this.$options.filters.capitalize(label);
@@ -53,7 +57,6 @@ export default {
 				link,
 				object: o.object,
 				amount: o.totalItems,
-				featured: this.featuredComparison(o),
 			};
 		},
 		determineLabel(object) {
@@ -95,42 +98,16 @@ export default {
 			const idArray = object['@id'].split('/');
 			return `${idArray[idArray.length - 1]} [has no label]`;
 		},
-		featuredComparison(facet) {
-			if (this.group.dimension === '@reverse.itemOf.heldBy.@id') {
-				// Featured code for '@reverse.itemOf.heldBy.@id'
-				const userSigels = [];
-				if (facet.object.hasOwnProperty('sigel')) {
-					return userSigels.indexOf(facet.object.sigel) > -1;
-				}
-				if (facet.object.hasOwnProperty('@id')) {
-					const keyParts = facet.object['@id'].split('/');
-					const label = keyParts[keyParts.length - 1];
-					return userSigels.indexOf(label) > -1;
-				}
-			}
-			return false;
-		},
-		getFacetLabel(facet) {
-			if (facet.amount != null) {
-				return facet.label + ' (' + getCompactNumber(facet.amount) + ')';
-			}
-
-			return facet.label;
-		},
 	},
 };
 </script>
 
 <template>
-	<div>
-		<h4 className="text-sm text-secondary-grey mb-1">
-			{{ groupLabel }}
-		</h4>
-
+	<div v-if="list.length > 0">
 		<div v-for="facet in list" :key="facet.link" class="mb-1 last-of-type:mb-0">
-			<!-- <Facet :facet="facet" /> -->
+			<font-awesome-icon icon="fa-solid fa-xmark" class="mr-1" />
 			<router-link :to="facet.link" class="underline">
-				{{ getFacetLabel(facet) }}
+				{{ facet.label }}
 			</router-link>
 		</div>
 	</div>

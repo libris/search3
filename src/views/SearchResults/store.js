@@ -10,6 +10,7 @@ export const useSearchResults = defineStore('searchResults', {
 	state: () => ({
 		current: null,
 		stats: null,
+		search: null,
 
 		Instance: [],
 		Print: [],
@@ -47,6 +48,7 @@ export const useSearchResults = defineStore('searchResults', {
 
 			this.current = response.items;
 			this.stats = response.stats;
+			this.search = response.search;
 			this.indexData();
 		},
 

@@ -4,11 +4,12 @@
 			Inga förslag hittades
 		</div>
 
+		<SelectedFacets />
+
 		<FacetGroup
 			v-for="(dimensionValue, dimensionKey, index) in sortedFacets"
 			:key="dimensionKey"
 			:group="dimensionValue"
-			@change="onGroupChange"
 		/>
 	</div>
 </template>
@@ -18,19 +19,14 @@ import { mapState } from 'pinia';
 import { useSearchResults } from '@/views/SearchResults/store';
 import settings from '@/lib/settings';
 import FacetGroup from './FacetGroup.vue';
+import SelectedFacets from './SelectedFacets.vue'
 
 export default {
 	name: 'Facets',
-	emits: ['update:facets'],
-	data: () => ({
-		queries: {},
-	}),
 	components: {
 		FacetGroup,
+		SelectedFacets,
 	},
-	props: [
-		'attributes'
-	],
 	computed: {
 		...mapState(useSearchResults, ['stats']),
 
@@ -41,6 +37,7 @@ export default {
 
 			const facetSettings = settings.propertyChains;
 			const unordered = this.stats.sliceByDimension;
+
 			const cmp = dim => (facetSettings.hasOwnProperty(dim) ? facetSettings[dim].facet.order : Number.MAX_VALUE);
 			const ordered = Object
 				.keys(unordered)
@@ -53,22 +50,5 @@ export default {
 			return ordered;
 		},
 	},
-	methods: {
-		onGroupChange(value) {
-			const newValue = {...this.queries}
-			newValue[value.dimension] = value.selected;
-			this.queries = newValue;
-		},
-	},
-	watch: {
-		queries() {
-			let results = [];
-			Object.keys(this.queries).forEach((dimension) =>
-				results.push(...this.queries[dimension])
-			);
-
-			this.$emit('update:facets', results);
-		}
-	}
 };
 </script>

@@ -41,7 +41,7 @@
 			</div>
 		</div>
 
-		<div :class="containerClassNames">
+		<div :class="containerClassName">
 			<slot />
 		</div>
 	</div>
@@ -74,7 +74,7 @@ export default {
 	computed: {
 		...mapWritableState(useDisplayPreferences, ['mode']),
 		...mapWritableState(useQueryStore, ['_sort']),
-		containerClassNames() {
+		containerClassName() {
 			switch (this.mode) {
 				case 'cards':
 					return 'grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-x-6 gap-y-8 w-full';
