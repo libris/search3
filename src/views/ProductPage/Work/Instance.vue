@@ -6,13 +6,15 @@ import { getChip, getItemLabel } from '@/lxljs/display';
 import { getLabelByLang } from "@/lxljs/string";
 import { mapState } from 'pinia';
 import { getImageUrl, getFnurgelFromUri, getAtPath } from '@/lib/item';
-import Holding from "./Holding.vue";
 import { getHoldings } from "@/lib/http";
+import Holding from "./Holding.vue";
+import Card from '@/components/Card.vue';
 
 export default {
     name: "Instance",
     components: {
         'holding': Holding,
+        Card,
     },
     data() {
         return {
@@ -90,44 +92,38 @@ export default {
     }
 }
 </script>
+
 <template>
     <router-link :to="`/${getFnurgelFromUri(this.instance['@id'])}`">
-        <span :class="{ ['border-primary-blue']: this.isExpanded, ['border-secondary-grey/20'] :!this.isExpanded }" class="flex justify-between mb-4 border py-2 rounded-lg">
-            <div class="pl-3">
-                <h2 class="font-semibold">
-                    {{ title }}
-                </h2>
+        <Card :class="{ ['!border-primary-blue']: this.isExpanded }" :image-url="imageUrl">
+            <h2 class="font-semibold">
+                {{ title }}
+            </h2>
 
-                <div>
-                    {{ type }}
-                </div>
+            <div>
+                {{ type }}
+            </div>
 
-                <div>
-                    {{ identifiedBy }}
-                </div>
-                <div v-for="publication in publications">
-                    {{ publication.year }}
-                </div>
-                <div>
-                    {{ extent }}
-                </div>
-                <div class="text-secondary-grey mt-2">
-                    Finns på {{ numberOfHoldings }} bibliotek
-                </div>
-                <div class="text-secondary-grey mt-1"
-                    v-if="isExpanded" v-for="holding in items">
-                    <holding :key="holding['@id']"
-                            :holding="holding"
-                            :instance-id="getFnurgelFromUri(this.instance['@id'])"
-                    />
-                </div>
+            <div>
+                {{ identifiedBy }}
             </div>
-            <div class="pb-2 pt-1 pr-3 rounded-lg">
-                <img :src="imageUrl" alt="">
+            <div v-for="publication in publications">
+                {{ publication.year }}
             </div>
-        </span>
+            <div>
+                {{ extent }}
+            </div>
+            <div class="text-secondary-grey mt-2">
+                Finns på {{ numberOfHoldings }} bibliotek
+            </div>
+
+            <div class="text-secondary-grey mt-1"
+                v-if="isExpanded" v-for="holding in items">
+                <holding :key="holding['@id']"
+                        :holding="holding"
+                        :instance-id="getFnurgelFromUri(this.instance['@id'])"
+                />
+            </div>
+        </Card>
     </router-link>
 </template>
-<style>
-</style>
-

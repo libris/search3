@@ -54,118 +54,98 @@
 		-->
 	</div>
 
-	<div v-if="mode === 'list'" className="border border-secondary-grey/20 rounded-lg p-4 bg-primary-white">
-		<div class="flex items-start gap-y-4">
-			<div class="flex-1">
-				<router-link :to="this.routerPath(book['@id'])" :title="book.title">
-					<div class="flex items-center">
-						<h3 class="text-xl font-semibold">
-							{{ book.title }}
+	<Card v-if="mode === 'list'" :imageUrl="getWorkImageUrl(book)">
+		<router-link :to="this.routerPath(book['@id'])" :title="book.title">
+			<div class="flex items-center">
+				<h3 class="text-xl font-semibold">
+					{{ book.title }}
 
-							<div v-if="book.language != null" class="inline text-sm text-secondary-grey">
-								<span v-for="language in book.language">
-									<span class="mx-1 font-bold">&bull;</span>
-									{{ language }}
-								</span>
-							</div>
-						</h3>
-					</div>
-				</router-link>
-
-				<div v-if="book.contribution != null" class="text-secondary-grey mt-1">
-					<span v-for="contributor in book.contribution">
-						{{ contributor }}
-					</span>
-				</div>
-
-				<div v-if="book.genreFormCalculated != null" class="mt-4">
-					<div class="font-semibold text-secondary-turquoise">{{ getPropertyLabel('genreForm') }}</div>
-
-					<div class="flex flex-wrap gap-1">
-						<span
-							class="text-sm border border-secondary-turquoise text-secondary-turquoise rounded-full py-2 px-4"
-							v-for="genreForm in book.genreFormCalculated"
-						>
-							{{ genreForm }}
+					<div v-if="book.language != null" class="inline text-sm text-secondary-grey">
+						<span v-for="language in book.language">
+							<span class="mx-1 font-bold">&bull;</span>
+							{{ language }}
 						</span>
 					</div>
-				</div>
+				</h3>
 			</div>
+		</router-link>
 
-			<div>
-				<div
-					class="w-24 h-40 bg-no-repeat bg-cover bg-center rounded-lg"
-					:style="{ backgroundImage: 'url(' + getWorkImageUrl(book) + ')' }"
-				/>
+		<div v-if="book.contribution != null" class="text-secondary-grey mt-1">
+			<span v-for="contributor in book.contribution">
+				{{ contributor }}
+			</span>
+		</div>
+
+		<div v-if="book.genreFormCalculated != null" class="mt-4">
+			<div class="font-semibold text-secondary-turquoise">{{ getPropertyLabel('genreForm') }}</div>
+
+			<div class="flex flex-wrap gap-1">
+				<span
+					class="text-sm border border-secondary-turquoise text-secondary-turquoise rounded-full py-2 px-4"
+					v-for="genreForm in book.genreFormCalculated"
+				>
+					{{ genreForm }}
+				</span>
 			</div>
 		</div>
 
-		<div class="flex items-end justify-between border-t border-t-secondary-grey/20 mt-4 pt-4">
-			<div>
-				<div v-if="book.holdings != null && book.holdings > 0">
-					Finns på <u class="text-secondary-turquoise">{{ book.holdings }} bibliotek</u>
+		<template #footer>
+			<div class="flex items-end justify-between border-t border-t-secondary-grey/20 pt-4">
+				<div>
+					<div v-if="book.holdings != null && book.holdings > 0">
+						Finns på <u class="text-secondary-turquoise">{{ book.holdings }} bibliotek</u>
+					</div>
+
+					<div class="flex gap-x-2" v-if="getInstanceTypes(book).length > 0">
+						<div class="rounded-md bg-secondary-grey/20 mt-2 py-2 px-4" v-for="instanceType in getInstanceTypes(book)">
+							<font-awesome-icon icon="fa fa-book" class="mr-2 text-secondary-grey" />
+							{{ getLabel(instanceType) }}
+						</div>
+					</div>
 				</div>
 
-				<div class="flex gap-x-2" v-if="getInstanceTypes(book).length > 0">
-					<div class="rounded-md bg-secondary-grey/20 mt-2 py-2 px-4" v-for="instanceType in getInstanceTypes(book)">
-						<font-awesome-icon icon="fa fa-book" class="mr-2 text-secondary-grey" />
-						{{ getLabel(instanceType) }}
+				<div>
+					<div class="flex items-center justify-center border border-secondary-turquoise text-secondary-turquoise rounded-full w-12 h-12 cursor-pointer">
+						<font-awesome-icon icon="fa fa-bookmark" />
 					</div>
 				</div>
 			</div>
+		</template>
+	</Card>
 
-			<div>
-				<div class="flex items-center justify-center border border-secondary-turquoise text-secondary-turquoise rounded-full w-12 h-12 cursor-pointer">
-					<font-awesome-icon icon="fa fa-bookmark" />
-				</div>
-			</div>
-		</div>
-	</div>
+	<Card v-if="mode === 'compactlist'" :imageUrl="getWorkImageUrl(book)">
+		<router-link :to="this.routerPath(book['@id'])" :title="book.title">
+			<div class="flex items-center">
+				<h3 class="text-xl font-semibold">
+					{{ book.title }}
 
-	<div v-if="mode === 'compactlist'" className="border border-secondary-grey/20 rounded-lg p-4 bg-primary-white">
-		<div class="flex items-start gap-y-4">
-			<div class="flex-1">
-				<router-link :to="this.routerPath(book['@id'])" :title="book.title">
-					<div class="flex items-center">
-						<h3 class="text-xl font-semibold">
-							{{ book.title }}
-
-							<div v-if="book.language != null" class="inline text-sm text-secondary-grey">
-								<span v-for="language in book.language">
-									<span class="mx-1 font-bold">&bull;</span>
-									{{ language }}
-								</span>
-							</div>
-						</h3>
-					</div>
-				</router-link>
-
-				<div v-if="book.contribution != null" class="text-secondary-grey mt-1">
-					<span v-for="contributor in book.contribution">
-						{{ contributor }}
-					</span>
-				</div>
-
-				<div v-if="book.genreFormCalculated != null" class="mt-1">
-					<div class="flex flex-wrap gap-1">
-						<span
-							class="text-sm border border-secondary-turquoise text-secondary-turquoise rounded-full py-2 px-4"
-							v-for="genreForm in book.genreFormCalculated"
-						>
-							{{ genreForm }}
+					<div v-if="book.language != null" class="inline text-sm text-secondary-grey">
+						<span v-for="language in book.language">
+							<span class="mx-1 font-bold">&bull;</span>
+							{{ language }}
 						</span>
 					</div>
-				</div>
+				</h3>
 			</div>
+		</router-link>
 
-			<div>
-				<div
-					class="w-28 h-28 bg-no-repeat bg-cover bg-center rounded-lg"
-					:style="{ backgroundImage: 'url(' + getWorkImageUrl(book) + ')' }"
-				/>
+		<div v-if="book.contribution != null" class="text-secondary-grey mt-1">
+			<span v-for="contributor in book.contribution">
+				{{ contributor }}
+			</span>
+		</div>
+
+		<div v-if="book.genreFormCalculated != null" class="mt-1">
+			<div class="flex flex-wrap gap-1">
+				<span
+					class="text-sm border border-secondary-turquoise text-secondary-turquoise rounded-full py-2 px-4"
+					v-for="genreForm in book.genreFormCalculated"
+				>
+					{{ genreForm }}
+				</span>
 			</div>
 		</div>
-	</div>
+	</Card>
 </template>
 
 <script lang="ts">
@@ -174,12 +154,16 @@ import { useDisplayPreferences } from '@/stores/displayPreferences';
 import { mapState } from 'pinia';
 import { getLabelByLang } from '@/lxljs/string';
 import { getResources } from '@/lib/resources';
+import Card from './Card.vue';
 import settings from '@/lib/settings';
 
 export default {
 	name: 'BookListItem',
 	props: {
 		book: Object,
+	},
+	components: {
+		Card,
 	},
 	computed: {
 		...mapState(useDisplayPreferences, ['mode']),
