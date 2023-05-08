@@ -4,8 +4,8 @@
 			{{ itemLabel }}
 		</h2>
 
-		<div class="flex gap-x-4">
-			<div class="bg-primary-white border border-secondary-grey/20 p-4 rounded-lg h-min">
+		<div class="flex gap-x-4 items-start">
+			<Card class="flex-1">
 				<div v-for="key in Object.keys(card)" class="border-b py-1 border-secondary-grey/20 mb-2 last-of-type:border-0 last-of-type:mb-0">
 					<strong>
 						{{ getLabel(key) }}
@@ -15,7 +15,7 @@
 						{{ card[key] }}
 					</span>
 				</div>
-			</div>
+			</Card>
 
 			<div class="flex-shrink-0 ">
 				<div class="block w-72">
@@ -53,6 +53,7 @@ import { getItemLabel } from '@/lxljs/display';
 import { getResources } from '@/lib/resources';
 import settings from '@/lib/settings';
 import { getLabelByLang } from '@/lxljs/string';
+import Card from '@/components/Card.vue';
 
 export default {
 	name: 'KnowledgeCard',
@@ -61,6 +62,9 @@ export default {
 			type: String,
 			default: null,
 		}
+	},
+	components: {
+		Card,
 	},
 	computed: {
 		...mapState(useKnowledgeCardStore, ['mainEntity', 'card', 'chip', 'quoted', 'wikiData', 'imageUrl']),
