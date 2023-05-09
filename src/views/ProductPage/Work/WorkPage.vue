@@ -16,7 +16,6 @@ export default {
             'instanceIds',
             'instances',
             'itemSummary',
-            'imageUrl',
             'productType'
         ]),
     },
@@ -24,24 +23,20 @@ export default {
 </script>
 
 <template>
-    <div class="flex gap-x-6 flex-col">
-        {{ productType }}
-
-        <div class="flex gap-x-6 flex-row max-w-6xl rounded py-6">
+    <div class="flex gap-8 flex-col lg:flex-row">
+        <div class="flex gap-x-6 flex-row">
             <div class="flex-1">
 				<work-summary />
             </div>
-
-            <div>
-                <img class="w-full max-w-xs rounded-lg" :src="imageUrl"/>
-            </div>
         </div>
 
-        <div>
-            <div class="mt-4 max-w-6xl">
-                <div v-for="instance in instances">
-                    <instance :key="instance['@id']" :instance="instance" />
-                </div>
+        <div class="w-full lg:w-2/5">
+            <h3 class="text-2xl font-semibold mb-2">
+                Tillgängliga format
+            </h3>
+
+            <div v-for="instance in instances" class="mb-2">
+                <instance :key="instance['@id']" :instance="instance" />
             </div>
         </div>
     </div>

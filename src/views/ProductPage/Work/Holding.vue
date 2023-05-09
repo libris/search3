@@ -1,4 +1,3 @@
-
 <script>
 import { getItemLabel } from "@/lxljs/display";
 import { getResources } from "@/lib/resources";
@@ -45,9 +44,21 @@ export default {
     },
 }
 </script>
-<template>
-    <div class="flex max-w-8xl">
-        <span class="flex-1">{{ this.library }}</span>
-    </div>
-</template>
 
+<template>
+    <Card>
+        <div>{{ this.library }}</div>
+
+        <div class="flex gap-x-2 mt-2">
+            <div class="py-1 px-2 rounded-sm text-sm" style="color: #2440bc; background: #e1e5f6;">
+                <font-awesome-icon icon="fa-solid fa-check" />
+                Tillgänglig
+            </div>
+
+            <div class="py-1 px-2 rounded-sm text-sm" style="color: #b3401d; background: #f4e0d8;">
+                <font-awesome-icon icon="fa-solid fa-xmark" />
+                Utlånad
+            </div>
+        </div>
+    </Card>
+</template>

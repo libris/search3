@@ -13,7 +13,7 @@ export default {
 		...mapState(useProductStore, {
 			workData: 'mainEntity',
 		}),
-        ...mapState(useProductStore, ['quoted', 'workCard', 'contributions']),
+        ...mapState(useProductStore, ['quoted', 'workCard', 'contributions', 'imageUrl']),
         contribution() {
             return this.contributions;
         },
@@ -58,24 +58,21 @@ export default {
 </script>
 
 <template>
-    <div>
-        <h2 class="flex text-3xl font-semibold">
-            <span v-for="title in titles">
-                {{ title }}
-            </span>
-
-            <div v-if="languages != null" class="inline-flex items-center text-sm text-secondary-grey">
-                <span v-for="language in languages">
-                    <span class="mx-1 font-bold">&bull;</span>
-                    {{ language }}
-                </span>
-            </div>
+    <Card :image-url="imageUrl">
+        <h2 v-for="title in titles" class="text-3xl font-semibold">
+            {{ title }}
         </h2>
 
-        <div class="text-secondary-grey mt-1" v-for="c in contribution">
-            {{c.role.join(', ')}} 
-            <a v-if="c.link" :href="`/${c.link}`" class="underline">{{c.agent}}</a>
-            <span v-else>{{c.agent}}</span>
+        <div class="mt-2">
+            <span v-if="languages != null" v-for="language in languages" class="text-secondary-grey text-base">
+                {{ language }}
+            </span>
+
+            <div class="text-secondary-grey mt-1" v-for="c in contribution">
+                {{c.role.join(', ')}} 
+                <a v-if="c.link" :href="`/${c.link}`" class="underline">{{c.agent}}</a>
+                <span v-else>{{c.agent}}</span>
+            </div>
         </div>
 
         <div v-if="genreForm" class="font-semibold text-secondary-turquoise mt-3">
@@ -110,5 +107,5 @@ export default {
         <div class="max-w-2xl py-3">
             {{ summary }}
         </div>
-    </div>
+    </Card>
 </template>

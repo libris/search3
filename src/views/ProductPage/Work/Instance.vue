@@ -8,16 +8,17 @@ import { mapState } from 'pinia';
 import { getImageUrl, getFnurgelFromUri, getAtPath } from '@/lib/item';
 import { getHoldings } from "@/lib/http";
 import Holding from "./Holding.vue";
-import Card from '@/components/Card.vue';
+import SidebarModal from '@/components/Modals/Sidebar.vue';
 
 export default {
     name: "Instance",
     components: {
         'holding': Holding,
-        Card,
+        SidebarModal,
     },
     data() {
         return {
+            showHoldings: false,
             isExpanded: false,
             holdings: null
         }
@@ -66,6 +67,7 @@ export default {
         },
         items() {
             if (this.holdings != null) {
+                console.log('holdings', JSON.parse(JSON.stringify(this.holdings.items)));
                 return this.holdings.items;
             }
         },
@@ -94,36 +96,77 @@ export default {
 </script>
 
 <template>
-    <router-link :to="`/${getFnurgelFromUri(this.instance['@id'])}`">
-        <Card :class="{ ['!border-primary-blue']: this.isExpanded }" :image-url="imageUrl">
+    <Card :class="{ ['!border-primary-blue']: this.isExpanded }" :image-url="imageUrl" icon="fa-book">
+        <router-link :to="`/${getFnurgelFromUri(this.instance['@id'])}`" class="flex items-center gap-x-2">
             <h2 class="font-semibold">
                 {{ title }}
             </h2>
 
-            <div>
-                {{ type }}
+            <div v-for="publication in publications" class="text-secondary-grey">
+                &bull;
+                {{ publication.year }}
             </div>
+        </router-link>
+
+        <div>
+            {{ identifiedBy }}
+        </div>
+
+        <div>
+            {{ extent }}
+        </div>
+
+        <!-- <div class="text-secondary-grey mt-2">
+            Finns på {{ numberOfHoldings }} bibliotek
+        </div> -->
+
+        <div class="mt-4">
+            <Button @click="showHoldings = true">
+                Tillgänglighet
+            </Button>
+        </div>
+
+        <!-- <div class="text-secondary-grey mt-1"
+            v-if="isExpanded" v-for="holding in items">
+            <holding :key="holding['@id']"
+                    :holding="holding"
+                    :instance-id="getFnurgelFromUri(this.instance['@id'])"
+            />
+        </div> -->
+    </Card>
+
+    <SidebarModal v-model="showHoldings">
+        <Card class="mb-8" style="background-color: #e1e5f6;" :image-url="imageUrl" icon="fa-book">
+            <router-link :to="`/${getFnurgelFromUri(this.instance['@id'])}`" class="flex items-center gap-x-2">
+                <h2 class="font-semibold">
+                    {{ title }}
+                </h2>
+
+                <div v-for="publication in publications" class="text-secondary-grey">
+                    &bull;
+                    {{ publication.year }}
+                </div>
+            </router-link>
 
             <div>
                 {{ identifiedBy }}
             </div>
-            <div v-for="publication in publications">
-                {{ publication.year }}
-            </div>
+
             <div>
                 {{ extent }}
             </div>
-            <div class="text-secondary-grey mt-2">
-                Finns på {{ numberOfHoldings }} bibliotek
-            </div>
-
-            <div class="text-secondary-grey mt-1"
-                v-if="isExpanded" v-for="holding in items">
-                <holding :key="holding['@id']"
-                        :holding="holding"
-                        :instance-id="getFnurgelFromUri(this.instance['@id'])"
-                />
-            </div>
         </Card>
-    </router-link>
+
+        <div class="text-secondary-grey font-semibold mb-2">
+            Alla bibliotek
+        </div>
+
+        <div class="mb-1" v-for="holding in items">
+            <holding
+                :key="holding['@id']"
+                :holding="holding"
+                :instance-id="getFnurgelFromUri(this.instance['@id'])"
+            />
+        </div>
+    </SidebarModal>
 </template>
