@@ -15,6 +15,7 @@ export default {
 		}),
         ...mapState(useProductStore, ['quoted', 'workCard', 'contributions', 'imageUrl']),
         contribution() {
+            console.log('contributions', JSON.parse(JSON.stringify(this.contributions)));
             return this.contributions;
         },
         titles() {
@@ -58,7 +59,7 @@ export default {
 </script>
 
 <template>
-    <Card :image-url="imageUrl" class="w-full">
+    <Card :image-url="imageUrl" class="w-full h-min">
         <h2 v-for="title in titles" class="text-3xl font-semibold">
             {{ title }}
         </h2>
@@ -68,10 +69,12 @@ export default {
                 {{ language }}
             </span>
 
-            <div class="text-secondary-grey mt-1" v-for="c in contribution">
-                {{c.role.join(', ')}} 
+            <div class="mt-1" v-for="c in contribution">
                 <a v-if="c.link" :href="`/${c.link}`" class="underline">{{c.agent}}</a>
                 <span v-else>{{c.agent}}</span>
+                <span class="text-secondary-grey">
+                    &bull; {{c.role.join(', ')}}
+                </span>
             </div>
         </div>
 
