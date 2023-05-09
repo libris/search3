@@ -1,4 +1,5 @@
 <script lang="ts">
+import { PropType } from 'vue';
 import { mapActions, mapState } from 'pinia';
 import { useSearchResults } from '@/views/SearchResults/store';
 import Grid from '@/components/Grid.vue';
@@ -11,6 +12,10 @@ export default {
 		queryString: {
 			type: String,
 			default: null,
+		},
+		mode: {
+			type: String as PropType<'search' | 'preview'>,
+			default: 'search',
 		},
 	},
 	components: {
@@ -55,7 +60,7 @@ export default {
 
 <template>
 	<Grid :displayViewOptions="queryString == null">
-		<template #top v-if="item != null">
+		<template #top v-if="item != null && queryString == null">
 			<KnowledgeCard :id="item.object['@id']" />
 		</template>
 
@@ -63,6 +68,7 @@ export default {
 			v-for="book in books"
 			:key="book['@id']"
 			:book="book"
+			:displayMode="mode == 'preview' ? 'small' : null"
 		/>
 	</Grid>
 </template>

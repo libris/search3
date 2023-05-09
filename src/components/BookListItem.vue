@@ -146,9 +146,34 @@
 			</div>
 		</div>
 	</Card>
+
+	<Card v-if="mode === 'small'" :image-url="getWorkImageUrl(book)" image-size="sm">
+		<router-link :to="this.routerPath(book['@id'])" :title="book.title">
+			<div class="flex items-center">
+				<h3 class="text-xl font-semibold">
+					{{ book.title }}
+				</h3>
+			</div>
+
+			<div>
+				<strong v-if="book.originDate != null" class="text-sm text-secondary-grey">
+					{{ book.originDate }}
+					<span class="mx-1 font-bold" v-if="book.language != null">&bull;</span>
+				</strong>
+
+				<div v-if="book.language != null" class="inline text-sm text-secondary-grey">
+					<span v-for="(language, index) in book.language">
+						<span class="mx-1 font-bold" v-if="index > 0">&bull;</span>
+						{{ language }}
+					</span>
+				</div>
+			</div>
+		</router-link>
+	</Card>
 </template>
 
 <script lang="ts">
+import { PropType } from 'vue';
 import { getFnurgelFromUri, getPropertyLabel, getWorkImageUrl } from '@/lib/item';
 import { useDisplayPreferences } from '@/stores/displayPreferences';
 import { mapState } from 'pinia';
@@ -161,12 +186,25 @@ export default {
 	name: 'BookListItem',
 	props: {
 		book: Object,
+		displayMode: {
+			type: String as PropType<'small' | 'cards' | 'list' | 'compactlist'>,
+			default: null,
+		},
 	},
 	components: {
 		Card,
 	},
 	computed: {
-		...mapState(useDisplayPreferences, ['mode']),
+		...mapState(useDisplayPreferences, {
+			selectedMode: 'mode',
+		}),
+		mode() {
+			if (this.displayMode != null) {
+				return this.displayMode;
+			}
+
+			return this.selectedMode;
+		}
 	},
 	methods: {
 		getPropertyLabel,
@@ -192,7 +230,6 @@ export default {
 
 			return result;
 		},
-
 	},
 };
 </script>

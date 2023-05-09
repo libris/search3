@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { getDocument } from '@/lib/http';
+import { getDocument, getRelatedRecords } from '@/lib/http';
 import { splitJson } from "@/lxljs/data";
 import { getCard, getChip, getItemLabel, getItemSummary } from '@/lxljs/display';
 import { getResources } from '@/lib/resources';
@@ -62,6 +62,13 @@ export const useProductStore = defineStore('product', {
 						'link': getFnurgelFromUri(unwrap(asArray(c.agent).map(a => a['@id'])))
 					}
 				});
+			}
+		},
+		author: (state) => {
+			if (state.mainEntity != null) {
+				return getAtPath(state.mainEntity, ['contribution', '*']).find(c =>
+					c.role.find((r) => r['@id'].indexOf('author') > -1)
+				);
 			}
 		},
         itemSummary: (state) => {
