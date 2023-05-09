@@ -96,7 +96,7 @@ export default {
 </script>
 
 <template>
-    <Card :class="{ ['!border-primary-blue']: this.isExpanded }" :image-url="imageUrl" icon="fa-book">
+    <Card :class="{ ['!border-primary-blue']: this.isExpanded }" :image-url="imageUrl" image-size="sm" icon="fa-book">
         <router-link :to="`/${getFnurgelFromUri(this.instance['@id'])}`" class="flex items-center gap-x-2">
             <h2 class="font-semibold">
                 {{ title }}
@@ -136,7 +136,7 @@ export default {
     </Card>
 
     <SidebarModal v-model="showHoldings">
-        <Card class="mb-8" style="background-color: #e1e5f6;" :image-url="imageUrl" icon="fa-book">
+        <Card class="mb-8" style="background-color: #e1e5f6;" :image-url="imageUrl" image-size="sm" icon="fa-book">
             <router-link :to="`/${getFnurgelFromUri(this.instance['@id'])}`" class="flex items-center gap-x-2">
                 <h2 class="font-semibold">
                     {{ title }}

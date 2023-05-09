@@ -1,4 +1,6 @@
 <script lang="ts">
+import { PropType } from 'vue';
+
 export default {
 	name: 'Card',
 	props: {
@@ -6,9 +8,30 @@ export default {
 			type: String,
 			default: null,
 		},
+		imageSize: {
+			type: String as PropType<'sm' | 'md' | 'lg'>,
+			default: 'md',
+			validator: (value: string) => {
+				return ['sm', 'md', 'lg'].includes(value);
+			},
+		},
 		icon: {
 			type: String,
 			default: null,
+		},
+	},
+	computed: {
+		coverClassNames() {
+			switch (this.imageSize) {
+				case 'lg':
+					return 'w-40 h-64';
+
+				case 'md':
+					return 'w-24 h-40';
+
+				case 'sm':
+					return 'w-16 h-24';
+			}
 		},
 	},
 };
@@ -31,7 +54,8 @@ export default {
 
 			<div v-if="imageUrl != null">
 				<div
-					class="w-24 h-40 bg-no-repeat bg-cover bg-center rounded-lg"
+					class="bg-no-repeat bg-cover bg-center rounded-lg"
+					:class="coverClassNames"
 					:style="{ backgroundImage: 'url(' + imageUrl + ')' }"
 				/>
 			</div>

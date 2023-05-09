@@ -54,7 +54,7 @@
 		-->
 	</div>
 
-	<Card v-if="mode === 'list'" :imageUrl="getWorkImageUrl(book)">
+	<Card v-if="mode === 'list'" :image-url="getWorkImageUrl(book)">
 		<router-link :to="this.routerPath(book['@id'])" :title="book.title">
 			<div class="flex items-center">
 				<h3 class="text-xl font-semibold">
@@ -113,7 +113,7 @@
 		</template>
 	</Card>
 
-	<Card v-if="mode === 'compactlist'" :imageUrl="getWorkImageUrl(book)">
+	<Card v-if="mode === 'compactlist'" :image-url="getWorkImageUrl(book)" image-size="sm">
 		<router-link :to="this.routerPath(book['@id'])" :title="book.title">
 			<div class="flex items-center">
 				<h3 class="text-xl font-semibold">
