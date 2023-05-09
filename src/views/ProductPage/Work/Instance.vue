@@ -67,7 +67,6 @@ export default {
         },
         items() {
             if (this.holdings != null) {
-                console.log('holdings', JSON.parse(JSON.stringify(this.holdings.items)));
                 return this.holdings.items;
             }
         },
@@ -79,7 +78,6 @@ export default {
         getFnurgelFromUri,
         toggleExpanded() {
             this.isExpanded = !this.isExpanded;
-            console.log('this.Expanded', this.isExpanded);
         },
     },
     async mounted() {

@@ -15,7 +15,6 @@ export default {
 		}),
         ...mapState(useProductStore, ['quoted', 'workCard', 'contributions', 'imageUrl']),
         contribution() {
-            console.log('contributions', JSON.parse(JSON.stringify(this.contributions)));
             return this.contributions;
         },
         titles() {
@@ -107,7 +106,7 @@ export default {
         </div>
         -->
 
-        <div class="max-w-2xl py-3">
+        <div class="max-w-2xl py-3" v-if="summary != null">
             {{ summary }}
         </div>
     </Card>
