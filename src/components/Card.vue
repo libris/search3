@@ -20,7 +20,7 @@ export default {
 			<div
 				v-if="icon != null"
 				class="w-8 h-8 rounded-sm flex items-center justify-center text-sm"
-				style="color: #2440bc; background: #e1e5f6;"
+				style="color: #2440bc; background: #c7cfee;"
 			>
 				<font-awesome-icon :icon="`fa-solid ${icon}`" />
 			</div>
