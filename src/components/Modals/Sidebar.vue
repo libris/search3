@@ -25,7 +25,7 @@ export default {
 		content-transition="vfm-slide-right"
 		:modal-id="modalId"
 		class="flex justify-end items-start"
-		content-class="flex flex-col p-4 bg-primary-white w-full lg:w-2/5 h-full"
+		content-class="flex flex-col p-4 bg-primary-white w-full lg:w-2/5 h-full overflow-y-auto overflow-x-hidden"
 	>
 		<div class="flex lg:hidden justify-end mb-4 text-3xl">
 			<font-awesome-icon
