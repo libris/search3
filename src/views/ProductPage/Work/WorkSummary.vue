@@ -4,7 +4,6 @@ import { useProductStore } from "@/views/ProductPage/store";
 import { getItemLabel } from "@/lxljs/display";
 import { getResources } from "@/lib/resources";
 import settings from '@/lib/settings';
-import {getAtPath} from "@/lib/item";
 import { getPropertyLabel } from "@/lib/item";
 
 export default {
@@ -13,27 +12,31 @@ export default {
 		...mapState(useProductStore, {
 			workData: 'mainEntity',
 		}),
-        ...mapState(useProductStore, ['quoted', 'workCard', 'contributions', 'imageUrl']),
+        ...mapState(useProductStore, ['quoted',
+            'workCard',
+            'contributions',
+            'imageUrl',
+            'subjects',
+            'subjectSchemes',
+            'genreForms',
+            'gfSchemes']
+        ),
         contribution() {
             return this.contributions;
+        },
+        subject() {
+            return this.subjects;
+        },
+        genreForm() {
+            return this.genreForms;
         },
         titles() {
             if (this.workCard != null) {
                 return this.workCard['hasTitle'];
             }
         },
-        genreForm() {
-            if (this.workCard != null) {
-                return this.workCard['genreForm'];
-            }
-        },
         gfLabel() {
           return getPropertyLabel('genreForm');
-        },
-        subjects() {
-            if (this.workCard != null) {
-                return this.workCard['subject'];
-            }
         },
         subjectLabel() {
             return getPropertyLabel('subject');
@@ -77,26 +80,35 @@ export default {
             </div>
         </div>
 
-        <div v-if="genreForm" class="font-semibold text-secondary-turquoise mt-3">
-            {{ gfLabel }}
-        </div>
-
-        <div class="flex flex-wrap mt-1 gap-1">
-            <div class="text-s border border-secondary-turquoise text-secondary-turquoise rounded-full py-0.5 px-2"
-                 v-for="gf in genreForm">
-                {{ gf }}
+        <div v-if="genreForm" class="font-semibold text-secondary-turquoise mt-3">{{ gfLabel }}</div>
+            <div class="mt-1.5" v-for="scheme in gfSchemes">{{ scheme }}
+                <div class="flex flex-wrap mt-1 gap-x-1 gap-y-3">
+                    <div v-for="gf in genreForm">
+                        <router-link :to="gf.link">
+                    <span
+                        class="text-s border border-secondary-turquoise text-secondary-turquoise rounded-full py-0.5 px-2"
+                        v-if="gf.inScheme == scheme">
+                        {{ gf.genreForm }}
+                    </span>
+                        </router-link>
+                    </div>
+                </div>
             </div>
-        </div>
 
         <div v-if="subjects" class="font-semibold text-secondary-turquoise mt-3">{{ subjectLabel }}</div>
-
-        <div class="flex flex-wrap mt-1 gap-1">
-            <div class="text-s border border-secondary-turquoise text-secondary-turquoise rounded-full py-0.5 px-2"
-                 v-for="subject in subjects">
-                {{ subject }}
+        <div class="mt-1" v-for="scheme in subjectSchemes">{{ scheme }}
+            <div class="flex flex-wrap mt-1 gap-x-1 gap-y-3">
+                <div v-for="s in subjects">
+                    <router-link :to="s.link">
+                    <span
+                        class="text-s border border-secondary-turquoise text-secondary-turquoise rounded-full py-0.5 px-2"
+                        v-if="s.inScheme == scheme">
+                        {{ s.subject }}
+                    </span>
+                    </router-link>
+                </div>
             </div>
         </div>
-
         <!--
         <div class="flex flex-wrap mt-2 gap-1">
             <div class="rounded-full text-xs px-2 py-1 bg-primary-green text-primary-white"

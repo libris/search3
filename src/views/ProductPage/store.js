@@ -64,6 +64,44 @@ export const useProductStore = defineStore('product', {
 				});
 			}
 		},
+		subjectSchemes: (state) => {
+			return [...new Set(state.subjects.map(s => s?.inScheme))];
+		},
+		subjects: (state) => {
+			if (state.mainEntity != null) {
+				return getAtPath(state.mainEntity, ['subject', '*']).map(s => {
+					if (s['@id'] != null ) {
+						const subject = state.quoted[s['@id']];
+						const schemeId = subject['inScheme']['@id'];
+						const scheme = state.quoted[schemeId];
+						return {
+							'inScheme': getChip(scheme, getResources(), state.quoted, settings).title,
+							'subject': getItemLabel(s, getResources(), state.quoted, settings),
+							'link': `find?o=${s['@id']}`
+						}
+					}
+				}).filter(s => s != null);
+			}
+		},
+		gfSchemes: (state) => {
+			return [...new Set(state.genreForms.map(gf => gf?.inScheme))];
+		},
+		genreForms: (state) => {
+			if (state.mainEntity != null) {
+				return getAtPath(state.mainEntity, ['genreForm', '*']).map(gf => {
+					if (gf['@id'] != null ) {
+						const genreForm = state.quoted[gf['@id']];
+						const schemeId = genreForm['inScheme']['@id'];
+						const scheme = state.quoted[schemeId];
+						return {
+							'inScheme': getChip(scheme, getResources(), state.quoted, settings).title,
+							'genreForm': getItemLabel(gf, getResources(), state.quoted, settings),
+							'link': `find?o=${gf['@id']}`
+						}
+					}
+				}).filter(s => s != null);
+			}
+		},
 		author: (state) => {
 			if (state.mainEntity != null) {
 				return getAtPath(state.mainEntity, ['contribution', '*']).find(c =>
