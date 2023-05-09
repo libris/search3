@@ -7,12 +7,14 @@ import { useVocabStore } from './stores/vocab';
 import { useLoaderStore } from '@/stores/loader';
 import Header from './components/Header.vue';
 import Footer from './components/Footer.vue';
+import { ModalsContainer } from 'vue-final-modal';
 
 export default {
 	name: 'App',
 	components: {
 		Header,
 		Footer,
+		ModalsContainer,
 	},
 	computed: {
 		...mapState(useLoaderStore, ['isLoading']),
@@ -40,6 +42,7 @@ export default {
 	</div>
 
 	<Footer />
+	<ModalsContainer />
 </template>
 
 <style lang="postcss">
