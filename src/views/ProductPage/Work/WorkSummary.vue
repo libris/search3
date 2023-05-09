@@ -58,7 +58,7 @@ export default {
 </script>
 
 <template>
-    <Card :image-url="imageUrl">
+    <Card :image-url="imageUrl" class="w-full">
         <h2 v-for="title in titles" class="text-3xl font-semibold">
             {{ title }}
         </h2>
