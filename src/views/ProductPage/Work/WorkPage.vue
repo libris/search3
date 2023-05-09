@@ -24,10 +24,8 @@ export default {
 
 <template>
     <div class="flex gap-8 flex-col lg:flex-row">
-        <div class="flex gap-x-6 flex-row">
-            <div class="flex-1">
-				<work-summary />
-            </div>
+        <div class="flex gap-x-6 flex-row w-full lg:w-3/5">
+            <work-summary />
         </div>
 
         <div class="w-full lg:w-2/5">
