@@ -21,6 +21,8 @@ export default {
 
 <template>
 	<VueFinalModal
+		overlay-transition="vfm-fade"
+		content-transition="vfm-slide-right"
 		:modal-id="modalId"
 		class="flex justify-end items-start"
 		content-class="flex flex-col p-4 bg-primary-white w-full lg:w-2/5 h-full"
