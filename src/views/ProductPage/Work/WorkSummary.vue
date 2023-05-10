@@ -81,28 +81,25 @@ export default {
         </div>
 
         <div v-if="genreForm" class="font-semibold text-secondary-turquoise mt-3">{{ gfLabel }}</div>
-            <div class="mt-1.5" v-for="scheme in gfSchemes">{{ scheme }}
-                <div class="flex flex-wrap mt-1 gap-x-1 gap-y-3">
-                    <div v-for="gf in genreForm">
-                        <router-link :to="gf.link">
-                    <span
-                        class="text-s border border-secondary-turquoise text-secondary-turquoise rounded-full py-0.5 px-2"
-                        v-if="gf.inScheme == scheme">
-                        {{ gf.genreForm }}
+            <div class="mt-1.5" v-for="scheme in gfSchemes">{{ scheme.scheme }}
+                <div class="flex flex-wrap gap-2">
+                    <span v-for="gf in scheme.genreForms">
+                        <span class="text-s text-secondary-turquoise underline">
+                            <router-link :to="gf.link">
+                                {{ gf.genreForm }}
+                            </router-link>
+                        </span>
                     </span>
-                        </router-link>
-                    </div>
                 </div>
             </div>
 
         <div v-if="subjects" class="font-semibold text-secondary-turquoise mt-3">{{ subjectLabel }}</div>
-        <div class="mt-1" v-for="scheme in subjectSchemes">{{ scheme }}
-            <div class="flex flex-wrap mt-1 gap-x-1 gap-y-3">
-                <div v-for="s in subjects">
+        <div class="mt-1" v-for="scheme in subjectSchemes">{{ scheme.scheme }}
+            <div class="flex flex-wrap gap-2">
+                <div v-for="s in scheme.subjects">
                     <router-link :to="s.link">
                     <span
-                        class="text-s border border-secondary-turquoise text-secondary-turquoise rounded-full py-0.5 px-2"
-                        v-if="s.inScheme == scheme">
+                        class="text-s text-secondary-turquoise underline">
                         {{ s.subject }}
                     </span>
                     </router-link>

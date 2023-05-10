@@ -65,7 +65,13 @@ export const useProductStore = defineStore('product', {
 			}
 		},
 		subjectSchemes: (state) => {
-			return [...new Set(state.subjects.map(s => s?.inScheme))];
+			const schemes = [...new Set(state.subjects.map(s => s?.inScheme))];
+			return schemes.map(scheme => {
+				return {
+					'scheme': scheme,
+					'subjects': state.subjects.filter(subject => subject.inScheme === scheme)
+				}
+			});
 		},
 		subjects: (state) => {
 			if (state.mainEntity != null) {
@@ -84,7 +90,13 @@ export const useProductStore = defineStore('product', {
 			}
 		},
 		gfSchemes: (state) => {
-			return [...new Set(state.genreForms.map(gf => gf?.inScheme))];
+			const schemes = [...new Set(state.genreForms.map(gf => gf?.inScheme))];
+			return schemes.map(scheme => {
+				return {
+					'scheme': scheme,
+					'genreForms': state.genreForms.filter(subject => subject.inScheme === scheme)
+				}
+			});
 		},
 		genreForms: (state) => {
 			if (state.mainEntity != null) {
