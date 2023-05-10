@@ -30,8 +30,18 @@ export default {
         <div class="flex gap-x-6 flex-col w-full lg:w-3/5">
             <work-summary />
 
-            <div className="flex gap-x-8 mt-12">
-                <div v-if="author != null" class="w-1/2">
+            <div class="block w-full lg:hidden mt-12">
+                <h3 class="text-2xl font-semibold mb-2">
+                    Tillgängliga format
+                </h3>
+
+                <div v-for="instance in instances" class="mb-2">
+                    <instance :key="instance['@id']" :instance="instance" />
+                </div>
+            </div>
+
+            <div className="flex flex-col lg:flex-row gap-x-8 gap-y-12 mt-12">
+                <div v-if="author != null" class="lg:w-1/2">
                     <h3 class="text-2xl font-semibold mb-2">
                         Mer av samma författare
                     </h3>
@@ -39,7 +49,7 @@ export default {
                     <Query mode="preview" :query-string="`?q=*&@type=Text&_limit=20&o=${author.agent['@id']}&_sort=`" />
                 </div>
 
-                <div class="w-1/2">
+                <div class="lg:w-1/2">
                     <h3 class="text-2xl font-semibold mb-2">
                         Relaterade titlar
                     </h3>
@@ -47,7 +57,7 @@ export default {
             </div>
         </div>
 
-        <div class="w-full lg:w-2/5">
+        <div class="hidden w-2/5 lg:block">
             <h3 class="text-2xl font-semibold mb-2">
                 Tillgängliga format
             </h3>
