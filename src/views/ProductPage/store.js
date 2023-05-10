@@ -104,9 +104,13 @@ export const useProductStore = defineStore('product', {
 		},
 		author: (state) => {
 			if (state.mainEntity != null) {
-				return getAtPath(state.mainEntity, ['contribution', '*']).find(c =>
-					c.role.find((r) => r['@id'].indexOf('author') > -1)
-				);
+				return getAtPath(state.mainEntity, ['contribution', '*']).find(c => {
+					if (Array.isArray(c.role)) {
+						return c.role.find((r) => r['@id'].indexOf('author') > -1);
+					} else {
+						return c.role['@id'].indexOf('author') > -1;
+					}
+				});
 			}
 		},
         itemSummary: (state) => {
