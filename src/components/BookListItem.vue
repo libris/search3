@@ -79,9 +79,9 @@
 		<div v-if="book.genreFormCalculated != null" class="mt-4">
 			<div class="font-semibold text-secondary-turquoise">{{ getPropertyLabel('genreForm') }}</div>
 
-			<div class="flex flex-wrap gap-1">
+			<div class="flex flex-wrap gap-2">
 				<span
-					class="text-sm border border-secondary-turquoise text-secondary-turquoise rounded-full py-2 px-4"
+					class="text-sm text-secondary-turquoise"
 					v-for="genreForm in book.genreFormCalculated"
 				>
 					{{ genreForm }}
