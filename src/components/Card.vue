@@ -43,7 +43,7 @@ export default {
 			<div
 				v-if="icon != null"
 				class="w-8 h-8 rounded-sm flex items-center justify-center text-sm"
-				style="color: #2440bc; background: #c7cfee;"
+				style="color: #058194; background: rgba(5,129,148,0.07);"
 			>
 				<font-awesome-icon :icon="`fa-solid ${icon}`" />
 			</div>
