@@ -52,8 +52,8 @@ import { useKnowledgeCardStore } from './store';
 import { getItemLabel } from '@/lxljs/display';
 import { getResources } from '@/lib/resources';
 import settings from '@/lib/settings';
-import { getLabelByLang } from '@/lxljs/string';
 import Card from '@/components/Card.vue';
+import { getPropertyLabel } from "@/lib/item";
 
 export default {
 	name: 'KnowledgeCard',
@@ -79,7 +79,7 @@ export default {
 	methods: {
 		...mapActions(useKnowledgeCardStore, ['getProduct']),
 		getLabel(label) {
-			return getLabelByLang(label, settings.language, getResources());
+			return getPropertyLabel(label);
 		}
 	},
 	mounted() {
