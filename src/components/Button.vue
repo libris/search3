@@ -6,7 +6,7 @@ export default {
 
 <template>
 	<button
-		className="rounded-full py-2 px-4 inline-flex items-center cursor-pointer"
+		class="rounded-full py-2 px-4 inline-flex items-center cursor-pointer"
 		style="color: #2440bc; background: #e1e5f6;"
 	>
 		<slot />
