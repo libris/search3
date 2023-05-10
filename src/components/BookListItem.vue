@@ -32,9 +32,9 @@
 		</div>
 
 		<div v-if="book.genreFormCalculated != null" class="mt-1">
-			<div class="flex flex-wrap gap-1">
+			<div class="flex flex-wrap gap-2">
 				<span
-					class="text-xs border border-secondary-turquoise text-secondary-turquoise rounded-full py-1 px-2"
+					class="text-xs text-secondary-turquoise"
 					v-for="genreForm in book.genreFormCalculated"
 				>
 					{{ genreForm }}
@@ -136,9 +136,9 @@
 		</div>
 
 		<div v-if="book.genreFormCalculated != null" class="mt-1">
-			<div class="flex flex-wrap gap-1">
+			<div class="flex flex-wrap gap-2">
 				<span
-					class="text-sm border border-secondary-turquoise text-secondary-turquoise rounded-full py-2 px-4"
+					class="text-sm text-secondary-turquoise"
 					v-for="genreForm in book.genreFormCalculated"
 				>
 					{{ genreForm }}
