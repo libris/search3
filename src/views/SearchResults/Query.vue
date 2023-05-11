@@ -4,7 +4,7 @@ import { mapActions, mapState } from 'pinia';
 import { useSearchResults } from '@/views/SearchResults/store';
 import Grid from '@/components/Grid.vue';
 import BookListItem from '@/components/BookListItem.vue';
-import KnowledgeCard from '@/views/KnowledgeCard/index.vue';
+import Card2 from "@/components/Card2.vue";
 
 export default {
 	name: 'Query',
@@ -21,7 +21,7 @@ export default {
 	components: {
 		Grid,
 		BookListItem,
-		KnowledgeCard,
+		Card2,
 	},
 	computed: {
 		...mapState(useSearchResults, {
@@ -61,7 +61,7 @@ export default {
 <template>
 	<Grid :displayViewOptions="queryString == null">
 		<template #top v-if="item != null && queryString == null">
-			<KnowledgeCard :id="item.object['@id']" />
+			<Card2 :data="item.object" />
 		</template>
 
 		<BookListItem
