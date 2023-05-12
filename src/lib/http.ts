@@ -174,7 +174,7 @@ export function getHoldings(instanceUri) {
 	return fetch(query);
 }
 
-export function getRelatedRecords(queryPairs, apiPath): RequestResponse {
+export function getRelatedRecords(queryPairs, apiPath): Promise<RequestResponse> {
 	// Returns a list of records that links to <id> with <property>
 	return new Promise((resolve, reject) => {
 		let relatedRecords = `${apiPath}/find.jsonld?`;
