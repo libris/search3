@@ -29,7 +29,7 @@ export default {
 		current: null,
 		Instance: [],
 		Print: [],
-		Text: [],
+		text: [],
 	}),
 	components: {
 		Grid,
@@ -71,7 +71,7 @@ export default {
 			console.log('stateKeys', JSON.parse(JSON.stringify(stateKeys)));
 
 			this.current.forEach((item) => {
-				if (stateKeys.indexOf(item['@type']) > -1 && Array.isArray(this[item['@type']])) {
+				if (stateKeys.indexOf(item['@type'].toLowerCase()) > -1 && Array.isArray(this[item['@type'].toLowerCase()])) {
 					if (getResources().context != null) {
 						const chip = getChip(item, getResources(), [], settings);
 						const summary = getItemSummary(
@@ -82,7 +82,7 @@ export default {
 							getResources().displayGroups,
 						);
 
-						this[item['@type']].push({
+						this[item['@type'].toLowerCase()].push({
 							...item,
 							...summary,
 							...chip,
@@ -92,7 +92,7 @@ export default {
 			});
 
 			stateKeys.forEach((key) => {
-				if (key === 'Text') {
+				if (key === 'text') {
 					this[key] = this[key].map(this.calculateDisplayMeta);
 					const promises = this[key].map(this.calculateFetchedMeta);
 
@@ -107,7 +107,7 @@ export default {
 		calculateDisplayMeta(item) {
 			const clone = JSON.parse(JSON.stringify(item));
 
-			if (item['@type'] === 'Text') {
+			if (item['@type'].toLowerCase() === 'text') {
 				clone.title = getItemLabel(item.hasTitle[0], getResources(), [], settings);
 				if (clone.genreForm != null && Array.isArray(clone.genreForm)) {
 					clone.genreFormCalculated = clone.genreForm.map((genre) => {
@@ -129,7 +129,7 @@ export default {
 			const response = await getDocument(`${clone['@id']}/data.jsonld`);
 			const split = splitJson(response.data);
 
-			if (item['@type'] === 'Text') {
+			if (item['@type'].toLowerCase() === 'text') {
 				if (clone['@reverse'].hasOwnProperty('instanceOf')) {
 					clone.instanceIds = clone['@reverse']['instanceOf'].map((instance) => instance['@id']);
 					if (clone.instanceIds != null) {
@@ -159,7 +159,7 @@ export default {
 			this.search = null;
 			this.Instance = [];
 			this.Print = [];
-			this.Text = [];
+			this.text = [];
 		},
 	},
 	mounted() {
@@ -175,8 +175,8 @@ export default {
 				this.query();
 			}
 		},
-		Text() {
-			console.log('text', JSON.parse(JSON.stringify(this.Text)));
+		text() {
+			console.log('text', JSON.parse(JSON.stringify(this.text)));
 		}
 	},
 };
@@ -189,7 +189,7 @@ export default {
 		</template>
 
 		<BookListItem
-			v-for="book in Text"
+			v-for="book in text"
 			:key="book['@id']"
 			:book="book"
 			:displayMode="mode == 'preview' ? 'small' : null"
