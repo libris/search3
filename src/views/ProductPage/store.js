@@ -80,8 +80,16 @@ export const useProductStore = defineStore('product', {
 						const subject = state.quoted[s['@id']];
 						const schemeId = subject['inScheme']['@id'];
 						const scheme = state.quoted[schemeId];
+						const chip = getChip(scheme, getResources(), state.quoted, settings);
+						// FIXME
+						let schemeLabel = '';
+						if (chip.hasOwnProperty('title')) {
+							schemeLabel = chip.title;
+						} else if (chip.hasOwnProperty('prefLabel')) {
+							schemeLabel = chip.prefLabel;
+						}
 						return {
-							'inScheme': getChip(scheme, getResources(), state.quoted, settings).title,
+							'inScheme': schemeLabel,
 							'subject': getItemLabel(s, getResources(), state.quoted, settings),
 							'link': `find?o=${s['@id']}&@type=Text&_limit=20&_sort=`
 						}
@@ -94,7 +102,7 @@ export const useProductStore = defineStore('product', {
 			return schemes.map(scheme => {
 				return {
 					'scheme': scheme,
-					'genreForms': state.genreForms.filter(subject => subject.inScheme === scheme)
+					'genreForms': state.genreForms.filter(gf => gf.inScheme === scheme)
 				}
 			});
 		},

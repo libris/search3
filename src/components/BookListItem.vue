@@ -89,6 +89,18 @@
 			</div>
 		</div>
 
+		<div v-if="book.subjectCalculated != null" class="mt-2">
+			<div class="font-semibold text-secondary-turquoise">{{ getPropertyLabel('subject') }}</div>
+			<div class="flex flex-wrap gap-2">
+				<span
+						class="text-sm text-secondary-turquoise"
+						v-for="subject in book.subjectCalculated"
+				>
+					{{ subject }}
+				</span>
+			</div>
+		</div>
+
 		<template #footer>
 			<div class="flex items-end justify-between border-t border-t-secondary-grey/20 pt-4">
 				<div>
