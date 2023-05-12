@@ -66,7 +66,7 @@ export default {
 				return false;
 			}
 
-			const stateKeys = Object.keys(this);
+			const stateKeys = Object.keys(this.$data);
 
 			console.log('stateKeys', JSON.parse(JSON.stringify(stateKeys)));
 
@@ -82,7 +82,7 @@ export default {
 							getResources().displayGroups,
 						);
 
-						this[item['@type'].toLowerCase()].push({
+						this.$data[item['@type'].toLowerCase()].push({
 							...item,
 							...summary,
 							...chip,
@@ -93,12 +93,12 @@ export default {
 
 			stateKeys.forEach((key) => {
 				if (key === 'text') {
-					this[key] = this[key].map(this.calculateDisplayMeta);
-					const promises = this[key].map(this.calculateFetchedMeta);
+					this.$data[key] = this.$data[key].map(this.calculateDisplayMeta);
+					const promises = this.$data[key].map(this.calculateFetchedMeta);
 
 					Promise.all(promises).then((results) => {
 						console.log('key, results', key, JSON.parse(JSON.stringify(results)));
-						this[key] = results;
+						this.$data[key] = results;
 					});
 				}
 			});
