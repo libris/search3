@@ -55,7 +55,7 @@ export default {
 
 			this.reset();
 
-			this.current = response.items
+			this.current = response.items;
 			this.stats = response.stats;
 			this.search = response.search;
 			this.indexData();
