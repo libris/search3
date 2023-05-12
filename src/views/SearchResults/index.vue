@@ -1,6 +1,4 @@
 <script lang="ts">
-import { mapState } from 'pinia';
-import { useSearchResults } from '@/views/SearchResults/store';
 import Facets from '@/components/Facets.vue';
 import Query from './Query.vue';
 
@@ -9,16 +7,6 @@ export default {
 		Facets,
 		Query,
 	},
-	computed: {
-		...mapState(useSearchResults, {
-			books: 'booksFromQuery',
-		}),
-	},
-	watch: {
-		books(value) {
-			console.log('books', JSON.parse(JSON.stringify(value)));
-		},
-	}
 };
 </script>
 
