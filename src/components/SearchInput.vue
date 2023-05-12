@@ -9,7 +9,7 @@
 			>
 				<div class="search-input">
 					<input
-						placeholder="Sök innehåll"
+						placeholder=""
 						type="search"
 						ref="textInput"
 						@keypress="onInputKeypress"
