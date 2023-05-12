@@ -8,6 +8,30 @@ interface RequestOptions {
 	url: string;
 };
 
+interface RequestResponse {
+	"@type": string;
+	"@id": string;
+	itemOffset: number;
+	itemsPerPage: number;
+	totalItems: number;
+	search: {
+		mapping: any[];
+	};
+	first: {
+		"@id": string;
+	};
+	last: {
+		"@id": string;
+	};
+	items: any[];
+	stats: {
+		"@id": string;
+		sliceByDimension: object;
+	},
+	maxItems: string;
+	"@context": string;
+};
+
 import { each } from 'lodash-es';
 import { translateAliasedUri } from './data';
 import settings from './settings';
@@ -150,7 +174,7 @@ export function getHoldings(instanceUri) {
 	return fetch(query);
 }
 
-export function getRelatedRecords(queryPairs, apiPath) {
+export function getRelatedRecords(queryPairs, apiPath): RequestResponse {
 	// Returns a list of records that links to <id> with <property>
 	return new Promise((resolve, reject) => {
 		let relatedRecords = `${apiPath}/find.jsonld?`;
