@@ -156,7 +156,7 @@ export default {
 			this.search = null;
 			this.Instance = [];
 			this.Print = [];
-			this.text = [];
+			this.Text = [];
 		},
 	},
 	mounted() {
