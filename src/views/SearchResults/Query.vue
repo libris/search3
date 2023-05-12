@@ -11,7 +11,7 @@ import settings from "@/lib/settings";
 
 import Grid from '@/components/Grid.vue';
 import BookListItem from '@/components/BookListItem.vue';
-import Card2 from "@/components/Card2.vue";
+import KnowledgeCard from '@/views/KnowledgeCard/index.vue';
 
 export default {
 	name: 'Query',
@@ -34,7 +34,7 @@ export default {
 	components: {
 		Grid,
 		BookListItem,
-		Card2,
+		KnowledgeCard,
 	},
 	computed: {
 		...mapWritableState(useSearchResults, ['stats', 'search']),
@@ -179,7 +179,7 @@ export default {
 <template>
 	<Grid :displayViewOptions="queryString == null">
 		<template #top v-if="item != null && queryString == null">
-			<Card2 :data="item.object" />
+			<KnowledgeCard :id="item.object['@id']" />
 		</template>
 
 		<BookListItem
