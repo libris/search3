@@ -172,6 +172,9 @@ export default {
 				this.query();
 			}
 		},
+		Text() {
+			console.log('text', JSON.parse(JSON.stringify(this.Text)));
+		}
 	},
 };
 </script>
