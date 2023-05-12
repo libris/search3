@@ -29,7 +29,7 @@ export default {
 		current: null,
 		Instance: [],
 		Print: [],
-		text: [],
+		Text: [],
 	}),
 	components: {
 		Grid,
@@ -68,10 +68,8 @@ export default {
 
 			const stateKeys = Object.keys(this.$data);
 
-			console.log('stateKeys', JSON.parse(JSON.stringify(stateKeys)));
-
 			this.current.forEach((item) => {
-				if (stateKeys.indexOf(item['@type'].toLowerCase()) > -1 && Array.isArray(this[item['@type'].toLowerCase()])) {
+				if (stateKeys.indexOf(item['@type']) > -1 && Array.isArray(this[item['@type']])) {
 					if (getResources().context != null) {
 						const chip = getChip(item, getResources(), [], settings);
 						const summary = getItemSummary(
@@ -82,7 +80,7 @@ export default {
 							getResources().displayGroups,
 						);
 
-						this.$data[item['@type'].toLowerCase()].push({
+						this.$data[item['@type']].push({
 							...item,
 							...summary,
 							...chip,
@@ -92,12 +90,11 @@ export default {
 			});
 
 			stateKeys.forEach((key) => {
-				if (key === 'text') {
+				if (key === 'Text') {
 					this.$data[key] = this.$data[key].map(this.calculateDisplayMeta);
 					const promises = this.$data[key].map(this.calculateFetchedMeta);
 
 					Promise.all(promises).then((results) => {
-						console.log('key, results', key, JSON.parse(JSON.stringify(results)));
 						this.$data[key] = results;
 					});
 				}
@@ -107,7 +104,7 @@ export default {
 		calculateDisplayMeta(item) {
 			const clone = JSON.parse(JSON.stringify(item));
 
-			if (item['@type'].toLowerCase() === 'text') {
+			if (item['@type'] === 'Text') {
 				clone.title = getItemLabel(item.hasTitle[0], getResources(), [], settings);
 				if (clone.genreForm != null && Array.isArray(clone.genreForm)) {
 					clone.genreFormCalculated = clone.genreForm.map((genre) => {
@@ -129,7 +126,7 @@ export default {
 			const response = await getDocument(`${clone['@id']}/data.jsonld`);
 			const split = splitJson(response.data);
 
-			if (item['@type'].toLowerCase() === 'text') {
+			if (item['@type'] === 'Text') {
 				if (clone['@reverse'].hasOwnProperty('instanceOf')) {
 					clone.instanceIds = clone['@reverse']['instanceOf'].map((instance) => instance['@id']);
 					if (clone.instanceIds != null) {
@@ -175,9 +172,6 @@ export default {
 				this.query();
 			}
 		},
-		text() {
-			console.log('text', JSON.parse(JSON.stringify(this.text)));
-		}
 	},
 };
 </script>
@@ -189,7 +183,7 @@ export default {
 		</template>
 
 		<BookListItem
-			v-for="book in text"
+			v-for="book in Text"
 			:key="book['@id']"
 			:book="book"
 			:displayMode="mode == 'preview' ? 'small' : null"
