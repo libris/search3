@@ -20,13 +20,14 @@ export default {
     },
     data() {
         return {
-            statusIndicator: 'test'
+            statusIndicator: 'test',
+            available: null,
         }
     },
     methods: {
-        setLoanStatus() {
+        async setLoanStatus() {
             this.statusIndicator = 'changed';
-            return getLoanStatus(this.sigel, this.instanceId);
+            this.available = await getLoanStatus(this.sigel, this.instanceId);
         }
     },
     computed: {
@@ -42,20 +43,23 @@ export default {
           return parts.pop();
         }
     },
-}
+    mounted() {
+        this.setLoanStatus();
+    },
+};
 </script>
 
 <template>
     <Card>
         <div>{{ this.library }}</div>
 
-        <div class="flex gap-x-2 mt-2">
-            <div class="py-1 px-2 rounded-sm text-sm" style="color: #2440bc; background: #e1e5f6;">
+        <div class="flex gap-x-2 mt-2" v-if="available != null">
+            <div class="py-1 px-2 rounded-sm text-sm" style="color: #2440bc; background: #e1e5f6;" v-if="available">
                 <font-awesome-icon icon="fa-solid fa-check" />
                 Tillgänglig
             </div>
 
-            <div class="py-1 px-2 rounded-sm text-sm" style="color: #b3401d; background: #f4e0d8;">
+            <div class="py-1 px-2 rounded-sm text-sm" style="color: #b3401d; background: #f4e0d8;" v-else>
                 <font-awesome-icon icon="fa-solid fa-xmark" />
                 Utlånad
             </div>
