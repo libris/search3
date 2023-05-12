@@ -22,6 +22,7 @@ module.exports = {
       "signal-yellow": "#F4B54F",
       "signal-green": "#01C281",
       "libris-green": "#81b864",
+      "transparent": "transparent",
     },
     fontFamily: {
       'sans': ['"Open Sans"'],
