@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { getDocument, getRelatedRecords } from '@/lib/http';
+import { getDocument } from '@/lib/http';
 import { splitJson } from "@/lxljs/data";
 import { getCard, getChip, getItemLabel, getItemSummary } from '@/lxljs/display';
 import { getResources } from '@/lib/resources';

@@ -8,7 +8,7 @@ interface RequestOptions {
 	url: string;
 };
 
-interface RequestResponse {
+interface RelatedRecordsResponse {
 	"@type": string;
 	"@id": string;
 	itemOffset: number;
@@ -30,6 +30,12 @@ interface RequestResponse {
 	},
 	maxItems: string;
 	"@context": string;
+};
+
+interface ResponseObject {
+	status: number;
+	data: object;
+	'ETag': string;
 };
 
 import { each } from 'lodash-es';
@@ -174,7 +180,7 @@ export function getHoldings(instanceUri) {
 	return fetch(query);
 }
 
-export function getRelatedRecords(queryPairs, apiPath): Promise<RequestResponse> {
+export function getRelatedRecords(queryPairs, apiPath): Promise<RelatedRecordsResponse> {
 	// Returns a list of records that links to <id> with <property>
 	return new Promise((resolve, reject) => {
 		let relatedRecords = `${apiPath}/find.jsonld?`;
@@ -196,7 +202,7 @@ export function getRelatedRecords(queryPairs, apiPath): Promise<RequestResponse>
 	});
 }
 
-export async function getDocument(uri, contentType = 'application/ld+json', embellished = true) {
+export async function getDocument(uri, contentType = 'application/ld+json', embellished = true): Promise<ResponseObject> {
 	let translatedUri = translateAliasedUri(uri);
 
 	if (!uri.includes('http')) {
@@ -210,23 +216,29 @@ export async function getDocument(uri, contentType = 'application/ld+json', embe
 
 	const headers = new Headers();
 	headers.append('Accept', contentType);
-	const responseObject = {};
+	const responseObject: ResponseObject = {
+		'status': 0,
+		'data': null,
+		'ETag': '',
+	};
 	const options = {
 		headers,
 	};
 	const response = await fetch(translatedUri, options);
-	responseObject['status'] = response.status;
+	responseObject.status = response.status;
 	if (response.status !== 200) {
 		if (translatedUri === uri) {
 			console.warn('HttpUtil.getDocument failed to fetch any data for:', uri);
 		} else {
 			console.warn('HttpUtil.getDocument failed to fetch any data for:', uri, `(as ${translatedUri})`);
 		}
-		responseObject['data'] = null;
+
+		responseObject.data = null;
 		return responseObject;
 	}
-	responseObject['data'] = await response.json();
-	responseObject['ETag'] = response.headers.get('ETag');
+
+	responseObject.data = await response.json();
+	responseObject.ETag = response.headers.get('ETag');
 	return responseObject;
 }
 
