@@ -111,6 +111,11 @@ export default {
 						return getItemLabel(genre, getResources(), [], settings);
 					});
 				}
+				if (clone.subject != null && Array.isArray(clone.subject)) {
+					clone.subjectCalculated = clone.subject.map((subject) => {
+						return getItemLabel(subject, getResources(), [], settings);
+					}).filter(label => !label.includes('{'));
+				}
 			}
 
 			return clone;
