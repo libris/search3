@@ -68,6 +68,8 @@ export default {
 
 			const stateKeys = Object.keys(this);
 
+			console.log('stateKeys', JSON.parse(JSON.stringify(stateKeys)));
+
 			this.current.forEach((item) => {
 				if (stateKeys.indexOf(item['@type']) > -1 && Array.isArray(this[item['@type']])) {
 					if (getResources().context != null) {
