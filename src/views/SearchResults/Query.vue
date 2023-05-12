@@ -95,6 +95,7 @@ export default {
 					const promises = this[key].map(this.calculateFetchedMeta);
 
 					Promise.all(promises).then((results) => {
+						console.log('key, results', key, JSON.parse(JSON.stringify(results)));
 						this[key] = results;
 					});
 				}
