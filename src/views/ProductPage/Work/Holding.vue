@@ -85,7 +85,7 @@ export default {
         </div>
 
         <div v-if="error" class="text-sm">
-            <font-awesome-icon icon="fa-solid fa-xmark" />
+            <font-awesome-icon icon="fa-solid fa-circle-exclamation" />
             Lånestatus kunde inte hämtas
         </div>
     </Card>
