@@ -2,7 +2,7 @@
 import { useProductStore } from '@/views/ProductPage/store';
 import { getResources } from '@/lib/resources';
 import settings from '@/lib/settings';
-import { getCard, getChip, getItemLabel } from '@/lxljs/display';
+import { getChip, getItemLabel } from '@/lxljs/display';
 import { getLabelByLang } from "@/lxljs/string";
 import { mapState } from 'pinia';
 import { getImageUrl, getFnurgelFromUri, getAtPath } from '@/lib/item';
@@ -132,7 +132,7 @@ export default {
 
         <template #footer>
             <div>
-                <div class="mt-4 flex gap-3 items-start">
+                <div class="flex gap-3 items-start">
                     <Button @click="showHoldings = true">
                         Tillgänglighet
                     </Button>

@@ -20,14 +20,21 @@ export default {
     },
     data() {
         return {
-            statusIndicator: 'test',
+            statusIndicator: 'unchanged',
             available: null,
+            error: false,
         }
     },
     methods: {
         async setLoanStatus() {
             this.statusIndicator = 'changed';
             const { item_information } = await getLoanStatus(this.sigel, this.instanceId);
+
+            if (item_information == null || item_information.error != null) {
+                this.error = true;
+                return true;
+            }
+
             let available_items = item_information.items.filter((item) =>
                 this.availableStatuses.indexOf(item.Status) > -1
             );
@@ -75,6 +82,11 @@ export default {
                 <font-awesome-icon icon="fa-solid fa-xmark" />
                 Utlånad
             </div>
+        </div>
+
+        <div v-if="error" class="text-sm">
+            <font-awesome-icon icon="fa-solid fa-xmark" />
+            Lånestatus kunde inte hämtas
         </div>
     </Card>
 </template>
