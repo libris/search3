@@ -4,8 +4,9 @@ import { splitJson } from "@/lxljs/data";
 import { getCard, getChip, getItemLabel, getItemSummary } from '@/lxljs/display';
 import { getResources } from '@/lib/resources';
 import { getAtPath, getFnurgelFromUri, getFullImageUrl, asArray, unwrap } from '@/lib/item';
-import { getRecordType } from "@/lxljs/vocab";
+import { isLink } from "@/lib/jsonld";
 
+import { getRecordType } from "@/lxljs/vocab";
 import settings from '@/lib/settings';
 
 export const useProductStore = defineStore('product', {
@@ -25,22 +26,9 @@ export const useProductStore = defineStore('product', {
 
 			return null;
 		},
-		instanceIds: (state) => {
-            if (state.mainEntity != null && state.mainEntity.hasOwnProperty('@reverse')) {
-				if (state.mainEntity['@reverse'].hasOwnProperty('instanceOf')) {
-					return state.mainEntity['@reverse']['instanceOf'].map((instance) => instance['@id']);
-				}
-            }
-
-			return [];
-        },
 		instances: (state) => {
-			return state.instanceIds.map((instanceId) => {
-				const instance = state.quoted[instanceId];
-				if (instance != null) {
-					return instance;
-				}
-			});
+			return getAtPath(state.mainEntity, ['@reverse', 'instanceOf'])
+				.map((i) => isLink(i) ? state.quoted[i['@id']] : i);
 		},
         workChip: (state) => {
             if (state.mainEntity != null) {
@@ -166,11 +154,18 @@ export const useProductStore = defineStore('product', {
 			let split = splitJson(response.data);
 
 			console.log('split', JSON.parse(JSON.stringify(split)));
-			if (split.mainEntity.instanceOf != null) {
+			if (isLink(split.mainEntity.instanceOf)) {
 				this.parentEntity = split.mainEntity;
 
 				response = await getDocument(`${this.parentEntity.instanceOf['@id']}/data.jsonld`);
 				split = splitJson(response.data);
+			}
+			else if (split.mainEntity.instanceOf) {
+				const instance = split.mainEntity;
+				const work = instance.instanceOf;
+				delete instance.instanceOf;
+				work['@reverse'] = {'instanceOf': [instance]};
+				split.mainEntity = work;
 			}
 
 			this.current = response.data;

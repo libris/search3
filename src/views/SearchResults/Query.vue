@@ -6,7 +6,7 @@ import { getChip, getItemSummary, getItemLabel } from "@/lxljs/display";
 import { getResources } from "@/lib/resources";
 import { splitJson } from "@/lxljs/data";
 import { getAtPath } from "@/lib/item";
-import { getQueryParams, getRelatedRecords, getDocument } from '@/lib/http';
+import {getQueryParams, getRelatedRecords, getDocument, noFragment} from '@/lib/http';
 import settings from "@/lib/settings";
 
 import Grid from '@/components/Grid.vue';
@@ -123,7 +123,10 @@ export default {
 
 		async calculateFetchedMeta(item) {
 			const clone = JSON.parse(JSON.stringify(item));
-			const response = await getDocument(`${clone['@id']}/data.jsonld`);
+			const response = await getDocument(`${noFragment(clone['@id'])}/data.jsonld`);
+			if (!response.data) {
+				return clone;
+			}
 			const split = splitJson(response.data);
 
 			if (item['@type'] === 'Text') {

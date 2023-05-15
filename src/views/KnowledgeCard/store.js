@@ -6,6 +6,7 @@ import { getResources } from '@/lib/resources';
 import { getAtPath, getFnurgelFromUri, getFullImageUrl, asArray, unwrap } from '@/lib/item';
 import { getRecordType } from "@/lxljs/vocab";
 import settings from '@/lib/settings';
+import { isLink } from "@/lib/jsonld";
 
 export const useKnowledgeCardStore = defineStore('knowledgeCard', {
 	state: () => ({
@@ -97,9 +98,13 @@ export const useKnowledgeCardStore = defineStore('knowledgeCard', {
 	actions: {
 		async getProduct(documentId) {
 			let response = await getDocument(`${documentId}/data.jsonld`);
+			if (!response.data) {
+				return;
+			}
+			
 			let split = splitJson(response.data);
 
-			if (split.mainEntity.instanceOf != null) {
+			if (isLink(split.mainEntity.instanceOf)) {
 				this.parentEntity = split.mainEntity;
 
 				response = await getDocument(`${this.parentEntity.instanceOf['@id']}/data.jsonld`);

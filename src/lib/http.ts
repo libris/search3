@@ -202,6 +202,10 @@ export function getRelatedRecords(queryPairs, apiPath): Promise<RelatedRecordsRe
 	});
 }
 
+export function noFragment(uri: string) {
+	return uri.split("#")[0];
+}
+
 export async function getDocument(uri, contentType = 'application/ld+json', embellished = true): Promise<ResponseObject> {
 	let translatedUri = translateAliasedUri(uri);
 
