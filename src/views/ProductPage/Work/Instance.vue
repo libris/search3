@@ -2,7 +2,7 @@
 import { useProductStore } from '@/views/ProductPage/store';
 import { getResources } from '@/lib/resources';
 import settings from '@/lib/settings';
-import { getChip, getItemLabel } from '@/lxljs/display';
+import { getCard, getChip, getItemLabel } from '@/lxljs/display';
 import { getLabelByLang } from "@/lxljs/string";
 import { mapState } from 'pinia';
 import { getImageUrl, getFnurgelFromUri, getAtPath } from '@/lib/item';
@@ -13,14 +13,15 @@ import SidebarModal from '@/components/Modals/Sidebar.vue';
 export default {
     name: "Instance",
     components: {
-        'holding': Holding,
+        Holding,
         SidebarModal,
     },
     data() {
         return {
+            detailsHeight: 0,
             showHoldings: false,
             isExpanded: false,
-            holdings: null
+            holdings: null,
         }
     },
     props: {
@@ -42,6 +43,9 @@ export default {
         },
         extent() {
             return getItemLabel(getAtPath(this.instance, ['extent', 0]), getResources(), this.quoted, settings);
+        },
+        dimensions() {
+            return getItemLabel(getAtPath(this.instance, ['hasDimensions']), getResources(), this.quoted, settings)
         },
         imageUrl() {
             return getImageUrl(
@@ -73,11 +77,25 @@ export default {
         fnurgel() {
             return this.$route.params.fnurgel;
         },
+        isSelected() {
+            if (this.instance != null && getFnurgelFromUri(this.instance['@id']) == this.fnurgel) {
+                return true;
+            }
+
+            return false;
+        },
     },
     methods: {
         getFnurgelFromUri,
         toggleExpanded() {
             this.isExpanded = !this.isExpanded;
+        },
+        getElementHeight(el) {
+            if (el == null) return 0;
+            const clone = el.cloneNode(true);
+            clone.style.cssText = 'position: fixed; top: 0; left: 0; visibility: hidden; overflow: auto; pointer-events: none; height: unset; max-height: unset';
+            document.body.append(clone);
+            return clone.scrollHeight;
         },
     },
     async mounted() {
@@ -86,15 +104,13 @@ export default {
             response.json()
         );
 
-        if (this.instance != null && getFnurgelFromUri(this.instance['@id']) == this.fnurgel) {
-            this.isExpanded = true;
-        }
-    }
+        this.detailsHeight = this.getElementHeight(this.$refs.details);
+    },
 }
 </script>
 
 <template>
-    <Card :class="{ ['!border-primary-blue']: this.isExpanded }" :image-url="imageUrl" image-size="sm" icon="fa-book">
+    <Card :class="{ ['!border-primary-blue']: isSelected }" :image-url="imageUrl" image-size="sm" icon="fa-book">
         <router-link :to="`/${getFnurgelFromUri(this.instance['@id'])}`" class="flex items-center gap-x-2">
             <h2 class="font-semibold">
                 {{ title }}
@@ -114,23 +130,69 @@ export default {
             {{ extent }}
         </div>
 
-        <!-- <div class="text-secondary-grey mt-2">
-            Finns på {{ numberOfHoldings }} bibliotek
-        </div> -->
+        <template #footer>
+            <div>
+                <div class="mt-4 flex gap-3 items-start">
+                    <Button @click="showHoldings = true">
+                        Tillgänglighet
+                    </Button>
 
-        <div class="mt-4">
-            <Button @click="showHoldings = true">
-                Tillgänglighet
-            </Button>
-        </div>
+                    <Button
+                        @click="isExpanded = !isExpanded"
+                        class="!items-start"
+                        :class="{['!border-secondary-grey/20 rounded-b-none border-b-0 z-10 h-14']: isExpanded }"
+                    >
+                        Detaljerad info
+                        <font-awesome-icon
+                            icon="fa-solid fa-chevron-up"
+                            class="ml-2 mt-1 transition-all"
+                            :class="{['rotate-180']: !isExpanded }"
+                        />
+                    </Button>
+                </div>
 
-        <!-- <div class="text-secondary-grey mt-1"
-            v-if="isExpanded" v-for="holding in items">
-            <holding :key="holding['@id']"
-                    :holding="holding"
-                    :instance-id="getFnurgelFromUri(this.instance['@id'])"
-            />
-        </div> -->
+                <Transition name="expand">
+                    <div
+                        class="transition-all overflow-hidden border rounded-lg relative border-secondary-grey/20"
+                        style="background: #eaf5f6; top: -1px;"
+                        :style="{ height: detailsHeight + 'px' }"
+                        v-show="isExpanded"
+                    >
+                        <div class="p-4 flex flex-col gap-y-3" ref="details">
+                            <div>
+                                <strong class="block text-secondary-grey font-semibold text-sm">
+                                    Utgivning
+                                </strong>
+
+                                <div v-for="publication in publications">
+                                    {{ publication.country }} &bull; {{ publication.agent }} &bull; {{ publication.year }}
+                                </div>
+                            </div>
+
+                            <div>
+                                <strong class="block text-secondary-grey font-semibold text-sm">
+                                    Mått
+                                </strong>
+
+                                <div>
+                                    {{ dimensions }}
+                                </div>
+                            </div>
+
+                            <div>
+                                <strong class="block text-secondary-grey font-semibold text-sm">
+                                    Omfång
+                                </strong>
+
+                                <div>
+                                    {{ extent }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </Transition>
+            </div>
+        </template>
     </Card>
 
     <SidebarModal v-model="showHoldings">
@@ -160,7 +222,7 @@ export default {
         </div>
 
         <div class="mb-1" v-for="holding in items">
-            <holding
+            <Holding
                 :key="holding['@id']"
                 :holding="holding"
                 :instance-id="getFnurgelFromUri(this.instance['@id'])"
@@ -168,3 +230,11 @@ export default {
         </div>
     </SidebarModal>
 </template>
+
+<style lang="css">
+.expand-enter-from,
+.expand-leave-to {
+  height: 0px !important;
+  opacity: 0;
+}
+</style>
