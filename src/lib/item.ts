@@ -31,7 +31,7 @@ export const getLoanStatus = async (sigel: string, instance_id: string) => {
 	// FIXME "search4" -> VUE_APP_BASE_URL 
 	const url = `/search4/lanstatus?output=json&sigel=${sigel}&bib_id=${instance_id}`;
 	const result = await fetch(url);
-	return result.status === 200;
+	return result.json();
 };
 
 export const getWorkImageUrl = (work) => {

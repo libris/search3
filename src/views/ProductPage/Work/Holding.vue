@@ -27,8 +27,13 @@ export default {
     methods: {
         async setLoanStatus() {
             this.statusIndicator = 'changed';
-            this.available = await getLoanStatus(this.sigel, this.instanceId);
-        }
+            const { item_information } = await getLoanStatus(this.sigel, this.instanceId);
+            let available_items = item_information.items.filter((item) =>
+                this.availableStatuses.indexOf(item.Status) > -1
+            );
+
+            this.available = available_items.length > 0;
+        },
     },
     computed: {
         ...mapState(useProductStore, ['quoted']),
@@ -41,7 +46,14 @@ export default {
         sigel() {
           const parts = this.heldBy['@id'].split("/");
           return parts.pop();
-        }
+        },
+        availableStatuses() {
+            return [
+                'Tillgänglig',
+                'Ej utlånad',
+                'Available',
+            ];
+        },
     },
     mounted() {
         this.setLoanStatus();
