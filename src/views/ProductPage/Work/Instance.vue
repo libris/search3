@@ -123,7 +123,7 @@ export default {
         </router-link>
 
         <div>
-            {{ identifiedBy }}
+            {{ identifiedBy }}{{ identifiedBy && type ? ' • '  : ''}}{{ type }}
         </div>
 
         <div>
