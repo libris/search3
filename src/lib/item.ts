@@ -29,7 +29,7 @@ export const getFullImageUrl = (id: string, isbn: string) => {
 
 export const getLoanStatus = async (sigel: string, instance_id: string) => {
 	// FIXME "search4" -> VUE_APP_BASE_URL 
-	const url = `/search4/lanstatus?output=xml&sigel=${sigel}&bib_id=${instance_id}`;
+	const url = `/search4/lanstatus?output=json&sigel=${sigel}&bib_id=${instance_id}`;
 	const result = await fetch(url);
 	return result.status === 200;
 };
