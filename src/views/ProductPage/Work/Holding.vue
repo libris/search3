@@ -5,9 +5,13 @@ import settings from "@/lib/settings";
 import { mapState } from "pinia";
 import { useProductStore } from "@/views/ProductPage/store";
 import { getLoanStatus } from "@/lib/item";
+import Expandable from "@/components/Expandable.vue";
 
 export default {
     name: "Holding",
+    components: {
+        Expandable,
+    },
     props: {
         holding: {
             type: Object,
@@ -23,6 +27,8 @@ export default {
             statusIndicator: 'unchanged',
             available: null,
             error: false,
+            expanded: false,
+            items: [],
         }
     },
     methods: {
@@ -35,6 +41,7 @@ export default {
                 return true;
             }
 
+            this.items = item_information.items;
             let available_items = item_information.items.filter((item) =>
                 this.availableStatuses.indexOf(item.Status) > -1
             );
@@ -69,7 +76,7 @@ export default {
 </script>
 
 <template>
-    <Card>
+    <Card @click="expanded = !expanded">
         <div>{{ this.library }}</div>
 
         <div class="flex gap-x-2 mt-2" v-if="available != null">
@@ -88,5 +95,68 @@ export default {
             <font-awesome-icon icon="fa-solid fa-circle-exclamation" />
             Lånestatus kunde inte hämtas
         </div>
+
+        <Expandable v-show="expanded">
+            <div class="flex flex-col gap-y-3 text-sm pt-4">
+                <div class="flex">
+                    <div class="w-1/2">
+                        <strong>
+                            Adress
+                        </strong>
+
+                        <div>
+                            Kulturförvaltningen<br />
+                            113 80, Stockholm
+                        </div>
+                    </div>
+
+                    <div class="w-1/2">
+                        <strong>
+                            Telefon
+                        </strong>
+
+                        <div>
+                            0850830900
+                        </div>
+                    </div>
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Placering</th>
+                            <th>Hylla</th>
+                            <th>Lånepolitik</th>
+                            <th>Status</th>
+                            <th>Datum</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr v-for="item in items" :key="item.Item_No">
+                            <td>
+                                {{ item.location }}
+                            </td>
+
+                            <td>
+                                {{ item.Call_No }}
+                            </td>
+
+                            <td>
+                                {{ item.Loan_Policy }}
+                            </td>
+
+                            <td>
+                                {{ item.Status }}
+                            </td>
+
+                            <td>
+                                {{ item.Status_Date }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </Expandable>
     </Card>
 </template>

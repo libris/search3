@@ -9,16 +9,17 @@ import { getImageUrl, getFnurgelFromUri, getAtPath } from '@/lib/item';
 import { getHoldings } from "@/lib/http";
 import Holding from "./Holding.vue";
 import SidebarModal from '@/components/Modals/Sidebar.vue';
+import Expandable from '@/components/Expandable.vue';
 
 export default {
     name: "Instance",
     components: {
         Holding,
         SidebarModal,
+        Expandable,
     },
     data() {
         return {
-            detailsHeight: 0,
             showHoldings: false,
             isExpanded: false,
             holdings: null,
@@ -90,21 +91,12 @@ export default {
         toggleExpanded() {
             this.isExpanded = !this.isExpanded;
         },
-        getElementHeight(el) {
-            if (el == null) return 0;
-            const clone = el.cloneNode(true);
-            clone.style.cssText = 'position: fixed; top: 0; left: 0; visibility: hidden; overflow: auto; pointer-events: none; height: unset; max-height: unset';
-            document.body.append(clone);
-            return clone.scrollHeight;
-        },
     },
     async mounted() {
         // This is necessary unless we embellish the holdings to the work (currently we only get the holding ids).
         this.holdings = await getHoldings(this.instance['@id']).then((response) =>
             response.json()
         );
-
-        this.detailsHeight = this.getElementHeight(this.$refs.details);
     },
 }
 </script>
@@ -151,46 +143,42 @@ export default {
                     </Button>
                 </div>
 
-                <Transition name="expand">
+                <Expandable v-show="isExpanded">
                     <div
-                        class="transition-all overflow-hidden border rounded-lg relative border-secondary-grey/20"
+                        class="border rounded-lg relative border-secondary-grey/20 p-4 flex flex-col gap-y-3"
                         style="background: #eaf5f6; top: -1px;"
-                        :style="{ height: detailsHeight + 'px' }"
-                        v-show="isExpanded"
                     >
-                        <div class="p-4 flex flex-col gap-y-3" ref="details">
-                            <div>
-                                <strong class="block text-secondary-grey font-semibold text-sm">
-                                    Utgivning
-                                </strong>
+                        <div>
+                            <strong class="block text-secondary-grey font-semibold text-sm">
+                                Utgivning
+                            </strong>
 
-                                <div v-for="publication in publications">
-                                    {{ publication.country }} &bull; {{ publication.agent }} &bull; {{ publication.year }}
-                                </div>
+                            <div v-for="publication in publications">
+                                {{ publication.country }} &bull; {{ publication.agent }} &bull; {{ publication.year }}
                             </div>
+                        </div>
+
+                        <div>
+                            <strong class="block text-secondary-grey font-semibold text-sm">
+                                Mått
+                            </strong>
 
                             <div>
-                                <strong class="block text-secondary-grey font-semibold text-sm">
-                                    Mått
-                                </strong>
-
-                                <div>
-                                    {{ dimensions }}
-                                </div>
+                                {{ dimensions }}
                             </div>
+                        </div>
+
+                        <div>
+                            <strong class="block text-secondary-grey font-semibold text-sm">
+                                Omfång
+                            </strong>
 
                             <div>
-                                <strong class="block text-secondary-grey font-semibold text-sm">
-                                    Omfång
-                                </strong>
-
-                                <div>
-                                    {{ extent }}
-                                </div>
+                                {{ extent }}
                             </div>
                         </div>
                     </div>
-                </Transition>
+                </Expandable>
             </div>
         </template>
     </Card>
@@ -230,11 +218,3 @@ export default {
         </div>
     </SidebarModal>
 </template>
-
-<style lang="css">
-.expand-enter-from,
-.expand-leave-to {
-  height: 0px !important;
-  opacity: 0;
-}
-</style>
