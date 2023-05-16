@@ -42,11 +42,15 @@ import { each } from 'lodash-es';
 import { translateAliasedUri } from './data';
 import settings from './settings';
 
-export function getQueryParams(queryString = window.location.search) {
+export function getQueryParams(queryString = window.location.search): any {
 	const params = new URLSearchParams(queryString);
 	let query = {};
-	for(var value of params.keys()) {
-		query[value] = params.get(value);
+	for (var key of params.keys()) {
+		if (params.getAll(key).length > 1) {
+			query[key] = params.getAll(key);
+		} else {
+			query[key] = params.get(key);
+		}
 	}
 
 	return query;
@@ -199,10 +203,7 @@ export function getHoldings(instanceUri) {
 export function getRelatedRecords(queryPairs, apiPath): Promise<RelatedRecordsResponse> {
 	// Returns a list of records that links to <id> with <property>
 	return new Promise((resolve, reject) => {
-		let relatedRecords = `${apiPath}/find.jsonld?`;
-		each(queryPairs, (v, k) => {
-			relatedRecords += (`${encodeURIComponent(k)}=${encodeURIComponent(v)}&`);
-		});
+		const relatedRecords = `${apiPath}/find.jsonld?${buildQueryString(queryPairs)}`;
 
 		fetch(relatedRecords)
 			.then((response) => {

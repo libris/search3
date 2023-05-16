@@ -6,7 +6,7 @@ import { getChip, getItemSummary, getItemLabel } from "@/lxljs/display";
 import { getResources } from "@/lib/resources";
 import { splitJson } from "@/lxljs/data";
 import { getAtPath } from "@/lib/item";
-import {getQueryParams, getRelatedRecords, getDocument, noFragment} from '@/lib/http';
+import { getQueryParams, getRelatedRecords, getDocument, noFragment } from '@/lib/http';
 import settings from "@/lib/settings";
 
 import Grid from '@/components/Grid.vue';
