@@ -41,8 +41,6 @@ export default {
 	methods: {
 		handleChange(event) {
 			this.selected = event.target.value;
-			this.$emit('update:modelValue', this.selected);
-			this.$emit('change', this.selected);
 		},
 	},
 	watch: {
