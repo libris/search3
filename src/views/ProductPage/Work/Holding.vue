@@ -98,7 +98,7 @@ export default {
 
         <Expandable v-show="expanded">
             <div class="flex flex-col gap-y-3 text-sm pt-4">
-                <div class="flex">
+                <!-- <div class="flex"> WIP: add real info here
                     <div class="w-1/2">
                         <strong>
                             Adress
@@ -119,11 +119,11 @@ export default {
                             0850830900
                         </div>
                     </div>
-                </div>
+                </div> -->
 
-                <table>
+                <table v-if="items.length > 0" class="mt-3">
                     <thead>
-                        <tr>
+                        <tr class="text-left">
                             <th>Placering</th>
                             <th>Hylla</th>
                             <th>Lånepolitik</th>
