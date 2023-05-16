@@ -76,7 +76,7 @@ export default {
 </script>
 
 <template>
-    <Card @click="expanded = !expanded">
+    <Card @click="expanded = !expanded" class="cursor-pointer">
         <div>{{ this.library }}</div>
 
         <div class="flex gap-x-2 mt-2" v-if="available != null">
