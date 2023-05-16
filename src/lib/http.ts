@@ -52,6 +52,22 @@ export function getQueryParams(queryString = window.location.search) {
 	return query;
 };
 
+export const getDefaultSearchParams = () => ({
+	q: '',
+	'_limit': 20,
+	'_sort': '',
+	'@type': 'Work',
+});
+
+export const getSearchParamValue = (parameter) => {
+	return getQueryParams()[parameter] ?? getDefaultSearchParams()[parameter];
+};
+
+export const getSearchParams = () => ({
+	...getDefaultSearchParams(),
+	...getQueryParams()
+});
+
 export function buildQueryString(params) {
 	const enc = encodeURIComponent;
 	const queryArr = [];

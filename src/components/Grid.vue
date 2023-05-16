@@ -31,7 +31,7 @@
 				</div>
 
 				<div class="ml-1">
-					<Select name="sortOptions" v-model="_sort" @change="redirect">
+					<Select name="sortOptions" v-model="sort" @change="onSortChange">
 						<option
 							v-for="option in sortOptions"
 							:value="option.query.endsWith('_sortKeyByLang') ? `${option.query}.sv` : option.query"
@@ -50,9 +50,9 @@
 </template>
 
 <script lang="ts">
-import { mapActions, mapWritableState } from 'pinia';
+import { getSearchParamValue, getSearchParams } from '@/lib/http';
+import { mapWritableState } from 'pinia';
 import { useDisplayPreferences } from '@/stores/displayPreferences';
-import { useQueryStore } from '@/stores/query';
 import { translatePhrase } from '@/lib/item';
 import settings from '@/lib/settings';
 import Select from './Select.vue';
@@ -70,12 +70,14 @@ export default {
 			default: true,
 		},
 	},
+	data: () => ({
+		sort: getSearchParamValue('_sort'),
+	}),
 	components: {
 		Select,
 	},
 	computed: {
 		...mapWritableState(useDisplayPreferences, ['mode']),
-		...mapWritableState(useQueryStore, ['_sort']),
 		containerClassName() {
 			switch (this.mode) {
 				case 'cards':
@@ -94,10 +96,19 @@ export default {
 		},
 	},
 	methods: {
-		...mapActions(useQueryStore, ['redirect']),
 		translatePhrase,
 		setDisplayMode(mode: String) {
 			this.mode = mode;
+		},
+		onSortChange(event) {
+			this.sort = event.target.value;
+			this.$router.push({
+				path: '/find',
+				query: {
+					...getSearchParams(),
+					'_sort': this.sort,
+				}
+			});
 		},
 	},
 };

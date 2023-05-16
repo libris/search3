@@ -1,18 +1,15 @@
 <script lang="ts">
-import { mapActions, mapWritableState } from 'pinia';
 import SearchInput from '@/components/SearchInput.vue';
-import { useQueryStore } from '@/stores/query';
 export default {
 	name: 'LandingPage',
 	components: {
 		SearchInput,
 	},
 	methods: {
-		...mapActions(useQueryStore, ['redirect']),
+		onSearch(values) {
+			this.$router.push({ path: '/find', query: values });
+		},
 	},
-	mounted() {
-		useQueryStore().$reset();
-	}
 };
 </script>
 
@@ -23,7 +20,7 @@ export default {
 		</div>
 
 		<div className="mt-6">
-			<SearchInput v-on:search="redirect" />
+			<SearchInput v-on:search="onSearch" />
 		</div>
 	</div>
 </template>

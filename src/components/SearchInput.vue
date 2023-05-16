@@ -33,8 +33,7 @@
 </template>
 
 <script lang="ts">
-import { useQueryStore } from "@/stores/query";
-import { mapWritableState } from "pinia";
+import { getSearchParamValue, getSearchParams } from "@/lib/http";
 import { defineComponent } from "vue";
 import Popper from "vue3-popper";
 
@@ -44,16 +43,17 @@ export default defineComponent({
 	},
 	data() {
 		return {
+			q: getSearchParamValue('q'),
 			visible: false,
 			timer: null,
 		}
 	},
-	computed: {
-		...mapWritableState(useQueryStore, ['q']),
-	},
 	methods: {
 		submit() {
-			this.$emit('search');
+			this.$emit('search', {
+				...getSearchParams(),
+				q: this.q,
+			});
 		},
 		onInputKeypress(event) {
 			clearTimeout(this.timer);

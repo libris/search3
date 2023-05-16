@@ -51,6 +51,11 @@ export default {
 	methods: {
 		async query(queryString) {
 			const query = getQueryParams(queryString);
+
+			if (query.q == null || query.q == '') {
+				query.q = '*';
+			}
+
 			const response = await getRelatedRecords(query, settings.apiPath);
 
 			this.reset();
@@ -163,6 +168,8 @@ export default {
 		},
 	},
 	mounted() {
+		this.reset();
+
 		if (this.queryString != null) {
 			this.query(this.queryString);
 		} else {

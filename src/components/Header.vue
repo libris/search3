@@ -1,6 +1,4 @@
 <script lang="ts">
-import { mapActions } from 'pinia';
-import { useQueryStore } from '@/stores/query';
 import SearchInput from './SearchInput.vue';
 
 export default {
@@ -9,7 +7,9 @@ export default {
 		SearchInput,
 	},
 	methods: {
-		...mapActions(useQueryStore, ['redirect']),
+		onSearch(values) {
+			this.$router.replace({ path: '/find', query: values });
+		},
 	},
 };
 </script>
@@ -23,7 +23,7 @@ export default {
 
 			<SearchInput
 				v-if="$route.path !== '/'"
-				v-on:search="redirect"
+				v-on:search="onSearch"
 			/>
 		</div>
 
