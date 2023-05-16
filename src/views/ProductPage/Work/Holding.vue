@@ -97,7 +97,7 @@ export default {
         </div>
 
         <Expandable v-show="expanded">
-            <div class="flex flex-col gap-y-3 text-sm pt-4">
+            <div class="flex flex-col gap-y-3 text-sm">
                 <!-- <div class="flex"> WIP: add real info here
                     <div class="w-1/2">
                         <strong>
