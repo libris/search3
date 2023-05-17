@@ -45,8 +45,9 @@ export default {
                     <h3 class="text-2xl font-semibold mb-2">
                         Mer av samma författare
                     </h3>
-
-                    <Query mode="preview" :query-string="`?q=*&@type=Text&_limit=20&o=${author.agent['@id']}&_sort=`" />
+    
+                    <!-- FIXME: hardcoded language sv -->
+                    <Query mode="preview" :query-string="`?q=*&@type=Text&_limit=20&o=${author.agent['@id']}&_sort=_sortKeyByLang.sv`" />
                 </div>
 
                 <div class="lg:w-1/2">
