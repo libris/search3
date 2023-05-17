@@ -9,7 +9,11 @@ export default {
 	},
 	methods: {
 		onSearch(values) {
-			this.$router.replace({ path: '/find', query: values });
+			if (window.location.pathname === '/find') {
+				this.$router.replace({ path: '/find', query: values });
+			} else {
+				this.$router.push({ path: '/find', query: values });
+			}
 		},
 	},
 	computed: {
