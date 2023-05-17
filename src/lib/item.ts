@@ -48,9 +48,12 @@ export const publicationYear = (instance) => {
 
 export const instances = (work) => {
 	// TODO: '@reverse', 'instanceOf' == 'hasInstance'
-	const instances = getAtPath(work, ['@reverse', 'instanceOf', '*'])
-		.map(i => ({'year': publicationYear(i), 'i': i}));
-	return sortBy(instances, ['year']).map(i => i.i);
+	return sortInstances(getAtPath(work, ['@reverse', 'instanceOf', '*']));
+}
+
+export const sortInstances = (instances) => {
+	const withYear = instances.map(i => ({'year': publicationYear(i), 'i': i}));
+	return sortBy(withYear, ['year']).map(i => i.i);
 }
 
 export const getAtPath = (thing, path, defaultTo = []) => {

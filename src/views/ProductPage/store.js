@@ -3,7 +3,7 @@ import { getDocument } from '@/lib/http';
 import { splitJson } from "@/lxljs/data";
 import { getCard, getChip, getItemLabel, getItemSummary } from '@/lxljs/display';
 import { getResources } from '@/lib/resources';
-import { getAtPath, getFnurgelFromUri, getFullImageUrl, asArray, unwrap } from '@/lib/item';
+import {getAtPath, getFnurgelFromUri, getFullImageUrl, asArray, unwrap, sortInstances} from '@/lib/item';
 import { isLink } from "@/lib/jsonld";
 
 import { getRecordType } from "@/lxljs/vocab";
@@ -27,8 +27,9 @@ export const useProductStore = defineStore('product', {
 			return null;
 		},
 		instances: (state) => {
-			return getAtPath(state.mainEntity, ['@reverse', 'instanceOf'])
+			const instances = getAtPath(state.mainEntity, ['@reverse', 'instanceOf'])
 				.map((i) => isLink(i) ? state.quoted[i['@id']] : i);
+			return sortInstances(instances);
 		},
         workChip: (state) => {
             if (state.mainEntity != null) {
@@ -64,7 +65,7 @@ export const useProductStore = defineStore('product', {
 		subjects: (state) => {
 			if (state.mainEntity != null) {
 				return getAtPath(state.mainEntity, ['subject', '*']).map(s => {
-					if (s['@id'] != null ) {
+					if (s['@id'] != null && state.quoted[s['@id']]) {
 						const subject = state.quoted[s['@id']];
 						const schemeId = subject['inScheme']['@id'];
 						const scheme = state.quoted[schemeId];
@@ -86,7 +87,7 @@ export const useProductStore = defineStore('product', {
 			}
 		},
 		gfSchemes: (state) => {
-			const schemes = [...new Set(state.genreForms.map(gf => gf?.inScheme))];
+			const schemes = [...new Set((state.genreForms).map(gf => gf?.inScheme))];
 			return schemes.map(scheme => {
 				return {
 					'scheme': scheme,
@@ -97,7 +98,7 @@ export const useProductStore = defineStore('product', {
 		genreForms: (state) => {
 			if (state.mainEntity != null) {
 				return getAtPath(state.mainEntity, ['genreForm', '*']).map(gf => {
-					if (gf['@id'] != null ) {
+					if (gf['@id'] != null && state.quoted[gf['@id']]) {
 						const genreForm = state.quoted[gf['@id']];
 						const schemeId = genreForm['inScheme']['@id'];
 						const scheme = state.quoted[schemeId];
