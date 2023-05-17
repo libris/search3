@@ -1,21 +1,21 @@
 <template>
 	<div class="flex items-center">
-		<div class="focustrap" tabindex="0" @focusin="onInputFocus" @focusout="onInputBlur">
+		<div class="focustrap flex-1" tabindex="0" @focusin="onInputFocus" @focusout="onInputBlur">
 			<Popper
 				arrow
 				:show="visible"
 				placement="bottom-start"
 				arrow-padding="16"
+				class="!block w-full"
 			>
-				<div class="search-input">
-					<input
-						placeholder=""
-						type="search"
-						ref="textInput"
-						@keypress="onInputKeypress"
-						v-model="q"
-					/>
-				</div>
+				<input
+					class="border border-secondary-grey/20 rounded-full py-3 px-4 w-full"
+					placeholder="Skriv in sökord"
+					type="search"
+					ref="textInput"
+					@keypress="onInputKeypress"
+					v-model="q"
+				/>
 
 				<template #content>
 					Inga sökförslag hittades
@@ -24,9 +24,12 @@
 		</div>
 
 		<button
-			class="bg-libris-green hover:bg-libris-green/80 border border-libris-green rounded-r-md py-3 px-5 text-primary-white transition-colors"
 			@click="submit"
+			class="transition-all border border-transparent rounded-3xl py-3 px-6 inline-flex items-center cursor-pointer justify-center text-primary-white/90"
+			:class="buttonClass"
+			style="background: #007787;"
 		>
+			<font-awesome-icon icon="fa-solid fa-search" class="mr-2" />
 			Sök
 		</button>
 	</div>
@@ -46,6 +49,15 @@ export default defineComponent({
 			q: getSearchParamValue('q'),
 			visible: false,
 			timer: null,
+		}
+	},
+	computed: {
+		buttonClass() {
+			if (window.location.pathname == '/') {
+				return 'md:w-40';
+			}
+
+			return '';
 		}
 	},
 	methods: {
@@ -93,22 +105,5 @@ export default defineComponent({
 
 .focustrap, input[type="search"] {
 	outline: none;
-}
-
-.search-input {
-	border: 1px solid #e4e4eb;
-	border-top-left-radius: 6px;
-	border-bottom-left-radius: 6px;
-	display: flex;
-	align-items: center;
-}
-
-input[type="search"] {
-	padding: .75rem 0;
-	border: 0;
-	border-top-left-radius: 6px;
-	border-bottom-left-radius: 6px;
-	flex: 1;
-	padding-left: 6px;
 }
 </style>
