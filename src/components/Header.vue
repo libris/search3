@@ -1,5 +1,6 @@
 <script lang="ts">
 import SearchInput from './SearchInput.vue';
+import { getNumberOfVowels } from "@/lxljs/string";
 
 export default {
 	name: 'Header',
@@ -11,6 +12,13 @@ export default {
 			this.$router.replace({ path: '/find', query: values });
 		},
 	},
+	computed: {
+		editLink() {
+			const id = this.$route.path.substring(1)
+			const isFnurgel = getNumberOfVowels(id) == 0 && id.length > 14;
+			return isFnurgel ? `/katalogisering/${id}` : null;
+		}
+	}
 };
 </script>
 
@@ -43,6 +51,10 @@ export default {
 			<router-link to="#" class="text-secondary-turquoise hover:underline hover:decoration-secondary-darker-turquoise hover:text-secondary-darker-turquoise">
 				Logga in
 			</router-link>
+
+			<a v-if="editLink" :href="editLink" class="text-secondary-turquoise hover:underline hover:decoration-secondary-darker-turquoise hover:text-secondary-darker-turquoise">
+				<font-awesome-icon icon="fa-solid fa-pen" />
+			</a>
 		</div>
 	</div>
 </template>
