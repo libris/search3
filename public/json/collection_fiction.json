@@ -1,0 +1,146 @@
+[
+	{
+	"@type": "CollectionQuery",
+	"@id": "1",
+	"labelByLang": {
+		"sv": "Barn-och ungdomsböcker • Magi",
+		"en": "Barn-och ungdomsböcker • Magi"
+	},
+	"descriptionByLang": {
+		"sv": "Beskrivning...",
+		"en": "Description..."
+	},
+	"image": {
+		"@type": "ImageObject",
+		"thumbnail": {
+			"@id": "https://images.unsplash.com/photo-1551269901-5c5e14c25df7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1738&q=80"
+		},
+		"license": {
+			"@id": "https://creativecommons.org/publicdomain/zero/1.0/"
+		}
+	},
+	"first": {
+		"@id": "/find?q=&@type=Text&_limit=20&and-intendedAudience.@id=https://id.kb.se/marc/Juvenile&and-subject.@id=https://id.kb.se/term/barn/Magi"
+	}
+	},
+	{
+		"@type": "CollectionQuery",
+		"@id": "2",
+		"labelByLang": {
+			"sv": "Thrillers • Engelska",
+			"en": "Thrillers • English"
+		},
+		"descriptionByLang": {
+			"sv": "Beskrivning...",
+			"en": "Description..."
+		},
+		"image": {
+			"@type": "ImageObject",
+			"thumbnail": {
+				"@id": "https://images.unsplash.com/photo-1523712900580-a5cc2e0112ed?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8dGhyaWxsZXJ8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60"
+			},
+			"license": {
+				"@id": "https://creativecommons.org/publicdomain/zero/1.0/"
+			}
+		},
+		"first": {
+			"@id": "/find?q=&@type=Text&_limit=20&and-genreForm.@id=https://id.kb.se/term/saogf/Thrillers"
+		}
+	},
+	{
+		"@type": "CollectionQuery",
+		"@id": "3",
+		"labelByLang": {
+			"sv": "Arbetsskildringar • Kvinnor",
+			"en": "Arbetsskildringar • Kvinnor"
+		},
+		"descriptionByLang": {
+			"sv": "Beskrivning...",
+			"en": "Description..."
+		},
+		"image": {
+			"@type": "ImageObject",
+			"thumbnail": {
+				"@id": "https://images.unsplash.com/photo-1680118534743-981cb495bd31?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1678&q=80"
+			},
+			"license": {
+				"@id": "https://creativecommons.org/publicdomain/zero/1.0/"
+			}
+		},
+		"first": {
+			"@id": "/find?q=&@type=Text&_limit=20&and-genreForm.@id=https://id.kb.se/term/saogf/Arbetarskildringar&and-subject.@id=https://id.kb.se/term/sao/Kvinnor"
+		}
+	},
+	{
+		"@type": "CollectionQuery",
+		"@id": "4",
+		"labelByLang": {
+			"sv": "Poesi • Artur Lundkvist",
+			"en": "Poesi • Artur Lundkvist"
+		},
+		"descriptionByLang": {
+			"sv": "Beskrivning...",
+			"en": "Description..."
+		},
+		"image": {
+			"@type": "ImageObject",
+			"thumbnail": {
+				"@id": "https://images.unsplash.com/photo-1473186505569-9c61870c11f9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80"
+			},
+			"license": {
+				"@id": "https://creativecommons.org/publicdomain/zero/1.0/"
+			}
+		},
+		"first": {
+			"@id": "/find?q=&@type=Text&_limit=20&and-genreForm.@id=https://id.kb.se/term/saogf/Poesi&o=https://libris-qa.kb.se/dbqstw3x359v6bm%23it"
+		}
+	},
+	{
+		"@type": "CollectionQuery",
+		"@id": "5",
+		"labelByLang": {
+			"sv": "Bildromaner • Vänskap",
+			"en": "Bildromaner • Vänskap"
+		},
+		"descriptionByLang": {
+			"sv": "Beskrivning...",
+			"en": "Description..."
+		},
+		"image": {
+			"@type": "ImageObject",
+			"thumbnail": {
+				"@id": "https://images.unsplash.com/photo-1506880018603-83d5b814b5a6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1374&q=80"
+			},
+			"license": {
+				"@id": "https://creativecommons.org/publicdomain/zero/1.0/"
+			}
+		},
+		"first": {
+			"@id": "/find?q=&@type=Text&_limit=20&and-genreForm.@id=https://id.kb.se/term/barngf/Bildromaner&and-subject.@id=https://id.kb.se/term/barn/V%25C3%25A4nskap"
+		}
+	},
+	{
+		"@type": "CollectionQuery",
+		"@id": "6",
+		"labelByLang": {
+			"sv": "Lättläst • Skolan",
+			"en": "Lättläst • Skolan"
+		},
+		"descriptionByLang": {
+			"sv": "Beskrivning...",
+			"en": "Description..."
+		},
+		"image": {
+			"@type": "ImageObject",
+			"thumbnail": {
+				"@id": "https://images.unsplash.com/photo-1581726707445-75cbe4efc586?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1752&q=80"
+			},
+			"license": {
+				"@id": "https://creativecommons.org/publicdomain/zero/1.0/"
+			}
+		},
+		"first": {
+			"@id": "/find?q=&@type=Text&_limit=20&and-genreForm.@id=https://id.kb.se/term/saogf/L%25C3%25A4ttl%25C3%25A4st&and-subject.@id=https://id.kb.se/term/barn/Skolan"
+		}
+	}
+]
