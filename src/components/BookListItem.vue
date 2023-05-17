@@ -162,7 +162,7 @@
 	<Card v-if="mode === 'small'" :image-url="getWorkImageUrl(book)" image-size="sm">
 		<router-link :to="this.routerPath(book['@id'])" :title="book.title">
 			<div class="flex items-center">
-				<h3 class="text-xl font-semibold">
+				<h3 class="text-l font-semibold">
 					{{ book.title }}
 				</h3>
 			</div>
