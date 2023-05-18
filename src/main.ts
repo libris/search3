@@ -3,6 +3,7 @@ import { createPinia } from 'pinia';
 import { initStore } from './piniaPlugin';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { createVfm } from 'vue-final-modal';
+import piniaResist from 'pinia-plugin-persist';
 import 'vue-final-modal/style.css'
 import router from '@/lib/router';
 import './lib/icons';
@@ -16,6 +17,8 @@ const pinia = createPinia();
 const app = createApp(App);
 
 pinia.use(initStore);
+pinia.use(piniaResist);
+
 app.use(pinia);
 app.use(router);
 app.use(vfm);
