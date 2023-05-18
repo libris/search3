@@ -114,6 +114,10 @@ export const useProductStore = defineStore('product', {
 		author: (state) => {
 			if (state.mainEntity != null) {
 				return getAtPath(state.mainEntity, ['contribution', '*']).find(c => {
+					if (c.role == null) {
+						return false;
+					}
+
 					if (Array.isArray(c.role)) {
 						return c.role.find((r) => r['@id'].indexOf('author') > -1);
 					} else {
@@ -160,8 +164,7 @@ export const useProductStore = defineStore('product', {
 
 				response = await getDocument(`${this.parentEntity.instanceOf['@id']}/data.jsonld`);
 				split = splitJson(response.data);
-			}
-			else if (split.mainEntity.instanceOf) {
+			} else if (split.mainEntity.instanceOf) {
 				const instance = split.mainEntity;
 				const work = instance.instanceOf;
 				delete instance.instanceOf;
