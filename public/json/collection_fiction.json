@@ -13,7 +13,7 @@
 	"image": {
 		"@type": "ImageObject",
 		"thumbnail": {
-			"@id": "https://images.unsplash.com/photo-1551269901-5c5e14c25df7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1738&q=80"
+			"@id": "/images/magic.jpg"
 		},
 		"license": {
 			"@id": "https://creativecommons.org/publicdomain/zero/1.0/"
@@ -37,7 +37,7 @@
 		"image": {
 			"@type": "ImageObject",
 			"thumbnail": {
-				"@id": "https://images.unsplash.com/photo-1523712900580-a5cc2e0112ed?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8dGhyaWxsZXJ8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60"
+				"@id": "/images/thriller-forest.jpg"
 			},
 			"license": {
 				"@id": "https://creativecommons.org/publicdomain/zero/1.0/"
@@ -61,7 +61,7 @@
 		"image": {
 			"@type": "ImageObject",
 			"thumbnail": {
-				"@id": "https://images.unsplash.com/photo-1680118534743-981cb495bd31?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1678&q=80"
+				"@id": "/images/women-working.jpg"
 			},
 			"license": {
 				"@id": "https://creativecommons.org/publicdomain/zero/1.0/"
@@ -85,7 +85,7 @@
 		"image": {
 			"@type": "ImageObject",
 			"thumbnail": {
-				"@id": "https://images.unsplash.com/photo-1473186505569-9c61870c11f9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80"
+				"@id": "/images/poetry.jpg"
 			},
 			"license": {
 				"@id": "https://creativecommons.org/publicdomain/zero/1.0/"
@@ -109,7 +109,7 @@
 		"image": {
 			"@type": "ImageObject",
 			"thumbnail": {
-				"@id": "https://images.unsplash.com/photo-1506880018603-83d5b814b5a6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1374&q=80"
+				"@id": "/images/reading-image-book.jpg"
 			},
 			"license": {
 				"@id": "https://creativecommons.org/publicdomain/zero/1.0/"
@@ -133,7 +133,7 @@
 		"image": {
 			"@type": "ImageObject",
 			"thumbnail": {
-				"@id": "https://images.unsplash.com/photo-1581726707445-75cbe4efc586?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1752&q=80"
+				"@id": "/images/school.jpg"
 			},
 			"license": {
 				"@id": "https://creativecommons.org/publicdomain/zero/1.0/"
