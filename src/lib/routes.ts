@@ -4,11 +4,16 @@ import { RouteRecordRaw } from "vue-router";
 import LandingPage from '@/views/LandingPage/index.vue';
 import DisplayBooks from '@/views/SearchResults/index.vue';
 import ProductPage from "@/views/ProductPage/index.vue";
+import BookmarksPage from '@/views/BookmarksPage/index.vue';
 
 const routes: Array<RouteRecordRaw> = [
 	{
 		path: '/',
 		component: LandingPage,
+	},
+	{
+		path: '/bookmarks',
+		component: BookmarksPage,
 	},
 	{
 		path: '/find',

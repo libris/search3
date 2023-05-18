@@ -48,8 +48,8 @@ export default {
 				Mina bibliotek
 			</router-link>
 
-			<router-link to="#" class="text-secondary-turquoise hover:underline hover:decoration-secondary-darker-turquoise hover:text-secondary-darker-turquoise">
-				Anpassa
+			<router-link to="/bookmarks" class="text-secondary-turquoise hover:underline hover:decoration-secondary-darker-turquoise hover:text-secondary-darker-turquoise">
+				Mina bokmärken
 			</router-link>
 
 			<router-link to="#" class="text-secondary-turquoise hover:underline hover:decoration-secondary-darker-turquoise hover:text-secondary-darker-turquoise">

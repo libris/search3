@@ -117,7 +117,11 @@
 				</div>
 
 				<div>
-					<div class="flex items-center justify-center border border-secondary-turquoise text-secondary-turquoise rounded-full w-12 h-12 cursor-pointer">
+					<div
+						class="flex items-center justify-center border border-secondary-turquoise rounded-full w-12 h-12 cursor-pointer"
+						:class="{ ['text-secondary-turquoise']: !bookmarked, ['bg-secondary-turquoise text-primary-white']: bookmarked }"
+						@click="toggleBookmark(book['@id'])"
+					>
 						<font-awesome-icon icon="fa fa-bookmark" />
 					</div>
 				</div>
@@ -193,6 +197,8 @@ import { getLabelByLang } from '@/lxljs/string';
 import { getResources } from '@/lib/resources';
 import Card from './Card.vue';
 import settings from '@/lib/settings';
+import { mapActions } from 'pinia';
+import { useBookmarksStore } from '@/stores/bookmarks';
 
 export default {
 	name: 'BookListItem',
@@ -216,9 +222,13 @@ export default {
 			}
 
 			return this.selectedMode;
+		},
+		bookmarked() {
+			return this.isBookmarked(this.book['@id']);
 		}
 	},
 	methods: {
+		...mapActions(useBookmarksStore, ['toggleBookmark', 'isBookmarked']),
 		getPropertyLabel,
 		getWorkImageUrl,
 		getFnurgelFromUri,
