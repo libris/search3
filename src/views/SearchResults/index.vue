@@ -7,6 +7,11 @@ export default {
 		Facets,
 		Query,
 	},
+	watch: {
+		'$route.fullPath'() {
+			document.documentElement.scrollTo(0, 0);
+		},
+	},
 };
 </script>
 

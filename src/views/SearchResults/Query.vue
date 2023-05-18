@@ -177,7 +177,7 @@ export default {
 		}
 	},
 	watch: {
-		$route() {
+		'$route.fullPath'() {
 			if (this.queryString == null) {
 				this.query();
 			}
