@@ -2,15 +2,15 @@
 import { PropType } from 'vue';
 import { mapWritableState } from 'pinia';
 import { useSearchResults } from './store';
-import { getChip, getItemSummary, getItemLabel } from "@/lxljs/display";
+import { getItemLabel } from "@/lxljs/display";
 import { getResources } from "@/lib/resources";
 import { splitJson } from "@/lxljs/data";
-import { getAtPath } from "@/lib/item";
+import { asArray, getAtPath, getFnurgelFromUri, unwrap } from "@/lib/item";
 import { getQueryParams, getRelatedRecords, getDocument, noFragment } from '@/lib/http';
 import settings from "@/lib/settings";
 
 import Grid from '@/components/Grid.vue';
-import BookListItem from '@/components/BookListItem.vue';
+import RecordListItem from '@/components/RecordListItem.vue';
 import KnowledgeCard from '@/views/KnowledgeCard/index.vue';
 
 export default {
@@ -27,13 +27,11 @@ export default {
 	},
 	data: () => ({
 		current: null,
-		Instance: [],
-		Print: [],
-		Text: [],
+		Records: [],
 	}),
 	components: {
 		Grid,
-		BookListItem,
+		RecordListItem: RecordListItem,
 		KnowledgeCard,
 	},
 	computed: {
@@ -67,49 +65,29 @@ export default {
 		},
 
 		indexData() {
-			if (this.current == null) {
+      if (this.current == null) {
 				return false;
 			}
 
-			const stateKeys = Object.keys(this.$data);
-
 			this.current.forEach((item) => {
-				if (stateKeys.indexOf(item['@type']) > -1 && Array.isArray(this[item['@type']])) {
 					if (getResources().context != null) {
-						const chip = getChip(item, getResources(), [], settings);
-						const summary = getItemSummary(
-							item,
-							getResources(),
-							[],
-							settings,
-							getResources().displayGroups,
-						);
-
-						this.$data[item['@type']].push({
+						this.$data['Records'].push({
 							...item,
-							...summary,
-							...chip,
 						});
 					}
-				}
 			});
 
-			stateKeys.forEach((key) => {
-				if (key === 'Text') {
-					this.$data[key] = this.$data[key].map(this.calculateDisplayMeta);
-					const promises = this.$data[key].map(this.calculateFetchedMeta);
+      this.$data['Records'] = this.$data['Records'].map(this.calculateDisplayMeta);
+      const promises = this.$data['Records'].map(this.calculateFetchedMeta);
 
-					Promise.all(promises).then((results) => {
-						this.$data[key] = results;
-					});
-				}
-			});
+      Promise.all(promises).then((results) => {
+        this.$data['Records'] = results;
+      });
 		},
 
 		calculateDisplayMeta(item) {
 			const clone = JSON.parse(JSON.stringify(item));
 
-			if (item['@type'] === 'Text') {
 				clone.title = getItemLabel(item.hasTitle[0], getResources(), [], settings);
 				if (clone.genreForm != null && Array.isArray(clone.genreForm)) {
 					clone.genreFormCalculated = clone.genreForm.map((genre) => {
@@ -121,7 +99,16 @@ export default {
 						return getItemLabel(subject, getResources(), [], settings);
 					}).filter(label => !label.includes('{'));
 				}
-			}
+      clone.language = getAtPath(clone, ['language', '*']).map(l => {
+        return getItemLabel(l, getResources(), [], settings);
+      });
+      clone.contributionsCalculated = getAtPath(clone, ['contribution', '*']).map(c => {
+        return {
+          'role': asArray(c.role).map(r => getItemLabel(r, getResources(), [], settings)),
+          'agent': getItemLabel(unwrap(c.agent), getResources(), [], settings),
+          'link': getFnurgelFromUri(unwrap(asArray(c.agent).map(a => a['@id'])))
+        }
+      });
 
 			return clone;
 		},
@@ -134,8 +121,7 @@ export default {
 			}
 			const split = splitJson(response.data);
 
-			if (item['@type'] === 'Text') {
-				if (clone['@reverse'].hasOwnProperty('instanceOf')) {
+				if (clone['@reverse']?.hasOwnProperty('instanceOf')) {
 					clone.instanceIds = clone['@reverse']['instanceOf'].map((instance) => instance['@id']);
 					if (clone.instanceIds != null) {
 						clone.instances = clone.instanceIds.map((instanceId) => {
@@ -153,8 +139,6 @@ export default {
 						clone.holdings += getAtPath(instance, ['@reverse', 'itemOf', '*', '@id']).length;
 					});
 				}
-			}
-
 			return clone;
 		},
 
@@ -162,9 +146,7 @@ export default {
 			this.current = null;
 			this.stats = null;
 			this.search = null;
-			this.Instance = [];
-			this.Print = [];
-			this.Text = [];
+			this.Records = [];
 		},
 	},
 	mounted() {
@@ -192,10 +174,10 @@ export default {
 			<KnowledgeCard :id="item.object['@id']" />
 		</template>
 
-		<BookListItem
-			v-for="book in Text"
-			:key="book['@id']"
-			:book="book"
+		<RecordListItem
+			v-for="record in Records"
+			:key="record['@id']"
+			:record="record"
 			:displayMode="mode == 'preview' ? 'small' : null"
 		/>
 	</Grid>
