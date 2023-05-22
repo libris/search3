@@ -146,6 +146,12 @@
 			</div>
 		</router-link>
 
+    <div v-if="record.contributionsCalculated != null" class="text-secondary-grey mt-1">
+      <div class="mt-1" v-for="c in record.contributionsCalculated">
+        <a v-if="c.link" :href="`/${c.link}`" class="underline">{{c.agent}}</a>
+        <span v-else>{{c.agent}}</span>
+      </div>
+    </div>
 
 		<div v-if="record.genreFormCalculated != null" class="mt-1">
 			<div class="flex flex-wrap gap-2">
