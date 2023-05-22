@@ -2,6 +2,7 @@
 import SearchInput from '@/components/SearchInput.vue';
 import { getLabelFromObject } from '@/lxljs/string';
 import settings from '@/lib/settings';
+import { getAssetUrl } from '@/lib/http';
 
 export default {
 	name: 'LandingPage',
@@ -14,6 +15,9 @@ export default {
 	methods: {
 		onSearch(values) {
 			this.$router.push({ path: '/find', query: values });
+		},
+		getItemThumbnail(item) {
+			return getAssetUrl(item.image.thumbnail['@id']);
 		},
 	},
 	async mounted() {
@@ -57,7 +61,7 @@ export default {
 					<div class="bg-primary-white border border-secondary-grey/20 rounded-lg overflow-hidden">
 						<div
 							class="h-44 bg-no-repeat bg-center bg-cover"
-							:style="{ backgroundImage: `url(${item.image.thumbnail['@id']})` }"
+							:style="{ backgroundImage: `url(${getItemThumbnail(item)})` }"
 						/>
 
 						<div class="p-3">

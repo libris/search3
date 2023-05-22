@@ -42,6 +42,15 @@ import { each } from 'lodash-es';
 import { translateAliasedUri } from './data';
 import settings from './settings';
 
+export function getAssetUrl(path: string) {
+	if (path.indexOf('http') == -1) {
+		// Not an external resource
+		return new URL(path, import.meta.url).href;
+	} else {
+		return path;
+	}
+};
+
 export function getQueryParams(queryString = window.location.search): any {
 	const params = new URLSearchParams(queryString);
 	let query = {};
