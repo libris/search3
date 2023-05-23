@@ -6,14 +6,11 @@
 
 		<div class="flex gap-x-4 items-start">
 			<Card class="flex-1">
-				<div v-for="key in Object.keys(card)" class="border-b py-1 border-secondary-grey/20 mb-2 last-of-type:border-0 last-of-type:mb-0">
-					<strong>
-						{{ getLabel(key) }}
-					</strong>
-
-					<span class="ml-2">
-						{{ card[key] }}
-					</span>
+				<div v-for="key in Object.keys(card)" class="border-secondary-grey/20 mb-4 last-of-type:mb-0">
+					<PropertyDisplay
+						:label="getLabel(key)"
+						:value="card[key]"
+					/>
 				</div>
 			</Card>
 
@@ -52,8 +49,10 @@ import { useKnowledgeCardStore } from './store';
 import { getItemLabel } from '@/lxljs/display';
 import { getResources } from '@/lib/resources';
 import settings from '@/lib/settings';
-import Card from '@/components/Card.vue';
 import { getPropertyLabel } from "@/lib/item";
+
+import Card from '@/components/Card.vue';
+import PropertyDisplay from '@/components/PropertyDisplay.vue';
 
 export default {
 	name: 'KnowledgeCard',
@@ -65,6 +64,7 @@ export default {
 	},
 	components: {
 		Card,
+		PropertyDisplay
 	},
 	computed: {
 		...mapState(useKnowledgeCardStore, ['mainEntity', 'card', 'chip', 'quoted', 'wikiData', 'imageUrl']),
