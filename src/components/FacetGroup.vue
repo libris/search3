@@ -4,7 +4,6 @@ import { getItemLabel } from '@/lxljs/display';
 import settings from '@/lib/settings';
 import Facet from './Facet.vue';
 import { getCompactNumber } from '@/lib/math';
-import { capitalize } from "@/lib/item";
 
 export default {
 	name: 'FacetGroup',
@@ -77,9 +76,9 @@ export default {
 			}
 
 			if (object.hasOwnProperty('propertyChainAxiom')) {
-        return object.propertyChainAxiom
-            .map(o => capitalize(o.labelByLang[settings.language]))
-            .join('/');
+				return object.propertyChainAxiom
+					// .map(o => this.$options.filters.capitalize(this.determineLabel(o)))
+					.join('/');
 			}
 
 			const label = getItemLabel(

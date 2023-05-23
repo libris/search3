@@ -6,11 +6,7 @@ import settings from "@/lib/settings";
 import { getResources } from "@/lib/resources";
 export const getPropertyLabel = (property: string) => {
 	const label = getLabelByLang(property, settings.language, getResources());
-	return capitalize(label);
-}
-
-export const capitalize = (s: string) => {
-	return s.charAt(0).toUpperCase() + s.slice(1);
+	return label.charAt(0).toUpperCase() + label.slice(1);
 }
 
 export const getImageUrl = (id: string, isbn: string) => {
