@@ -65,50 +65,50 @@ export default {
 		},
 
 		indexData() {
-      if (this.current == null) {
+			if (this.current == null) {
 				return false;
 			}
 
 			this.current.forEach((item) => {
-					if (getResources().context != null) {
-						this.$data['Records'].push({
-							...item,
-						});
-					}
+				if (getResources().context != null) {
+					this.$data['Records'].push({
+						...item,
+					});
+				}
 			});
 
-      this.$data['Records'] = this.$data['Records'].map(this.calculateDisplayMeta);
-      const promises = this.$data['Records'].map(this.calculateFetchedMeta);
+			this.$data['Records'] = this.$data['Records'].map(this.calculateDisplayMeta);
+			const promises = this.$data['Records'].map(this.calculateFetchedMeta);
 
-      Promise.all(promises).then((results) => {
-        this.$data['Records'] = results;
-      });
+			Promise.all(promises).then((results) => {
+				this.$data['Records'] = results;
+			});
 		},
 
 		calculateDisplayMeta(item) {
 			const clone = JSON.parse(JSON.stringify(item));
 
-				clone.title = getItemLabel(item.hasTitle[0], getResources(), [], settings);
-				if (clone.genreForm != null && Array.isArray(clone.genreForm)) {
-					clone.genreFormCalculated = clone.genreForm.map((genre) => {
-						return getItemLabel(genre, getResources(), [], settings);
-					});
+			clone.title = getItemLabel(item.hasTitle[0], getResources(), [], settings);
+			if (clone.genreForm != null && Array.isArray(clone.genreForm)) {
+				clone.genreFormCalculated = clone.genreForm.map((genre) => {
+					return getItemLabel(genre, getResources(), [], settings);
+				});
+			}
+			if (clone.subject != null && Array.isArray(clone.subject)) {
+				clone.subjectCalculated = clone.subject.map((subject) => {
+					return getItemLabel(subject, getResources(), [], settings);
+				}).filter(label => !label.includes('{'));
+			}
+			clone.language = getAtPath(clone, ['language', '*']).map(l => {
+				return getItemLabel(l, getResources(), [], settings);
+			});
+			clone.contributionsCalculated = getAtPath(clone, ['contribution', '*']).map(c => {
+				return {
+					'role': asArray(c.role).map(r => getItemLabel(r, getResources(), [], settings)),
+					'agent': getItemLabel(unwrap(c.agent), getResources(), [], settings),
+					'link': getFnurgelFromUri(unwrap(asArray(c.agent).map(a => a['@id'])))
 				}
-				if (clone.subject != null && Array.isArray(clone.subject)) {
-					clone.subjectCalculated = clone.subject.map((subject) => {
-						return getItemLabel(subject, getResources(), [], settings);
-					}).filter(label => !label.includes('{'));
-				}
-      clone.language = getAtPath(clone, ['language', '*']).map(l => {
-        return getItemLabel(l, getResources(), [], settings);
-      });
-      clone.contributionsCalculated = getAtPath(clone, ['contribution', '*']).map(c => {
-        return {
-          'role': asArray(c.role).map(r => getItemLabel(r, getResources(), [], settings)),
-          'agent': getItemLabel(unwrap(c.agent), getResources(), [], settings),
-          'link': getFnurgelFromUri(unwrap(asArray(c.agent).map(a => a['@id'])))
-        }
-      });
+			});
 
 			return clone;
 		},
@@ -121,24 +121,24 @@ export default {
 			}
 			const split = splitJson(response.data);
 
-				if (clone['@reverse']?.hasOwnProperty('instanceOf')) {
-					clone.instanceIds = clone['@reverse']['instanceOf'].map((instance) => instance['@id']);
-					if (clone.instanceIds != null) {
-						clone.instances = clone.instanceIds.map((instanceId) => {
-							const instance = split.quoted[instanceId];
-							if (instance != null) {
-								return instance;
-							}
-						});
-					}
-				}
-
-				if (clone.instances != null) {
-					clone.holdings = 0;
-					clone.instances.forEach((instance) => {
-						clone.holdings += getAtPath(instance, ['@reverse', 'itemOf', '*', '@id']).length;
+			if (clone['@reverse']?.hasOwnProperty('instanceOf')) {
+				clone.instanceIds = clone['@reverse']['instanceOf'].map((instance) => instance['@id']);
+				if (clone.instanceIds != null) {
+					clone.instances = clone.instanceIds.map((instanceId) => {
+						const instance = split.quoted[instanceId];
+						if (instance != null) {
+							return instance;
+						}
 					});
 				}
+			}
+
+			if (clone.instances != null) {
+				clone.holdings = 0;
+				clone.instances.forEach((instance) => {
+					clone.holdings += getAtPath(instance, ['@reverse', 'itemOf', '*', '@id']).length;
+				});
+			}
 			return clone;
 		},
 
