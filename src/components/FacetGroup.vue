@@ -76,9 +76,9 @@ export default {
 			}
 
 			if (object.hasOwnProperty('propertyChainAxiom')) {
-				return object.propertyChainAxiom
-					// .map(o => this.$options.filters.capitalize(this.determineLabel(o)))
-					.join('/');
+        return object.propertyChainAxiom
+            .map(o => (this.getLabel(o)))
+            .join('/');
 			}
 
 			const label = getItemLabel(
@@ -96,6 +96,19 @@ export default {
 			const idArray = object['@id'].split('/');
 			return `${idArray[idArray.length - 1]} [has no label]`;
 		},
+    getLabel(o) {
+      if (o.hasOwnProperty('labelByLang')) {
+        return o.labelByLang[settings.language];
+      } else if (o.hasOwnProperty('titleByLang')) {
+        return o.titleByLang[settings.language];
+      } else if (o.hasOwnProperty('prefLabelByLang')) {
+        return o.prefLabelByLang[settings.language];
+      } else if (o.hasOwnProperty('label')) {
+        return o.label;
+      } else if (o.hasOwnProperty('code')) {
+        return o.code;
+      }
+    },
 		featuredComparison(facet) {
 			if (this.group.dimension === '@reverse.itemOf.heldBy.@id') {
 				// Featured code for '@reverse.itemOf.heldBy.@id'
