@@ -44,6 +44,7 @@ import settings from './settings';
 
 export function getAssetUrl(path: string) {
 	if (path.indexOf('http') == -1) {
+		console.log('meta', import.meta.env);
 		// Not an external resource
 		return new URL(path, import.meta.url).href;
 	} else {
