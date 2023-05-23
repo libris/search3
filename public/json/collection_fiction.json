@@ -51,8 +51,8 @@
 		"@type": "CollectionQuery",
 		"@id": "3",
 		"labelByLang": {
-			"sv": "Arbetsskildringar • Kvinnor",
-			"en": "Arbetsskildringar • Kvinnor"
+			"sv": "Arbetarskildringar • Kvinnor",
+			"en": "Arbetarskildringar • Kvinnor"
 		},
 		"descriptionByLang": {
 			"sv": "Beskrivning...",
