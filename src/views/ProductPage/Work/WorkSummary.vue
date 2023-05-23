@@ -72,7 +72,7 @@ export default {
             </span>
 
             <div class="mt-1" v-for="c in contribution">
-                <a v-if="c.link" :href="`/${c.link}`" class="underline">{{c.agent}}</a>
+                <router-link v-if="c.link" :to="`/${c.link}`" class="underline">{{c.agent}}</router-link>
                 <span v-else>{{c.agent}}</span>
                 <span class="text-secondary-grey">
                     &bull; {{c.role.join(', ')}}
@@ -91,7 +91,7 @@ export default {
                         </span>
                     </span>
                 </div>
-                <div  v-if="index + 1 != gfSchemes.length" class="border-t border-t-secondary-grey/20"></div>
+                <div v-if="index + 1 != gfSchemes.length" class="border-t border-t-secondary-grey/20"></div>
             </div>
 
         <div v-if="subjects && subjects.length != 0" class="font-semibold text-secondary-turquoise mt-3">{{ subjectLabel }}</div>
@@ -99,14 +99,14 @@ export default {
             <div class="flex flex-wrap gap-2 pb-2">
                 <div v-for="s in scheme.subjects">
                     <router-link :to="s.link">
-                    <span
-                        class="text-s text-secondary-turquoise underline">
-                        {{ s.subject }}
-                    </span>
+                        <span
+                            class="text-s text-secondary-turquoise underline">
+                            {{ s.subject }}
+                        </span>
                     </router-link>
                 </div>
             </div>
-            <div  v-if="index + 1 != subjectSchemes.length" class="border-t border-t-secondary-grey/20"></div>
+            <div v-if="index + 1 != subjectSchemes.length" class="border-t border-t-secondary-grey/20"></div>
         </div>
         <!--
         <div class="flex flex-wrap mt-2 gap-1">
