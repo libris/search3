@@ -165,7 +165,7 @@ export default {
 			<div class="pt-3">
 				<div v-for="facet in list" :key="facet.link" class="flex justify-between items-center mb-2 last-of-type:mb-0">
 					<!-- <Facet :facet="facet" /> -->
-					<router-link :to="facet.link" class="underline truncate">
+					<router-link :to="facet.link" class="underline truncate" :title="getFacetLabel(facet)">
 						{{ getFacetLabel(facet) }}
 					</router-link>
 
