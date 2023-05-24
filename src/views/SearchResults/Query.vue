@@ -229,7 +229,7 @@ export default {
 		/>
 	</Grid>
 
-	<div class="mt-6 flex justify-center" v-if="nextPage != null" ref="scrollTrigger">
+	<div class="mt-8 flex justify-center" v-if="nextPage != null" ref="scrollTrigger">
 		<Button @click="goNextPage" :disabled="loading">
 			Nästa sida
 		</Button>
