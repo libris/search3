@@ -96,6 +96,9 @@ export default {
 			const idArray = object['@id'].split('/');
 			return `${idArray[idArray.length - 1]} [has no label]`;
 		},
+		facetClick() {
+			document.documentElement.scrollTo(0, 0);
+		},
 	},
 };
 </script>
@@ -109,6 +112,7 @@ export default {
 		<div class="flex flex-wrap gap-2">
 			<router-link
 				v-for="facet in list"
+				@click="facetClick"
 				:key="facet.link"
 				:to="facet.link"
 				class="flex items-center px-2 py-1 rounded-md"

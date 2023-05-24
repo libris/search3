@@ -102,6 +102,7 @@ export default {
 		},
 		onSortChange(event) {
 			this.sort = event.target.value;
+			document.documentElement.scrollTo(0, 0);
 			this.$router.push({
 				path: '/find',
 				query: {

@@ -23,6 +23,9 @@ interface RelatedRecordsResponse {
 	last: {
 		"@id": string;
 	};
+	next: {
+		"@id": string;
+	};
 	items: any[];
 	stats: {
 		"@id": string;

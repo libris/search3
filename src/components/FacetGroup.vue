@@ -140,6 +140,9 @@ export default {
 
 			return null;
 		},
+		facetClick() {
+			document.documentElement.scrollTo(0, 0);
+		},
 	},
 };
 </script>
@@ -165,7 +168,7 @@ export default {
 			<div class="pt-3">
 				<div v-for="facet in list" :key="facet.link" class="flex justify-between items-center mb-2 last-of-type:mb-0">
 					<!-- <Facet :facet="facet" /> -->
-					<router-link :to="facet.link" class="underline truncate" :title="getFacetLabel(facet)">
+					<router-link :to="facet.link" class="underline truncate" :title="getFacetLabel(facet)" @click="facetClick">
 						{{ getFacetLabel(facet) }}
 					</router-link>
 

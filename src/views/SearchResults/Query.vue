@@ -12,6 +12,7 @@ import settings from "@/lib/settings";
 import Grid from '@/components/Grid.vue';
 import RecordListItem from '@/components/RecordListItem.vue';
 import KnowledgeCard from '@/views/KnowledgeCard/index.vue';
+import Button from '@/components/Button.vue';
 
 export default {
 	name: 'Query',
@@ -26,13 +27,15 @@ export default {
 		},
 	},
 	data: () => ({
-		current: null,
+		loading: false,
+		nextPage: null,
 		Records: [],
 	}),
 	components: {
 		Grid,
-		RecordListItem: RecordListItem,
+		RecordListItem,
 		KnowledgeCard,
+		Button,
 	},
 	computed: {
 		...mapWritableState(useSearchResults, ['stats', 'search']),
@@ -58,18 +61,33 @@ export default {
 
 			this.reset();
 
-			this.current = response.items;
 			this.stats = response.stats;
 			this.search = response.search;
-			this.indexData();
+
+			if (this.queryString == null) {
+				this.nextPage = response.next['@id'];
+			}
+
+			this.indexData(response.items);
 		},
 
-		indexData() {
-			if (this.current == null) {
+		async goNextPage() {
+			this.loading = true;
+			this.$router.replace(this.nextPage);
+			const query = getQueryParams(this.nextPage.replace('/find', ''));
+			const response = await getRelatedRecords(query, settings.apiPath);
+
+			this.nextPage = response.next['@id'];
+			this.indexData(response.items);
+			this.loading = false;
+		},
+
+		indexData(items) {
+			if (items == null) {
 				return false;
 			}
 
-			this.current.forEach((item) => {
+			items.forEach((item) => {
 				if (getResources().context != null) {
 					this.$data['Records'].push({
 						...item,
@@ -86,6 +104,10 @@ export default {
 		},
 
 		calculateDisplayMeta(item) {
+			if (item.title != null) {
+				return item;
+			}
+
 			const clone = JSON.parse(JSON.stringify(item));
 
 			clone.title = getItemLabel(item.hasTitle[0], getResources(), [], settings);
@@ -114,6 +136,10 @@ export default {
 		},
 
 		async calculateFetchedMeta(item) {
+			if (item.instances != null) {
+				return item;
+			}
+
 			const clone = JSON.parse(JSON.stringify(item));
 			const response = await getDocument(`${noFragment(clone['@id'])}/data.jsonld`);
 			if (!response.data) {
@@ -139,11 +165,11 @@ export default {
 					clone.holdings += getAtPath(instance, ['@reverse', 'itemOf', '*', '@id']).length;
 				});
 			}
+
 			return clone;
 		},
 
 		reset() {
-			this.current = null;
 			this.stats = null;
 			this.search = null;
 			this.Records = [];
@@ -157,9 +183,30 @@ export default {
 		} else {
 			this.query();
 		}
+
+		if (this.queryString == null) {
+			window.addEventListener('scroll', () => {
+				const triggerPosition = this.$refs.scrollTrigger != null ?
+					this.$refs.scrollTrigger.offsetTop - window.innerHeight - 250
+				: null;
+
+				if (triggerPosition == null || this.loading) {
+					return false;
+				}
+
+				if (document.scrollingElement.scrollTop > triggerPosition) {
+					this.loading = true;
+					this.goNextPage();
+				}
+			});
+		}
 	},
 	watch: {
 		'$route.fullPath'() {
+			if (this.loading) {
+				return false;
+			}
+
 			if (this.queryString == null) {
 				this.query();
 			}
@@ -181,4 +228,10 @@ export default {
 			:displayMode="mode == 'preview' ? 'small' : null"
 		/>
 	</Grid>
+
+	<div class="mt-6 flex justify-center" v-if="nextPage != null" ref="scrollTrigger">
+		<Button @click="goNextPage" :disabled="loading">
+			Nästa sida
+		</Button>
+	</div>
 </template>

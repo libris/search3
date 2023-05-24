@@ -4,6 +4,7 @@ import { initStore } from './piniaPlugin';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { createVfm } from 'vue-final-modal';
 import piniaResist from 'pinia-plugin-persist';
+import VueObserveVisibility from 'vue3-observe-visibility'
 import 'vue-final-modal/style.css'
 import router from '@/lib/router';
 import './lib/icons';
@@ -22,6 +23,7 @@ pinia.use(piniaResist);
 app.use(pinia);
 app.use(router);
 app.use(vfm);
+app.use(VueObserveVisibility)
 
 app.component('Button', Button);
 app.component('Card', Card);
