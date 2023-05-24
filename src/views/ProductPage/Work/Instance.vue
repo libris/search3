@@ -137,13 +137,13 @@ export default {
                         Detaljerad info
                         <font-awesome-icon
                             icon="fa-solid fa-chevron-up"
-                            class="ml-2 mt-1 transition-all"
+                            class="ml-2 mt-1 transition-all duration-300"
                             :class="{['rotate-180']: !isExpanded }"
                         />
                     </Button>
                 </div>
 
-                <Expandable v-show="isExpanded">
+                <Expandable :show="isExpanded">
                     <div
                         class="border rounded-lg relative border-secondary-grey/20 p-4 flex flex-col gap-y-3"
                         style="background: #eaf5f6; top: -1px;"

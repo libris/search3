@@ -96,7 +96,7 @@ export default {
             Lånestatus kunde inte hämtas
         </div>
 
-        <Expandable v-show="expanded">
+        <Expandable :show="expanded">
             <div class="flex flex-col gap-y-3 text-sm">
                 <!-- <div class="flex"> WIP: add real info here
                     <div class="w-1/2">
