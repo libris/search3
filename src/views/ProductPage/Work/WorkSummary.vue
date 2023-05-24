@@ -80,9 +80,10 @@ export default {
             </div>
         </div>
 
-        <div v-if="genreForm && genreForm.length != 0" class="font-semibold text-secondary-turquoise mt-3">{{ gfLabel }}</div>
-            <div class="mt-1.5" v-for="(scheme, index) in gfSchemes">{{ scheme.scheme }}
-                <div class="flex flex-wrap gap-2 pb-2">
+        <div v-if="genreForm && genreForm.length != 0" class="font-bold text-secondary-turquoise mt-3 mb-1">{{ gfLabel }}</div>
+            <div v-for="(scheme, index) in gfSchemes">
+              <div class="text-secondary-grey text-base font-medium"> {{ scheme.scheme }} </div>
+                <div class="flex flex-wrap gap-2 pb-1">
                     <span v-for="gf in scheme.genreForms">
                         <span class="text-s text-secondary-turquoise underline">
                             <router-link :to="gf.link">
@@ -91,12 +92,12 @@ export default {
                         </span>
                     </span>
                 </div>
-                <div v-if="index + 1 != gfSchemes.length" class="border-t border-t-secondary-grey/20"></div>
             </div>
 
-        <div v-if="subjects && subjects.length != 0" class="font-semibold text-secondary-turquoise mt-3">{{ subjectLabel }}</div>
-        <div class="mt-1" v-for="(scheme, index) in subjectSchemes">{{ scheme.scheme }}
-            <div class="flex flex-wrap gap-2 pb-2">
+        <div v-if="subjects && subjects.length != 0" class="font-bold text-secondary-turquoise mt-3">{{ subjectLabel }}</div>
+        <div v-for="(scheme, index) in subjectSchemes">
+          <span class="text-secondary-grey text-base font-medium"> {{ scheme.scheme }} </span>
+            <div class="flex flex-wrap gap-2 pb-1">
                 <div v-for="s in scheme.subjects">
                     <router-link :to="s.link">
                         <span
@@ -106,7 +107,6 @@ export default {
                     </router-link>
                 </div>
             </div>
-            <div v-if="index + 1 != subjectSchemes.length" class="border-t border-t-secondary-grey/20"></div>
         </div>
         <!--
         <div class="flex flex-wrap mt-2 gap-1">
