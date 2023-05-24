@@ -16,15 +16,17 @@ export default {
 </script>
 
 <template>
-	<div className="flex gap-x-10">
-		<div className="w-1/4">
-			<h3 className="font-semibold mb-2">
-				Förfina sökning
+	<div class="flex gap-x-10">
+		<div class="w-1/4">
+			<h3 class="text-2xl text-secondary-grey font-semibold mb-2">
+				Förfina urvalet
 			</h3>
 
 			<Facets />
 		</div>
 
-		<Query />
+		<div class="w-3/4">
+			<Query />
+		</div>
 	</div>
 </template>

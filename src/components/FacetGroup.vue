@@ -1,15 +1,21 @@
 <script lang="ts">
 import { getResources } from '@/lib/resources';
 import { getItemLabel } from '@/lxljs/display';
-import settings from '@/lib/settings';
-import Facet from './Facet.vue';
 import { getCompactNumber } from '@/lib/math';
+import settings from '@/lib/settings';
+
+import Facet from './Facet.vue';
+import Expandable from './Expandable.vue';
 
 export default {
 	name: 'FacetGroup',
 	components: {
 		Facet,
+		Expandable,
 	},
+	data: () => ({
+		isExpanded: true,
+	}),
 	props: {
 		group: Object,
 	},
@@ -76,9 +82,9 @@ export default {
 			}
 
 			if (object.hasOwnProperty('propertyChainAxiom')) {
-        return object.propertyChainAxiom
-            .map(o => (this.getLabel(o)))
-            .join('/');
+				return object.propertyChainAxiom
+					.map(o => (this.getLabel(o)))
+					.join('/');
 			}
 
 			const label = getItemLabel(
@@ -96,19 +102,19 @@ export default {
 			const idArray = object['@id'].split('/');
 			return `${idArray[idArray.length - 1]} [has no label]`;
 		},
-    getLabel(o) {
-      if (o.hasOwnProperty('labelByLang')) {
-        return o.labelByLang[settings.language];
-      } else if (o.hasOwnProperty('titleByLang')) {
-        return o.titleByLang[settings.language];
-      } else if (o.hasOwnProperty('prefLabelByLang')) {
-        return o.prefLabelByLang[settings.language];
-      } else if (o.hasOwnProperty('label')) {
-        return o.label;
-      } else if (o.hasOwnProperty('code')) {
-        return o.code;
-      }
-    },
+		getLabel(o) {
+			if (o.hasOwnProperty('labelByLang')) {
+				return o.labelByLang[settings.language];
+			} else if (o.hasOwnProperty('titleByLang')) {
+				return o.titleByLang[settings.language];
+			} else if (o.hasOwnProperty('prefLabelByLang')) {
+				return o.prefLabelByLang[settings.language];
+			} else if (o.hasOwnProperty('label')) {
+				return o.label;
+			} else if (o.hasOwnProperty('code')) {
+				return o.code;
+			}
+		},
 		featuredComparison(facet) {
 			if (this.group.dimension === '@reverse.itemOf.heldBy.@id') {
 				// Featured code for '@reverse.itemOf.heldBy.@id'
@@ -125,27 +131,52 @@ export default {
 			return false;
 		},
 		getFacetLabel(facet) {
+			return facet.label;
+		},
+		getFacetNumber(facet) {
 			if (facet.amount != null) {
-				return facet.label + ' (' + getCompactNumber(facet.amount) + ')';
+				return getCompactNumber(facet.amount);
 			}
 
-			return facet.label;
+			return null;
 		},
 	},
 };
 </script>
 
 <template>
-	<div>
-		<h4 className="text-sm text-secondary-grey mb-1">
-			{{ groupLabel }}
-		</h4>
+	<div class="border border-secondary-grey/20 rounded-lg px-3 py-4">
+		<div
+			class="flex justify-between items-center pb-3 border-b border-b-secondary-grey/20 cursor-pointer"
+			@click="isExpanded = !isExpanded"
+		>
+			<h4 class="font-semibold truncate" :title="groupLabel">
+				{{ groupLabel }}
+			</h4>
 
-		<div v-for="facet in list" :key="facet.link" class="mb-1 last-of-type:mb-0">
-			<!-- <Facet :facet="facet" /> -->
-			<router-link :to="facet.link" class="underline">
-				{{ getFacetLabel(facet) }}
-			</router-link>
+			<font-awesome-icon
+				icon="fa-solid fa-chevron-up"
+				class="ml-2 mt-1 transition-all duration-300"
+				:class="{['rotate-180']: !isExpanded }"
+			/>
 		</div>
+
+		<Expandable :show="isExpanded">
+			<div class="pt-3">
+				<div v-for="facet in list" :key="facet.link" class="flex justify-between items-center mb-2 last-of-type:mb-0">
+					<!-- <Facet :facet="facet" /> -->
+					<router-link :to="facet.link" class="underline truncate">
+						{{ getFacetLabel(facet) }}
+					</router-link>
+
+					<div
+						class="rounded-full py-1 px-2"
+						style="background-color: #e2e0de; color: #585756;"
+					>
+						{{ getFacetNumber(facet) }}
+					</div>
+				</div>
+			</div>
+		</Expandable>
 	</div>
 </template>

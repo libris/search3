@@ -50,8 +50,6 @@ export default {
 				link = o.up['@id'];
 			}
 
-			// label = this.$options.filters.capitalize(label);
-
 			return {
 				label,
 				link,
@@ -104,10 +102,21 @@ export default {
 
 <template>
 	<div v-if="list.length > 0">
-		<div v-for="facet in list" :key="facet.link" class="mb-1 last-of-type:mb-0">
-			<font-awesome-icon icon="fa-solid fa-xmark" class="mr-1" />
-			<router-link :to="facet.link" class="underline">
+		<h4 class="font-semibold mb-2">
+			Valda filter
+		</h4>
+
+		<div class="flex flex-wrap gap-2">
+			<router-link
+				v-for="facet in list"
+				:key="facet.link"
+				:to="facet.link"
+				class="flex items-center px-2 py-1 rounded-md"
+				style="background-color: #d8e5e5;"
+			>
 				{{ facet.label }}
+
+				<font-awesome-icon icon="fa-solid fa-xmark" class="text-xl ml-2 mt-1" style="color: #007688;" />
 			</router-link>
 		</div>
 	</div>
