@@ -187,6 +187,10 @@ export default {
 			queryParams['_limit'] = ((offset / limit) + 1) * limit;
 			await this.query(buildQueryString(queryParams));
 
+			if (localStorage.getItem('scroll-' + window.location.href) != null) {
+				document.documentElement.scrollTo(0, parseInt(localStorage.getItem('scroll-' + window.location.href)));
+			}
+
 			if (this.nextPage != null) {
 				// Update link for next page to have the same limit as the current url parameter
 				const next = getQueryParams(this.nextPage);
