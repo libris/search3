@@ -6,7 +6,7 @@ import { getItemLabel } from "@/lxljs/display";
 import { getResources } from "@/lib/resources";
 import { splitJson } from "@/lxljs/data";
 import { asArray, getAtPath, getFnurgelFromUri, unwrap } from "@/lib/item";
-import { getQueryParams, getRelatedRecords, getDocument, noFragment } from '@/lib/http';
+import { getQueryParams, getRelatedRecords, getDocument, noFragment, buildQueryString } from '@/lib/http';
 import settings from "@/lib/settings";
 
 import Grid from '@/components/Grid.vue';
@@ -175,13 +175,30 @@ export default {
 			this.Records = [];
 		},
 	},
-	mounted() {
+	async mounted() {
 		this.reset();
 
-		if (this.queryString != null) {
-			this.query(this.queryString);
+		const queryParams = getQueryParams();
+		if (queryParams['_offset'] != null) {
+			const offset = parseInt(queryParams['_offset']);
+			const limit = parseInt(queryParams['_limit'] ?? 10);
+
+			delete queryParams['_offset'];
+			queryParams['_limit'] = ((offset / limit) + 1) * limit;
+			await this.query(buildQueryString(queryParams));
+
+			if (this.nextPage != null) {
+				// Update link for next page to have the same limit as the current url parameter
+				const next = getQueryParams(this.nextPage);
+				next['_limit'] = limit;
+				this.nextPage = decodeURIComponent(buildQueryString(next));
+			}
 		} else {
-			this.query();
+			if (this.queryString != null) {
+				this.query(this.queryString);
+			} else {
+				this.query();
+			}
 		}
 
 		if (this.queryString == null) {
