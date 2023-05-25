@@ -84,13 +84,10 @@ export default {
             <div v-for="(scheme, index) in gfSchemes">
               <div class="text-secondary-grey text-base font-medium"> {{ scheme.scheme }} </div>
                 <div class="flex flex-wrap gap-2 pb-1">
-                    <span v-for="gf in scheme.genreForms">
-                        <span class="text-s text-secondary-turquoise underline">
-                            <router-link :to="gf.link">
-                                {{ gf.genreForm }}
-                            </router-link>
-                        </span>
-                    </span>
+                  <span v-for="gf in scheme.genreForms">
+                    <router-link v-if="gf.link" :to="gf.link" class="text-s text-secondary-turquoise underline">{{gf.genreForm}}</router-link>
+                    <span v-else class="text-s text-secondary-turquoise">{{gf.genreForm}}</span>
+                  </span>
                 </div>
             </div>
 
@@ -98,25 +95,12 @@ export default {
         <div v-for="(scheme, index) in subjectSchemes">
           <span class="text-secondary-grey text-base font-medium"> {{ scheme.scheme }} </span>
             <div class="flex flex-wrap gap-2 pb-1">
-                <div v-for="s in scheme.subjects">
-                    <router-link :to="s.link">
-                        <span
-                            class="text-s text-secondary-turquoise underline">
-                            {{ s.subject }}
-                        </span>
-                    </router-link>
-                </div>
+              <div v-for="s in scheme.subjects">
+                <router-link v-if="s.link" :to="s.link" class="text-s text-secondary-turquoise underline">{{s.subject}}</router-link>
+                  <span v-else class="text-s text-secondary-turquoise">{{s.subject}}</span>
+              </div>
             </div>
         </div>
-        <!--
-        <div class="flex flex-wrap mt-2 gap-1">
-            <div class="rounded-full text-xs px-2 py-1 bg-primary-green text-primary-white"
-                 v-for="classification in classifications">
-                {{ classification }}
-            </div>
-        </div>
-        -->
-
         <div class="max-w-2xl py-3" v-if="summary != null">
             {{ summary }}
         </div>

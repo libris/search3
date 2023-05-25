@@ -66,24 +66,33 @@ export const useProductStore = defineStore('product', {
 			if (state.mainEntity != null) {
 				return getAtPath(state.mainEntity, ['subject', '*']).map(s => {
 					if (s['@id'] != null && state.quoted[s['@id']]) {
-						const subject = state.quoted[s['@id']];
-						const schemeId = subject['inScheme']['@id'];
-						const scheme = state.quoted[schemeId];
-						const chip = getChip(scheme, getResources(), state.quoted, settings);
-						// FIXME
+						const inScheme = state.quoted[s['@id']].inScheme;
 						let schemeLabel = '';
-						if (chip.hasOwnProperty('title')) {
-							schemeLabel = chip.title;
-						} else if (chip.hasOwnProperty('prefLabel')) {
-							schemeLabel = chip.prefLabel;
+						if (inScheme) {
+							const chip = getChip(inScheme, getResources(), state.quoted, settings);
+							if (chip.hasOwnProperty('title')) {
+								schemeLabel = chip.title;
+							} else if (chip.hasOwnProperty('prefLabel')) {
+								schemeLabel = chip.prefLabel;
+							}
 						}
 						return {
 							'inScheme': schemeLabel,
 							'subject': getItemLabel(s, getResources(), state.quoted, settings),
 							'link': `find?o=${s['@id']}&@type=Text&_limit=20&_sort=`
 						}
+					} else {
+						return {
+							'inScheme': 'Övriga',
+							'subject': getItemLabel(s, getResources(), state.quoted, settings),
+						}
 					}
-				}).filter(s => s != null);
+				}).filter(s => s != null)
+					.filter(s => !s.subject.includes('{'))
+					.sort((a, b) => {
+							return a.inScheme.localeCompare(b.inScheme, settings.language);
+						}
+					)
 			}
 		},
 		gfSchemes: (state) => {
@@ -99,16 +108,34 @@ export const useProductStore = defineStore('product', {
 			if (state.mainEntity != null) {
 				return getAtPath(state.mainEntity, ['genreForm', '*']).map(gf => {
 					if (gf['@id'] != null && state.quoted[gf['@id']]) {
-						const genreForm = state.quoted[gf['@id']];
-						const schemeId = genreForm['inScheme']['@id'];
-						const scheme = state.quoted[schemeId];
+						const inScheme = state.quoted[gf['@id']].inScheme;
+						let schemeLabel = '';
+						if (inScheme) {
+							console.log('inScheme', JSON.stringify(inScheme['@id']));
+							const chip = getChip(inScheme, getResources(), state.quoted, settings);
+							if (chip.hasOwnProperty('title')) {
+								schemeLabel = chip.title;
+							} else if (chip.hasOwnProperty('prefLabel')) {
+								schemeLabel = chip.prefLabel;
+							}
+						}
 						return {
-							'inScheme': getChip(scheme, getResources(), state.quoted, settings).title,
+							'inScheme': schemeLabel,
 							'genreForm': getItemLabel(gf, getResources(), state.quoted, settings),
 							'link': `find?o=${gf['@id']}&@type=Text&_limit=20&_sort=`
 						}
+					} else {
+						return {
+							'inScheme': 'Övriga',
+							'genreForm': getItemLabel(gf, getResources(), state.quoted, settings),
+						}
 					}
-				}).filter(s => s != null);
+				}).filter(gf => gf != null)
+					.filter(gf => !gf.genreForm.includes('{'))
+					.sort((a, b) => {
+							return a.inScheme.localeCompare(b.inScheme, settings.language);
+						}
+					)
 			}
 		},
 		author: (state) => {
