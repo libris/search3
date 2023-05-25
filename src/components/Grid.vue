@@ -103,10 +103,13 @@ export default {
 		onSortChange(event) {
 			this.sort = event.target.value;
 			document.documentElement.scrollTo(0, 0);
+			const params = getSearchParams();
+			delete params._offset;
+
 			this.$router.push({
 				path: '/find',
 				query: {
-					...getSearchParams(),
+					...params,
 					'_sort': this.sort,
 				}
 			});
