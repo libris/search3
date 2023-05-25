@@ -150,7 +150,7 @@ export default {
 <template>
 	<div class="border border-secondary-grey/20 rounded-lg px-3 py-4">
 		<div
-			class="flex justify-between items-center pb-3 border-b border-b-secondary-grey/20 cursor-pointer"
+			class="flex justify-between items-center cursor-pointer"
 			@click="isExpanded = !isExpanded"
 		>
 			<h4 class="font-semibold truncate" :title="groupLabel">
@@ -166,6 +166,7 @@ export default {
 
 		<Expandable :show="isExpanded">
 			<div class="pt-3">
+				<div class="mb-3 border-t border-t-secondary-grey/20" />
 				<div v-for="facet in list" :key="facet.link" class="flex justify-between items-center mb-2 last-of-type:mb-0">
 					<!-- <Facet :facet="facet" /> -->
 					<router-link :to="facet.link" class="underline truncate" :title="getFacetLabel(facet)" @click="facetClick">
