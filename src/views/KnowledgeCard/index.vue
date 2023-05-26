@@ -6,7 +6,7 @@
 
 		<div class="flex gap-x-4 items-start">
 			<Card class="flex-1">
-				<div v-for="key in Object.keys(card)" class="border-secondary-grey/20 mb-4 last-of-type:mb-0">
+				<div v-for="key in (Object.keys(card).filter(k => !Object.keys(chip).includes(k)))" class="border-secondary-grey/20 mb-4 last-of-type:mb-0">
 					<PropertyDisplay
 						:label="getLabel(key)"
 						:value="card[key]"
