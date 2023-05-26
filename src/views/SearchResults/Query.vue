@@ -64,8 +64,10 @@ export default {
 			this.stats = response.stats;
 			this.search = response.search;
 
-			if (this.queryString == null) {
+			if (this.queryString == null && response.next != null) {
 				this.nextPage = response.next['@id'];
+			} else {
+				this.nextPage = null;
 			}
 
 			this.indexData(response.items);
@@ -77,7 +79,12 @@ export default {
 			const query = getQueryParams(this.nextPage.replace('/find', ''));
 			const response = await getRelatedRecords(query, settings.apiPath);
 
-			this.nextPage = response.next['@id'];
+			if (response.next['@id'] != null) {
+				this.nextPage = response.next['@id'];
+			} else {
+				this.nextPage = null;
+			}
+
 			this.indexData(response.items);
 			this.loading = false;
 		},
