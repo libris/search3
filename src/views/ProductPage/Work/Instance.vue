@@ -52,6 +52,10 @@ export default {
           const r = getItemLabel(getAtPath(this.instance, ['responsibilityStatement']), getResources(), this.quoted, settings)
           return r ? `/ ${r}` : ''
         },
+        editionStatement() {
+          const e = getAtPath(this.instance, ['editionStatement', '*'])
+          return e.length > 0 ? `/ ${e.join('; ')}` : ''
+        },
         imageUrl() {
             return getImageUrl(
                 getFnurgelFromUri(this.instance['@id']), 
@@ -109,10 +113,10 @@ export default {
     <Card :class="{ ['!border-primary-blue']: isSelected }" :image-url="imageUrl" image-size="sm" icon="fa-book">
         <router-link :to="`/${getFnurgelFromUri(this.instance['@id'])}`" replace class="flex items-center gap-x-2">
             <h2>
-              <span class="font-semibold">{{ title }}</span> <span class="text-secondary-grey">{{ responsibilityStatement }}</span> 
+              <span class="font-semibold">{{ title }}</span> <span class="text-secondary-grey">{{ responsibilityStatement }} {{ editionStatement }}</span> 
             </h2>
         </router-link>
-
+      
         <div v-for="publication in publications">
             {{ publication.country }} : {{ publication.agent }}, {{ publication.year }}
         </div>
@@ -122,7 +126,7 @@ export default {
         </div>
 
         <div>
-            {{ extent }}{{ extent && type ? ' • '  : ''}}{{ type }}
+            {{ extent }}{{ extent && type ? ' • '  : ''}}<span>{{ type }}</span>
         </div>
 
         <template #footer>
