@@ -22,8 +22,16 @@ export default {
             'productType',
             'author'
         ]),
-        workId() {
-          return encodeURI(this.mainEntity['@id']);
+        moreByAuthorQuery() {
+          // FIXME: hardcoded language sv
+          const authorId = encodeURI(this.author.agent['@id']);
+          const workId = encodeURI(this.mainEntity['@id']);
+          return `?q=*&@type=Text&_limit=20&o=${authorId}&_sort=_sortKeyByLang.sv&not-@id=${workId}`;
+        },
+        relatedQuery() {
+          // FIXME: hardcoded language sv
+          const workId = encodeURI(this.mainEntity['@id']);
+          return `?q=*&@type=Text&_limit=20&or-closeMatch.@id=${workId}&or-relatedTo.@id=${workId}&_sort=_sortKeyByLang.sv`;
         }
     },
 }
@@ -49,17 +57,14 @@ export default {
                     <h3 class="text-2xl font-semibold mb-2">
                         Mer av samma författare
                     </h3>
-    
-                    <!-- FIXME: hardcoded language sv -->
-                    <Query mode="preview" :query-string="`?q=*&@type=Text&_limit=20&o=${author.agent['@id']}&_sort=_sortKeyByLang.sv`" />
+                    <Query mode="preview" :query-string="moreByAuthorQuery" />
                 </div>
 
                 <div class="lg:w-1/2">
                     <h3 class="text-2xl font-semibold mb-2">
                         Relaterade titlar
                     </h3>
-                    <!-- FIXME: hardcoded language sv -->
-                    <Query mode="preview" :query-string="`?q=*&@type=Text&_limit=20&or-closeMatch.@id=${workId}&or-relatedTo.@id=${workId}&_sort=_sortKeyByLang.sv`" />
+                    <Query mode="preview" :query-string="relatedQuery" />
                 </div>
             </div>
         </div>
