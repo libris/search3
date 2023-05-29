@@ -5,7 +5,7 @@ import settings from '@/lib/settings';
 import { getChip, getItemLabel } from '@/lxljs/display';
 import { getLabelByLang } from "@/lxljs/string";
 import { mapState } from 'pinia';
-import { getImageUrl, getFnurgelFromUri, getAtPath } from '@/lib/item';
+import {getImageUrl, getFnurgelFromUri, getAtPath, asArray} from '@/lib/item';
 import { getHoldings } from "@/lib/http";
 import Holding from "./Holding.vue";
 import SidebarModal from '@/components/Modals/Sidebar.vue';
@@ -53,7 +53,7 @@ export default {
           return r ? `/ ${r}` : ''
         },
         editionStatement() {
-          const e = getAtPath(this.instance, ['editionStatement', '*'])
+          const e = asArray(getAtPath(this.instance, ['editionStatement']))
           return e.length > 0 ? `/ ${e.join('; ')}` : ''
         },
         imageUrl() {
