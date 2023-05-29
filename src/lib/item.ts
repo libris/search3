@@ -27,6 +27,10 @@ export const getFnurgelFromUri = (id: string) => {
 	return fnurgel;
 }
 
+export const noFragment = (uri: string) => {
+	return uri.split('#')[0];
+}
+
 export const getFullImageUrl = (id: string, isbn: string) => {
 	return `https://xinfo.libris.kb.se/xinfo/xinfo?type=orginal&identifier=libris-bib:${id},isbn:${isbn}`
 };

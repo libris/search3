@@ -1,5 +1,6 @@
 <script lang="js">
 import { mapState } from 'pinia';
+import { noFragment } from "@/lib/item";
 import { useProductStore } from '@/views/ProductPage/store';
 import WorkSummary from './WorkSummary.vue';
 import Instance from './Instance.vue';
@@ -21,6 +22,9 @@ export default {
             'productType',
             'author'
         ]),
+        workId() {
+          return encodeURI(this.mainEntity['@id']);
+        }
     },
 }
 </script>
@@ -55,7 +59,7 @@ export default {
                         Relaterade titlar
                     </h3>
                     <!-- FIXME: hardcoded language sv -->
-                    <Query mode="preview" :query-string="`?q=*&@type=Text&_limit=20&closeMatch.@id=${mainEntity['@id']}&_sort=_sortKeyByLang.sv`" />
+                    <Query mode="preview" :query-string="`?q=*&@type=Text&_limit=20&or-closeMatch.@id=${workId}&or-relatedTo.@id=${workId}&_sort=_sortKeyByLang.sv`" />
                 </div>
             </div>
         </div>
