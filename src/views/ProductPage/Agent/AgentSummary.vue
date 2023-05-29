@@ -42,7 +42,7 @@ export default {
 		}),
 		...mapState(useProductStore, ['quoted']),
 		searchValue() {
-			return `?@type=Text&_limit=20&o=${this.person['@id']}`;
+			return `?@type=Text&_limit=20&o=${encodeURI(this.person['@id'])}`;
 		},
 		properties() {
 			const properties = getDisplayProperties(this.person['@type'], getResources(), settings, 'full');
