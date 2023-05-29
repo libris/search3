@@ -103,7 +103,7 @@ export default {
 
 <template>
     <Card :class="{ ['!border-primary-blue']: isSelected }" :image-url="imageUrl" image-size="sm" icon="fa-book">
-        <router-link :to="`/${getFnurgelFromUri(this.instance['@id'])}`" class="flex items-center gap-x-2">
+        <router-link :to="`/${getFnurgelFromUri(this.instance['@id'])}`" replace class="flex items-center gap-x-2">
             <h2 class="font-semibold">
                 {{ title }}
             </h2>
