@@ -48,9 +48,10 @@ export const useProductStore = defineStore('product', {
 					return {
 						'role': asArray(c.role).map(r => getItemLabel(r, getResources(), state.quoted, settings)),
 						'agent': getItemLabel(unwrap(c.agent), getResources(), state.quoted, settings),
-						'link': getFnurgelFromUri(unwrap(asArray(c.agent).map(a => a['@id'])))
+						'link': getFnurgelFromUri(unwrap(asArray(c.agent).map(a => a['@id']))),
+						'isPrimary': c['@type'] === "PrimaryContribution" || asArray(c.role).some(r => r['@id'] === "http://id.kb.se/relator/primaryRightsHolder")
 					}
-				});
+				}).sort((a, b) => Number(b['isPrimary']) - Number(a['isPrimary']));
 			}
 		},
 		subjectSchemes: (state) => {

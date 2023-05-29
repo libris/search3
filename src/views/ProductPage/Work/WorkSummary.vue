@@ -75,8 +75,8 @@ export default {
             </span>
 
             <div class="mt-1" v-for="c in contribution">
-                <router-link v-if="c.link" :to="`/${c.link}`" class="underline">{{c.agent}}</router-link>
-                <span v-else>{{c.agent}}</span>
+                <span :class="c.isPrimary ? 'font-semibold' : ''"><router-link v-if="c.link" :to="`/${c.link}`" class="underline">{{c.agent}}</router-link>
+                <span v-else>{{c.agent}}</span></span>
                 <span class="text-secondary-grey">
                     &bull; {{c.role.join(', ')}}
                 </span>
