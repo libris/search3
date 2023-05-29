@@ -54,6 +54,8 @@ export default {
                     <h3 class="text-2xl font-semibold mb-2">
                         Relaterade titlar
                     </h3>
+                    <!-- FIXME: hardcoded language sv -->
+                    <Query mode="preview" :query-string="`?q=*&@type=Text&_limit=20&closeMatch.@id=${mainEntity['@id']}&_sort=_sortKeyByLang.sv`" />
                 </div>
             </div>
         </div>
