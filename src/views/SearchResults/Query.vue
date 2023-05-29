@@ -168,7 +168,7 @@ export default {
 </script>
 
 <template>
-	<Grid :displayViewOptions="queryString == null">
+	<Grid :displayMode="mode == 'preview' ? 'compactlist' : null" :displayViewOptions="queryString == null">
 		<template #top v-if="item != null && queryString == null">
 			<KnowledgeCard :id="item.object['@id']" />
 		</template>

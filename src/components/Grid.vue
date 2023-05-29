@@ -69,6 +69,10 @@ export default {
 			type: Boolean,
 			default: true,
 		},
+		displayMode: {
+			type: String,
+			default: null,
+		},
 	},
 	data: () => ({
 		sort: getSearchParamValue('_sort'),
@@ -77,7 +81,16 @@ export default {
 		Select,
 	},
 	computed: {
-		...mapWritableState(useDisplayPreferences, ['mode']),
+		...mapWritableState(useDisplayPreferences, {
+			selectedMode: 'mode',
+		}),
+		mode() {
+			if (this.displayMode != null) {
+				return this.displayMode;
+			}
+
+			return this.selectedMode;
+		},
 		containerClassName() {
 			switch (this.mode) {
 				case 'cards':
@@ -98,7 +111,7 @@ export default {
 	methods: {
 		translatePhrase,
 		setDisplayMode(mode: String) {
-			this.mode = mode;
+			this.selectedMode = mode;
 		},
 		onSortChange(event) {
 			this.sort = event.target.value;
