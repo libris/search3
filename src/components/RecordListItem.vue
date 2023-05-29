@@ -8,7 +8,7 @@
 			<router-link :to="this.routerPath(item['@id'])" :title="title" class="flex justify-center">
 				<div
 					class="w-32 h-52 bg-no-repeat bg-cover bg-center rounded-lg"
-					:style="{ backgroundImage: 'url(' + getWorkImageUrl(item) + ')' }"
+					:style="{ backgroundImage: 'url(' + imageUrl + ')' }"
 				/>
 			</router-link>
 
@@ -60,7 +60,7 @@
 			-->
 		</div>
 
-		<Card v-if="mode === 'list' && item != null" :image-url="getWorkImageUrl(item)">
+		<Card v-if="mode === 'list' && item != null" :image-url="imageUrl">
 			<router-link :to="this.routerPath(item['@id'])" :title="title">
 				<div class="flex items-center">
 					<h3 class="text-xl font-semibold">
@@ -100,8 +100,8 @@
 				<div class="font-semibold text-secondary-turquoise">{{ getPropertyLabel('subject') }}</div>
 				<div class="flex flex-wrap gap-2">
 					<span
-							class="text-sm text-secondary-turquoise"
-							v-for="subject in subjectCalculated"
+						class="text-sm text-secondary-turquoise"
+						v-for="subject in subjectCalculated"
 					>
 						{{ subject }}
 					</span>
@@ -136,7 +136,7 @@
 			</template>
 		</Card>
 
-		<Card v-if="mode === 'compactlist' && item != null" :image-url="getWorkImageUrl(item)" image-size="sm">
+		<Card v-if="mode === 'compactlist' && item != null" :image-url="imageUrl" image-size="sm">
 			<router-link :to="this.routerPath(item['@id'])" :title="title">
 				<div class="flex items-center">
 					<h3 class="text-xl font-semibold">
@@ -171,7 +171,7 @@
 			</div>
 		</Card>
 
-		<Card v-if="mode === 'small' && item != null" :image-url="getWorkImageUrl(item)" image-size="sm">
+		<Card v-if="mode === 'small' && item != null" :image-url="imageUrl" image-size="sm">
 			<router-link :to="this.routerPath(item['@id'])" :title="title">
 				<div class="flex items-center">
 					<h3 class="text-l font-semibold">
@@ -199,7 +199,7 @@
 
 <script lang="ts">
 import { PropType } from 'vue';
-import { asArray, getAtPath, getFnurgelFromUri, getPropertyLabel, getWorkImageUrl, unwrap } from '@/lib/item';
+import { asArray, getAtPath, getFnurgelFromUri, getImageUrl, getPropertyLabel, unwrap } from '@/lib/item';
 import { useDisplayPreferences } from '@/stores/displayPreferences';
 import { mapState } from 'pinia';
 import { getLabelByLang } from '@/lxljs/string';
@@ -211,6 +211,7 @@ import { useBookmarksStore } from '@/stores/bookmarks';
 import { getDocument, noFragment } from '@/lib/http';
 import { splitJson } from '@/lxljs/data';
 import { getItemLabel } from '@/lxljs/display';
+import { head } from 'lodash-es';
 
 export default {
 	name: 'RecordListItem',
@@ -297,12 +298,19 @@ export default {
 			}
 
 			return null;
+		},
+		imageUrl() {
+			if (this.instances == null) return null;
+
+			const fnurgel = this.instances.length > 0 ? getFnurgelFromUri(head(this.instances)['@id']) : '';
+			const isbns = getAtPath(this.instances, ['*', 'identifiedBy', {'@type': 'ISBN'}, 'value']);
+			const isbn = isbns.length > 0 ? head(isbns) : '';
+			return getImageUrl(fnurgel, isbn);
 		}
 	},
 	methods: {
 		...mapActions(useBookmarksStore, ['toggleBookmark', 'isBookmarked']),
 		getPropertyLabel,
-		getWorkImageUrl,
 		getFnurgelFromUri,
 		routerPath(id: string) {
 			return `/${getFnurgelFromUri(id)}`;
