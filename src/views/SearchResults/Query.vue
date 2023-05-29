@@ -76,7 +76,7 @@ export default {
 			const query = getQueryParams(this.nextPage.replace('/find', ''));
 			const response = await getRelatedRecords(query, settings.apiPath);
 
-			if (response.next['@id'] != null) {
+			if (response.next != null && response.next['@id'] != null) {
 				this.nextPage = response.next['@id'];
 			} else {
 				this.nextPage = null;
