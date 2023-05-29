@@ -30,12 +30,12 @@
 				</strong>
 			</div>
 
-			<div v-if="contributionsCalculated != null" class="text-secondary-grey mt-1">
-				<div class="mt-1" v-for="c in contributionsCalculated">
-					<router-link v-if="c.link" :to="`/${c.link}`" class="underline">{{c.agent}}</router-link>
-					<span v-else>{{c.agent}}</span>
-				</div>
-			</div>
+      <div v-if="contributionsCalculated != null" class="text-secondary-grey mt-1">
+        <div class="mt-1" v-for="c in contributionsCalculated">
+          <router-link v-if="c.link" :to="`/${c.link}`" class="underline">{{c.agent}}</router-link>
+          <span v-else>{{c.agent}}</span><span v-if="c.role.length > 0"> &bull; </span><span>{{c.role.join(`, `)}}</span>
+        </div>
+      </div>
 
 			<div v-if="genreFormCalculated != null" class="mt-1">
 				<div class="flex flex-wrap gap-2">
@@ -76,12 +76,12 @@
 				</div>
 			</router-link>
 
-			<div v-if="contributionsCalculated != null" class="text-secondary-grey mt-1">
-				<div class="mt-1" v-for="c in contributionsCalculated">
-					<router-link v-if="c.link" :to="`/${c.link}`" class="underline">{{c.agent}}</router-link>
-					<span v-else>{{c.agent}}</span>
-				</div>
-			</div>
+      <div v-if="contributionsCalculated != null" class="text-secondary-grey mt-1">
+        <div class="mt-1" v-for="c in contributionsCalculated">
+          <router-link v-if="c.link" :to="`/${c.link}`" class="underline">{{c.agent}}</router-link>
+          <span v-else>{{c.agent}}</span><span v-if="c.role.length > 0"> &bull; </span><span>{{c.role.join(`, `)}}</span>
+        </div>
+      </div>
 
 			<div v-if="genreFormCalculated != null" class="mt-4">
 				<div class="font-semibold text-secondary-turquoise">{{ getPropertyLabel('genreForm') }}</div>
@@ -146,12 +146,12 @@
 				</div>
 			</router-link>
 
-			<div v-if="contributionsCalculated != null" class="text-secondary-grey mt-1">
-				<div class="mt-1" v-for="c in contributionsCalculated">
-					<router-link v-if="c.link" :to="`/${c.link}`" class="underline">{{c.agent}}</router-link>
-					<span v-else>{{c.agent}}</span>
-				</div>
-			</div>
+      <div v-if="contributionsCalculated != null" class="text-secondary-grey mt-1">
+        <div class="mt-1" v-for="c in contributionsCalculated">
+          <router-link v-if="c.link" :to="`/${c.link}`" class="underline">{{c.agent}}</router-link>
+          <span v-else>{{c.agent}}</span><span v-if="c.role.length > 0"> &bull; </span><span>{{c.role.join(`, `)}}</span>
+        </div>
+      </div>
 
 			<div v-if="genreFormCalculated != null" class="mt-1">
 				<div class="flex flex-wrap gap-2">
@@ -187,6 +187,12 @@
 					</div>
 				</div>
 			</router-link>
+      <div v-if="contributionsCalculated != null" class="text-secondary-grey mt-1">
+        <div class="mt-1" v-for="c in contributionsCalculated">
+          <router-link v-if="c.link" :to="`/${c.link}`" class="underline">{{c.agent}}</router-link>
+          <span v-else>{{c.agent}}</span><span v-if="c.role.length > 0"> &bull; </span><span>{{c.role.join(`, `)}}</span>
+        </div>
+      </div>
 		</Card>
 	</div>
 </template>
