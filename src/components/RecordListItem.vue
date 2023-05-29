@@ -124,13 +124,7 @@
 					</div>
 
 					<div>
-						<div
-							class="flex items-center justify-center border border-secondary-turquoise rounded-full w-12 h-12 cursor-pointer"
-							:class="{ ['text-secondary-turquoise']: !bookmarked, ['bg-secondary-turquoise text-primary-white']: bookmarked }"
-							@click="toggleBookmark(item['@id'])"
-						>
-							<font-awesome-icon icon="fa fa-bookmark" />
-						</div>
+						<BookmarkButton :id="item['@id']" />
 					</div>
 				</div>
 			</template>
@@ -204,14 +198,14 @@ import { useDisplayPreferences } from '@/stores/displayPreferences';
 import { mapState } from 'pinia';
 import { getLabelByLang } from '@/lxljs/string';
 import { getResources } from '@/lib/resources';
-import Card from './Card.vue';
 import settings from '@/lib/settings';
-import { mapActions } from 'pinia';
-import { useBookmarksStore } from '@/stores/bookmarks';
 import { getDocument, noFragment } from '@/lib/http';
 import { splitJson } from '@/lxljs/data';
 import { getItemLabel } from '@/lxljs/display';
 import { head } from 'lodash-es';
+
+import BookmarkButton from './BookmarkButton.vue';
+import Card from './Card.vue';
 
 export default {
 	name: 'RecordListItem',
@@ -237,6 +231,7 @@ export default {
 		instances: null,
 	}),
 	components: {
+		BookmarkButton,
 		Card,
 	},
 	computed: {
@@ -249,10 +244,6 @@ export default {
 			}
 
 			return this.selectedMode;
-		},
-		bookmarked() {
-			if (this.item == null) return false;
-			return this.isBookmarked(this.item['@id']);
 		},
 		item() {
 			if (this.record != null) {
@@ -309,7 +300,6 @@ export default {
 		}
 	},
 	methods: {
-		...mapActions(useBookmarksStore, ['toggleBookmark', 'isBookmarked']),
 		getPropertyLabel,
 		getFnurgelFromUri,
 		routerPath(id: string) {
