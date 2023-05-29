@@ -2,7 +2,7 @@
 	<div>
 		<h1 class="text-3xl">Mina bokmärken</h1>
 
-		<div class="mt-4">
+		<div class="flex flex-col gap-y-6 mt-4">
 			<RecordListItem
 				v-for="id in bookmarks"
 				:key="id"
