@@ -4,44 +4,44 @@
 		class="transition-all ease-in-out duration-300"
 		:class="{ 'opacity-100 scale-100': isVisible, 'opacity-0 scale-75': !isVisible }"
 	>
-		<div v-if="mode === 'cards'">
-			<router-link :to="this.routerPath(record['@id'])" :title="record.title" class="flex justify-center">
+		<div v-if="mode === 'cards' && item != null">
+			<router-link :to="this.routerPath(item['@id'])" :title="title" class="flex justify-center">
 				<div
 					class="w-32 h-52 bg-no-repeat bg-cover bg-center rounded-lg"
-					:style="{ backgroundImage: 'url(' + getWorkImageUrl(record) + ')' }"
+					:style="{ backgroundImage: 'url(' + getWorkImageUrl(item) + ')' }"
 				/>
 			</router-link>
 
 			<div class="mt-2">
-				<div v-if="record.language != null" class="text-secondary-grey text-xs font-semibold">
-					<span v-for="language in record.language">
-						{{ language }}
+				<div v-if="language != null" class="text-secondary-grey text-xs font-semibold">
+					<span v-for="lang in language">
+						{{ lang }}
 					</span>
 				</div>
 
 				<h3 class="font-semibold">
-					<router-link :to="this.routerPath(record['@id'])" :title="record.title" class="block truncate text-ellipsis">
-						{{ record.title }}
+					<router-link :to="this.routerPath(item['@id'])" :title="title" class="block truncate text-ellipsis">
+						{{ title }}
 					</router-link>
 				</h3>
 
-				<strong v-if="record.originDate != null">
-					&bull; {{ record.originDate }}
+				<strong v-if="item.originDate != null">
+					&bull; {{ item.originDate }}
 				</strong>
 			</div>
 
-			<div v-if="record.contributionsCalculated != null" class="text-secondary-grey mt-1">
-				<div class="mt-1" v-for="c in record.contributionsCalculated">
+			<div v-if="contributionsCalculated != null" class="text-secondary-grey mt-1">
+				<div class="mt-1" v-for="c in contributionsCalculated">
 					<router-link v-if="c.link" :to="`/${c.link}`" class="underline">{{c.agent}}</router-link>
 					<span v-else>{{c.agent}}</span>
 				</div>
 			</div>
 
-			<div v-if="record.genreFormCalculated != null" class="mt-1">
+			<div v-if="genreFormCalculated != null" class="mt-1">
 				<div class="flex flex-wrap gap-2">
 					<span
 						class="text-xs text-secondary-turquoise"
-						v-for="genreForm in record.genreFormCalculated"
+						v-for="genreForm in genreFormCalculated"
 					>
 						{{ genreForm }}
 					</span>
@@ -51,56 +51,57 @@
 			<!--
 			<div class="flex flex-wrap mt-2 gap-1">
 				<div
-					v-if="record.language != null"
+					v-if="item.language != null"
 					class="rounded-full text-xs px-2 py-1 bg-signal-yellow text-primary-white"
 				>
-					{{ 'record.language.label' }}
+					{{ 'item.language.label' }}
 				</div>
 			</div>
 			-->
 		</div>
 
-		<Card v-if="mode === 'list'" :image-url="getWorkImageUrl(record)">
-			<router-link :to="this.routerPath(record['@id'])" :title="record.title">
+		<Card v-if="mode === 'list' && item != null" :image-url="getWorkImageUrl(item)">
+			<router-link :to="this.routerPath(item['@id'])" :title="title">
 				<div class="flex items-center">
 					<h3 class="text-xl font-semibold">
-						{{ record.title }}
+						{{ title }}
 
-						<div v-if="record.language != null" class="inline text-sm text-secondary-grey">
-							<span v-for="language in record.language">
+						<div v-if="language != null" class="inline text-sm text-secondary-grey">
+							<span v-for="lang in language">
 								<span class="mx-1 font-bold">&bull;</span>
-								{{ language }}
+								{{ lang }}
 							</span>
 						</div>
 					</h3>
 				</div>
 			</router-link>
-			<div v-if="record.contributionsCalculated != null" class="text-secondary-grey mt-1">
-				<div class="mt-1" v-for="c in record.contributionsCalculated">
+
+			<div v-if="contributionsCalculated != null" class="text-secondary-grey mt-1">
+				<div class="mt-1" v-for="c in contributionsCalculated">
 					<router-link v-if="c.link" :to="`/${c.link}`" class="underline">{{c.agent}}</router-link>
 					<span v-else>{{c.agent}}</span>
 				</div>
 			</div>
 
-			<div v-if="record.genreFormCalculated != null" class="mt-4">
+			<div v-if="genreFormCalculated != null" class="mt-4">
 				<div class="font-semibold text-secondary-turquoise">{{ getPropertyLabel('genreForm') }}</div>
 
 				<div class="flex flex-wrap gap-2">
 					<span
 						class="text-sm text-secondary-turquoise"
-						v-for="genreForm in record.genreFormCalculated"
+						v-for="genreForm in genreFormCalculated"
 					>
 						{{ genreForm }}
 					</span>
 				</div>
 			</div>
 
-			<div v-if="record.subjectCalculated != null" class="mt-2">
+			<div v-if="subjectCalculated != null" class="mt-2">
 				<div class="font-semibold text-secondary-turquoise">{{ getPropertyLabel('subject') }}</div>
 				<div class="flex flex-wrap gap-2">
 					<span
 							class="text-sm text-secondary-turquoise"
-							v-for="subject in record.subjectCalculated"
+							v-for="subject in subjectCalculated"
 					>
 						{{ subject }}
 					</span>
@@ -110,12 +111,12 @@
 			<template #footer>
 				<div class="flex items-end justify-between border-t border-t-secondary-grey/20 pt-4">
 					<div>
-						<div v-if="record.holdings != null && record.holdings > 0">
-							Finns på <u class="text-secondary-turquoise">{{ record.holdings }} bibliotek</u>
+						<div v-if="holdings != null && holdings > 0">
+							Finns på <u class="text-secondary-turquoise">{{ holdings }} bibliotek</u>
 						</div>
 
-						<div class="flex gap-x-2" v-if="getInstanceTypes(record).length > 0">
-							<div class="rounded-md bg-secondary-grey/20 mt-2 py-2 px-4" v-for="instanceType in getInstanceTypes(record)">
+						<div class="flex gap-x-2" v-if="getInstanceTypes(item).length > 0">
+							<div class="rounded-md bg-secondary-grey/20 mt-2 py-2 px-4" v-for="instanceType in getInstanceTypes(item)">
 								<font-awesome-icon icon="fa fa-book" class="mr-2 text-secondary-grey" />
 								{{ getLabel(instanceType) }}
 							</div>
@@ -126,7 +127,7 @@
 						<div
 							class="flex items-center justify-center border border-secondary-turquoise rounded-full w-12 h-12 cursor-pointer"
 							:class="{ ['text-secondary-turquoise']: !bookmarked, ['bg-secondary-turquoise text-primary-white']: bookmarked }"
-							@click="toggleBookmark(record['@id'])"
+							@click="toggleBookmark(item['@id'])"
 						>
 							<font-awesome-icon icon="fa fa-bookmark" />
 						</div>
@@ -135,34 +136,34 @@
 			</template>
 		</Card>
 
-		<Card v-if="mode === 'compactlist'" :image-url="getWorkImageUrl(record)" image-size="sm">
-			<router-link :to="this.routerPath(record['@id'])" :title="record.title">
+		<Card v-if="mode === 'compactlist' && item != null" :image-url="getWorkImageUrl(item)" image-size="sm">
+			<router-link :to="this.routerPath(item['@id'])" :title="title">
 				<div class="flex items-center">
 					<h3 class="text-xl font-semibold">
-						{{ record.title }}
+						{{ title }}
 
-						<div v-if="record.language != null" class="inline text-sm text-secondary-grey">
-							<span v-for="language in record.language">
+						<div v-if="language != null" class="inline text-sm text-secondary-grey">
+							<span v-for="lang in language">
 								<span class="mx-1 font-bold">&bull;</span>
-								{{ language }}
+								{{ lang }}
 							</span>
 						</div>
 					</h3>
 				</div>
 			</router-link>
 
-			<div v-if="record.contributionsCalculated != null" class="text-secondary-grey mt-1">
-				<div class="mt-1" v-for="c in record.contributionsCalculated">
+			<div v-if="contributionsCalculated != null" class="text-secondary-grey mt-1">
+				<div class="mt-1" v-for="c in contributionsCalculated">
 					<router-link v-if="c.link" :to="`/${c.link}`" class="underline">{{c.agent}}</router-link>
 					<span v-else>{{c.agent}}</span>
 				</div>
 			</div>
 
-			<div v-if="record.genreFormCalculated != null" class="mt-1">
+			<div v-if="genreFormCalculated != null" class="mt-1">
 				<div class="flex flex-wrap gap-2">
 					<span
 						class="text-sm text-secondary-turquoise"
-						v-for="genreForm in record.genreFormCalculated"
+						v-for="genreForm in item.genreFormCalculated"
 					>
 						{{ genreForm }}
 					</span>
@@ -170,24 +171,24 @@
 			</div>
 		</Card>
 
-		<Card v-if="mode === 'small'" :image-url="getWorkImageUrl(record)" image-size="sm">
-			<router-link :to="this.routerPath(record['@id'])" :title="record.title">
+		<Card v-if="mode === 'small' && item != null" :image-url="getWorkImageUrl(item)" image-size="sm">
+			<router-link :to="this.routerPath(item['@id'])" :title="title">
 				<div class="flex items-center">
 					<h3 class="text-l font-semibold">
-						{{ record.title }}
+						{{ title }}
 					</h3>
 				</div>
 
 				<div>
-					<strong v-if="record.originDate != null" class="text-sm text-secondary-grey">
-						{{ record.originDate }}
-						<span class="mx-1 font-bold" v-if="record.language != null">&bull;</span>
+					<strong v-if="item.originDate != null" class="text-sm text-secondary-grey">
+						{{ item.originDate }}
+						<span class="mx-1 font-bold" v-if="language != null">&bull;</span>
 					</strong>
 
-					<div v-if="record.language != null" class="inline text-sm text-secondary-grey">
-						<span v-for="(language, index) in record.language">
+					<div v-if="language != null" class="inline text-sm text-secondary-grey">
+						<span v-for="(lang, index) in language">
 							<span class="mx-1 font-bold" v-if="index > 0">&bull;</span>
-							{{ language }}
+							{{ lang }}
 						</span>
 					</div>
 				</div>
@@ -198,7 +199,7 @@
 
 <script lang="ts">
 import { PropType } from 'vue';
-import { getFnurgelFromUri, getPropertyLabel, getWorkImageUrl } from '@/lib/item';
+import { asArray, getAtPath, getFnurgelFromUri, getPropertyLabel, getWorkImageUrl, unwrap } from '@/lib/item';
 import { useDisplayPreferences } from '@/stores/displayPreferences';
 import { mapState } from 'pinia';
 import { getLabelByLang } from '@/lxljs/string';
@@ -207,11 +208,21 @@ import Card from './Card.vue';
 import settings from '@/lib/settings';
 import { mapActions } from 'pinia';
 import { useBookmarksStore } from '@/stores/bookmarks';
+import { getDocument, noFragment } from '@/lib/http';
+import { splitJson } from '@/lxljs/data';
+import { getItemLabel } from '@/lxljs/display';
 
 export default {
 	name: 'RecordListItem',
 	props: {
-		record: Object,
+		record: {
+			type: Object,
+			default: null,
+		},
+		id: {
+			type: String,
+			default: null,
+		},
 		displayMode: {
 			type: String as PropType<'small' | 'cards' | 'list' | 'compactlist'>,
 			default: null,
@@ -219,6 +230,10 @@ export default {
 	},
 	data: () => ({
 		isVisible: false,
+		entity: null,
+		quoted: null,
+		holdings: null,
+		instances: null,
 	}),
 	components: {
 		Card,
@@ -235,7 +250,53 @@ export default {
 			return this.selectedMode;
 		},
 		bookmarked() {
-			return this.isBookmarked(this.record['@id']);
+			if (this.item == null) return false;
+			return this.isBookmarked(this.item['@id']);
+		},
+		item() {
+			if (this.record != null) {
+				return this.record;
+			}
+
+			return this.entity;
+		},
+		title() {
+			if (this.item == null) return null;
+			return getItemLabel(this.item.hasTitle[0], getResources(), this.quoted, settings);
+		},
+		contributionsCalculated() {
+			if (this.item == null) return null;
+			return getAtPath(this.item, ['contribution', '*']).map((c) => {
+				return {
+					'role': asArray(c.role).map(r => getItemLabel(r, getResources(), this.quoted, settings)),
+					'agent': getItemLabel(unwrap(c.agent), getResources(), this.quoted, settings),
+					'link': getFnurgelFromUri(unwrap(asArray(c.agent).map(a => a['@id'])))
+				}
+			});
+		},
+		language() {
+			if (this.item == null) return null;
+			return getAtPath(this.item, ['language', '*']).map(l => {
+				return getItemLabel(l, getResources(), this.quoted, settings);
+			});
+		},
+		subjectCalculated() {
+			if (this.item != null && this.item.subject != null && Array.isArray(this.item.subject)) {
+				return this.item.subject.map((subject) => {
+					return getItemLabel(subject, getResources(), this.quoted, settings);
+				}).filter(label => !label.includes('{'));
+			}
+
+			return null;
+		},
+		genreFormCalculated() {
+			if (this.item != null && this.item.genreForm != null && Array.isArray(this.item.genreForm)) {
+				return this.item.genreForm.map((genre) => {
+					return getItemLabel(genre, getResources(), this.quoted, settings);
+				});
+			}
+
+			return null;
 		}
 	},
 	methods: {
@@ -249,13 +310,13 @@ export default {
 		getLabel(label) {
 			return getLabelByLang(label, settings.language, getResources());
 		},
-		getInstanceTypes(record) {
-			if (record.instances == null) {
+		getInstanceTypes() {
+			if (this.instances == null) {
 				return [];
 			}
 
 			let result = [];
-			record.instances.forEach((instance) => {
+			this.instances.forEach((instance) => {
 				if (result.indexOf(instance['@type']) == -1) {
 					result.push(instance['@type']);
 				}
@@ -263,6 +324,45 @@ export default {
 
 			return result;
 		},
+		async calculateFetchedMeta() {
+			if (this.instances != null) {
+				return this.item;
+			}
+
+			const id = this.record != null ? this.record['@id'] : this.id;
+			const response = await getDocument(`${noFragment(id)}/data.jsonld`);
+
+			if (!response.data) {
+				return null;
+			}
+
+			const split = splitJson(response.data);
+
+			this.quoted = split.quoted;
+			this.entity = split.mainEntity;
+
+			if (this.item['@reverse']?.hasOwnProperty('instanceOf')) {
+				const instanceIds = this.item['@reverse']['instanceOf'].map((instance) => instance['@id']);
+				if (instanceIds != null) {
+					this.instances = instanceIds.map((instanceId) => {
+						const instance = split.quoted[instanceId];
+						if (instance != null) {
+							return instance;
+						}
+					});
+				}
+			}
+
+			if (this.instances != null) {
+				this.holdings = 0;
+				this.instances.forEach((instance) => {
+					this.holdings += getAtPath(instance, ['@reverse', 'itemOf', '*', '@id']).length;
+				});
+			}
+		},
 	},
+	mounted() {
+		this.calculateFetchedMeta();
+	}
 };
 </script>

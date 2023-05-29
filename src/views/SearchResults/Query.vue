@@ -2,11 +2,8 @@
 import { PropType } from 'vue';
 import { mapWritableState } from 'pinia';
 import { useSearchResults } from './store';
-import { getItemLabel } from "@/lxljs/display";
 import { getResources } from "@/lib/resources";
-import { splitJson } from "@/lxljs/data";
-import { asArray, getAtPath, getFnurgelFromUri, unwrap } from "@/lib/item";
-import { getQueryParams, getRelatedRecords, getDocument, noFragment, buildQueryString } from '@/lib/http';
+import { getQueryParams, getRelatedRecords, buildQueryString } from '@/lib/http';
 import settings from "@/lib/settings";
 
 import Grid from '@/components/Grid.vue';
@@ -101,79 +98,6 @@ export default {
 					});
 				}
 			});
-
-			this.$data['Records'] = this.$data['Records'].map(this.calculateDisplayMeta);
-			const promises = this.$data['Records'].map(this.calculateFetchedMeta);
-
-			Promise.all(promises).then((results) => {
-				this.$data['Records'] = results;
-			});
-		},
-
-		calculateDisplayMeta(item) {
-			if (item.title != null) {
-				return item;
-			}
-
-			const clone = JSON.parse(JSON.stringify(item));
-
-			clone.title = getItemLabel(item.hasTitle[0], getResources(), [], settings);
-			if (clone.genreForm != null && Array.isArray(clone.genreForm)) {
-				clone.genreFormCalculated = clone.genreForm.map((genre) => {
-					return getItemLabel(genre, getResources(), [], settings);
-				});
-			}
-			if (clone.subject != null && Array.isArray(clone.subject)) {
-				clone.subjectCalculated = clone.subject.map((subject) => {
-					return getItemLabel(subject, getResources(), [], settings);
-				}).filter(label => !label.includes('{'));
-			}
-			clone.language = getAtPath(clone, ['language', '*']).map(l => {
-				return getItemLabel(l, getResources(), [], settings);
-			});
-			clone.contributionsCalculated = getAtPath(clone, ['contribution', '*']).map(c => {
-				return {
-					'role': asArray(c.role).map(r => getItemLabel(r, getResources(), [], settings)),
-					'agent': getItemLabel(unwrap(c.agent), getResources(), [], settings),
-					'link': getFnurgelFromUri(unwrap(asArray(c.agent).map(a => a['@id'])))
-				}
-			});
-
-			return clone;
-		},
-
-		async calculateFetchedMeta(item) {
-			if (item.instances != null) {
-				return item;
-			}
-
-			const clone = JSON.parse(JSON.stringify(item));
-			const response = await getDocument(`${noFragment(clone['@id'])}/data.jsonld`);
-			if (!response.data) {
-				return clone;
-			}
-			const split = splitJson(response.data);
-
-			if (clone['@reverse']?.hasOwnProperty('instanceOf')) {
-				clone.instanceIds = clone['@reverse']['instanceOf'].map((instance) => instance['@id']);
-				if (clone.instanceIds != null) {
-					clone.instances = clone.instanceIds.map((instanceId) => {
-						const instance = split.quoted[instanceId];
-						if (instance != null) {
-							return instance;
-						}
-					});
-				}
-			}
-
-			if (clone.instances != null) {
-				clone.holdings = 0;
-				clone.instances.forEach((instance) => {
-					clone.holdings += getAtPath(instance, ['@reverse', 'itemOf', '*', '@id']).length;
-				});
-			}
-
-			return clone;
 		},
 
 		reset() {

@@ -19,5 +19,11 @@ export const useBookmarksStore = defineStore('bookmarks', {
 	},
 	persist: {
 		enabled: true,
+		strategies: [
+			{
+				key: 'bookmarks',
+				storage: localStorage,
+			},
+		],
 	},
 });
