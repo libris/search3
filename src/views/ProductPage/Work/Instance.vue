@@ -5,7 +5,7 @@ import settings from '@/lib/settings';
 import { getChip, getItemLabel } from '@/lxljs/display';
 import { getLabelByLang } from "@/lxljs/string";
 import { mapState } from 'pinia';
-import {getImageUrl, getFnurgelFromUri, getAtPath, asArray} from '@/lib/item';
+import {getImageUrl, getFnurgelFromUri, getAtPath, asArray, unwrap} from '@/lib/item';
 import { getHoldings } from "@/lib/http";
 import Holding from "./Holding.vue";
 import SidebarModal from '@/components/Modals/Sidebar.vue';
@@ -70,6 +70,16 @@ export default {
         type() {
             return getLabelByLang(this.instance['@type'], settings.language, getResources());
         },
+        contributions() {
+          return getAtPath(this.instance, ['contribution', '*']).map(c => {
+            return {
+              'role': asArray(c.role).map(r => getItemLabel(r, getResources(), this.quoted, settings)),
+              'agent': getItemLabel(unwrap(c.agent), getResources(), this.quoted, settings),
+              'link': getFnurgelFromUri(unwrap(asArray(c.agent).map(a => a['@id']))),
+              'isPrimary': c['@type'] === "PrimaryContribution" || asArray(c.role).some(r => r['@id'] === "http://id.kb.se/relator/primaryRightsHolder")
+            }
+          }).sort((a, b) => Number(b['isPrimary']) - Number(a['isPrimary']));
+        },
         // holdings() {
         //     return getAtPath(this.instance, ['@reverse', 'itemOf', '*', '@id']).map((holdingId) => {
         //         return this.quoted[holdingId];
@@ -119,6 +129,14 @@ export default {
               <span class="font-semibold">{{ title }}</span> <span class="text-secondary-grey">{{ responsibilityStatement }} {{ editionStatement }}</span> 
             </h2>
         </router-link>
+
+        <div class="mt-1" v-for="c in contributions">
+          <span :class="c.isPrimary ? 'font-semibold' : ''">
+            <router-link v-if="c.link" :to="`/${c.link}`" class="underline">{{c.agent}}</router-link>
+            <span v-else>{{c.agent}}</span>
+          </span>
+          <span class="text-secondary-grey"> &bull; {{c.role.join(', ')}}</span>
+        </div>
 
         <div v-for="publication in publications">
             {{ asArray(publication.country).join('; ') }} {{ asArray(publication.place).join('; ') }} : {{ publication.agent }}, {{ publication.year }}
