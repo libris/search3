@@ -269,9 +269,10 @@ export default {
 				return {
 					'role': asArray(c.role).map(r => getItemLabel(r, getResources(), this.quoted, settings)),
 					'agent': getItemLabel(unwrap(c.agent), getResources(), this.quoted, settings),
-					'link': getFnurgelFromUri(unwrap(asArray(c.agent).map(a => a['@id'])))
+					'link': getFnurgelFromUri(unwrap(asArray(c.agent).map(a => a['@id']))),
+          'isPrimary': c['@type'] === "PrimaryContribution" || asArray(c.role).some(r => r['@id'] === "http://id.kb.se/relator/primaryRightsHolder")
 				}
-			});
+			}).sort((a, b) => Number(b['isPrimary']) - Number(a['isPrimary']));;
 		},
 		language() {
 			if (this.item == null) return null;
