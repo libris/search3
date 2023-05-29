@@ -97,6 +97,7 @@ export default {
         },
     },
     methods: {
+      asArray,
         getFnurgelFromUri,
         toggleExpanded() {
             this.isExpanded = !this.isExpanded;
@@ -120,7 +121,7 @@ export default {
         </router-link>
 
         <div v-for="publication in publications">
-            {{ publication.country }} : {{ publication.agent }}, {{ publication.year }}
+            {{ asArray(publication.country).join('; ') }} {{ asArray(publication.place).join('; ') }} : {{ publication.agent }}, {{ publication.year }}
         </div>
 
         <div class="text-secondary-grey">
