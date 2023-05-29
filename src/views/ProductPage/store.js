@@ -138,6 +138,11 @@ export const useProductStore = defineStore('product', {
 					)
 			}
 		},
+		classifications: (state) => {
+			if (state.mainEntity != null) {
+				return getAtPath(state.mainEntity, ['classification', '*', 'code']);
+			}
+		},
 		author: (state) => {
 			if (state.mainEntity != null) {
 				return getAtPath(state.mainEntity, ['contribution', '*']).find(c => {

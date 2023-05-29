@@ -22,6 +22,7 @@ export default {
             'imageUrl',
             'subjects',
             'subjectSchemes',
+            'classifications',
             'genreForms',
             'gfSchemes']
         ),
@@ -45,10 +46,8 @@ export default {
         subjectLabel() {
             return getPropertyLabel('subject');
         },
-        classifications() {
-            if (this.workCard != null) {
-                return this.workCard['classification'];
-            }
+        classificationLabel() {
+          return getPropertyLabel('classification');
         },
         languages() {
             if (this.workCard != null) {
@@ -111,6 +110,13 @@ export default {
                   <span v-else class="text-s text-secondary-turquoise">{{s.subject}}</span>
               </div>
             </div>
+        </div>
+
+        <div v-if="classifications && classifications.length != 0" class="font-bold text-secondary-turquoise mt-3">
+          {{ classificationLabel }}
+        </div>
+        <div class="flex flex-wrap gap-2 pb-1">
+          <div v-for="c in classifications">{{c}} </div>
         </div>
 
         <div class="max-w-2xl py-3" v-if="summary != null">
