@@ -115,8 +115,8 @@
 							Finns på <u class="text-secondary-turquoise">{{ holdings }} bibliotek</u>
 						</div>
 
-						<div class="flex gap-x-2" v-if="getInstanceTypes(item).length > 0">
-							<div class="rounded-md bg-secondary-grey/20 mt-2 py-2 px-4" v-for="instanceType in getInstanceTypes(item)">
+						<div class="flex gap-x-2" v-if="getInstanceTypes().length > 0">
+							<div class="rounded-md bg-secondary-grey/20 mt-2 py-2 px-4" v-for="instanceType in getInstanceTypes()">
 								<font-awesome-icon icon="fa fa-book" class="mr-2 text-secondary-grey" />
 								{{ getLabel(instanceType) }}
 							</div>
