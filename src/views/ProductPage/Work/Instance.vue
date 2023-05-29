@@ -10,6 +10,7 @@ import { getHoldings } from "@/lib/http";
 import Holding from "./Holding.vue";
 import SidebarModal from '@/components/Modals/Sidebar.vue';
 import Expandable from '@/components/Expandable.vue';
+import PropertyDisplay from '@/components/PropertyDisplay.vue';
 
 export default {
     name: "Instance",
@@ -17,6 +18,7 @@ export default {
         Holding,
         SidebarModal,
         Expandable,
+        PropertyDisplay,
     },
     data() {
         return {
@@ -116,11 +118,11 @@ export default {
               <span class="font-semibold">{{ title }}</span> <span class="text-secondary-grey">{{ responsibilityStatement }} {{ editionStatement }}</span> 
             </h2>
         </router-link>
-      
+
         <div v-for="publication in publications">
             {{ publication.country }} : {{ publication.agent }}, {{ publication.year }}
         </div>
-      
+
         <div class="text-secondary-grey">
             {{ identifiedBy }}
         </div>

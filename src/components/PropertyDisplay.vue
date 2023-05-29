@@ -32,16 +32,16 @@ export default {
 	</div>
 
 	<div v-if="isArray">
-		<ul>
-			<li v-for="item in value">
+		<ul class="pl-4">
+			<li v-for="item in value" class="list-disc">
 				{{ item }}
 			</li>
 		</ul>
 	</div>
 
 	<div v-if="isObject">
-		<ul>
-			<li v-for="(val, key) in value">
+		<ul class="pl-4">
+			<li v-for="(val, key) in value" class="list-disc">
 				<span>
 					{{ key }}:
 				</span>
