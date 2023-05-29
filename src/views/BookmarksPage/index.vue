@@ -7,6 +7,7 @@
 				v-for="id in bookmarks"
 				:key="id"
 				:id="id"
+				display-mode="list"
 			/>
 		</div>
 	</div>
