@@ -259,8 +259,9 @@ export default {
 			return this.entity;
 		},
 		title() {
+      // FIXME: should be chip
 			if (this.item == null) return null;
-			return getItemLabel(this.item.hasTitle[0], getResources(), this.quoted, settings);
+			return getItemLabel(getAtPath(this.item, ['hasTitle', 0]), getResources(), this.quoted, settings);
 		},
 		contributionsCalculated() {
 			if (this.item == null) return null;
