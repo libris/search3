@@ -45,9 +45,10 @@ export default {
 			return `?@type=Text&_limit=20&o=${encodeURI(this.person['@id'])}`;
 		},
 		properties() {
-			const properties = getDisplayProperties(this.person['@type'], getResources(), settings, 'full');
+      const chip = getDisplayProperties(this.person['@type'], getResources(), settings, 'chips');
+      const properties = getDisplayProperties(this.person['@type'], getResources(), settings, 'full');
 			return properties.filter((property) =>
-				this.getValue(property) != null
+				!chip.includes(property) && this.getValue(property) != null
 			);
 		},
 		itemData() {
