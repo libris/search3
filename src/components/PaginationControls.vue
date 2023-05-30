@@ -18,7 +18,7 @@
 
 		<ul class="w-full flex items-center justify-evenly">
 			<li v-for="page in pageItems" :key="page.number">
-				<router-link :to="page['@id']" class="underline underline-offset-8"
+				<router-link :to="page['@id']" class="underline underline-offset-4"
 					:class="{ 'text-primary-blue': page.active, 'font-semibold': page.active }">
 					{{ page.number + 1 }}
 				</router-link>
