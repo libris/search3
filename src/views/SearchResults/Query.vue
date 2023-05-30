@@ -4,6 +4,8 @@ import { mapWritableState } from 'pinia';
 import { useSearchResults } from './store';
 import { getResources } from "@/lib/resources";
 import { getQueryParams, getRelatedRecords } from '@/lib/http';
+import { getSearchParamValue } from '@/lib/http';
+import { translatePhrase } from '@/lib/item';
 import settings from "@/lib/settings";
 
 import Grid from '@/components/Grid.vue';
@@ -24,6 +26,7 @@ export default {
 	},
 	data: () => ({
 		Records: [],
+		totalItemsCount: null,
 	}),
 	components: {
 		Grid,
@@ -41,8 +44,16 @@ export default {
 
 			return null;
 		},
+		displayAllLink() {
+			if (this.queryString != null) {
+				return '/find' + this.queryString.replace('_limit=3', '_limit=' + getSearchParamValue('_limit'));
+			}
+
+			return null;
+		},
 	},
 	methods: {
+		translatePhrase,
 		async query(queryString) {
 			const query = getQueryParams(queryString);
 
@@ -50,6 +61,7 @@ export default {
 				query.q = '*';
 			}
 
+			this.Records = [];
 			const response = await getRelatedRecords(query, settings.apiPath);
 
 			this.reset();
@@ -60,7 +72,7 @@ export default {
 			this.last = response.last;
 			this.next = response.next;
 			this.previous = response.previous;
-			this.totalItems = response.totalItems;
+			this.totalItems, this.totalItemsCount = response.totalItems;
 
 			this.indexData(response.items);
 		},
@@ -103,16 +115,28 @@ export default {
 </script>
 
 <template>
-	<Grid :displayMode="mode == 'preview' ? 'compactlist' : null" :displayViewOptions="queryString == null">
-		<template #top v-if="item != null && queryString == null">
-			<KnowledgeCard :id="item.object['@id']" />
-		</template>
+	<div class="relative" :class="{ ['max-h-[70vh] overflow-hidden']: mode == 'preview' }">
+		<Grid :displayMode="mode == 'preview' ? 'compactlist' : null" :displayViewOptions="queryString == null">
+			<template #top v-if="item != null && queryString == null">
+				<KnowledgeCard :id="item.object['@id']" />
+			</template>
 
-		<RecordListItem
-			v-for="record in Records"
-			:key="record['@id']"
-			:record="record"
-			:displayMode="mode == 'preview' ? 'small' : null"
-		/>
-	</Grid>
+			<RecordListItem
+				v-for="record in Records"
+				:key="record['@id']"
+				:record="record"
+				:displayMode="mode == 'preview' ? 'small' : null"
+			/>
+		</Grid>
+
+		<div v-if="mode == 'preview' && totalItemsCount != null && totalItemsCount > 0">
+			<div class="flex items-center justify-center w-full absolute bottom-0 left-0 h-28 bg-gradient-to-t from-primary-black/70">
+				<RouterLink :to="displayAllLink">
+					<Button>
+						{{ translatePhrase('Show all') }} ({{ totalItemsCount }}st)
+					</Button>
+				</RouterLink>
+			</div>
+		</div>
+	</div>
 </template>
