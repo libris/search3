@@ -1,6 +1,5 @@
 <script lang="js">
 import { mapState } from 'pinia';
-import { noFragment } from "@/lib/item";
 import { useProductStore } from '@/views/ProductPage/store';
 import WorkSummary from './WorkSummary.vue';
 import Instance from './Instance.vue';
@@ -9,8 +8,8 @@ import Query from '@/views/SearchResults/Query.vue';
 export default {
     name: "WorkPage",
     components: {
-        "work-summary": WorkSummary,
-        "instance": Instance,
+        WorkSummary,
+        Instance,
         Query,
     },
     computed: {
@@ -26,13 +25,13 @@ export default {
           // FIXME: hardcoded language sv
           const authorId = encodeURI(this.author.agent['@id']);
           const workId = encodeURI(this.mainEntity['@id']);
-          return `?q=*&@type=Text&_limit=20&o=${authorId}&_sort=_sortKeyByLang.sv&not-@id=${workId}`;
+          return `?q=*&@type=Text&_limit=7&o=${authorId}&_sort=_sortKeyByLang.sv&not-@id=${workId}`;
         },
         relatedQuery() {
           // FIXME: hardcoded language sv
           const workId = encodeURI(this.mainEntity['@id']);
-          return `?q=*&@type=Text&_limit=20&or-closeMatch.@id=${workId}&or-relatedTo.@id=${workId}&_sort=_sortKeyByLang.sv`;
-        }
+          return `?q=*&@type=Text&_limit=7&or-closeMatch.@id=${workId}&or-relatedTo.@id=${workId}&_sort=_sortKeyByLang.sv`;
+        },
     },
 }
 </script>
@@ -40,7 +39,7 @@ export default {
 <template>
     <div class="flex gap-8 flex-col lg:flex-row">
         <div class="flex gap-x-6 flex-col w-full lg:w-3/5">
-            <work-summary />
+            <WorkSummary />
 
             <div class="block w-full lg:hidden mt-12">
                 <h3 class="text-2xl font-semibold mb-2">
@@ -48,7 +47,7 @@ export default {
                 </h3>
 
                 <div v-for="instance in instances" class="mb-2">
-                    <instance :key="instance['@id']" :instance="instance" />
+                    <Instance :key="instance['@id']" :instance="instance" />
                 </div>
             </div>
 
@@ -57,6 +56,7 @@ export default {
                     <h3 class="text-2xl font-semibold mb-2">
                         Mer av samma författare
                     </h3>
+
                     <Query mode="preview" :query-string="moreByAuthorQuery" />
                 </div>
 
@@ -64,6 +64,7 @@ export default {
                     <h3 class="text-2xl font-semibold mb-2">
                         Relaterade titlar
                     </h3>
+
                     <Query mode="preview" :query-string="relatedQuery" />
                 </div>
             </div>
@@ -75,7 +76,7 @@ export default {
             </h3>
 
             <div v-for="instance in instances" class="mb-2">
-                <instance :key="instance['@id']" :instance="instance" />
+                <Instance :key="instance['@id']" :instance="instance" />
             </div>
         </div>
     </div>
