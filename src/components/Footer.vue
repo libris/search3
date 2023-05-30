@@ -5,7 +5,7 @@ export default {
 </script>
 
 <template>
-	<div class="flex flex-wrap px-12 py-8 bg-primary-white border-t border-t-secondary-grey/10">
+	<div class="flex flex-wrap px-6 md:px-12 py-8 bg-primary-white border-t border-t-secondary-grey/10">
 		<div class="w-full lg:w-auto flex flex-col items-center justify-center">
 			<img src="/kb_logo_black.svg" class="h-[75px] mb-3" alt="Kungliga bibliotekets logotyp" />
 

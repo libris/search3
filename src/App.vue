@@ -32,7 +32,7 @@ export default {
 	<div>
 		<Header />
 
-		<div class="px-12 my-12">
+		<div class="px-6 md:px-12 my-12">
 			<div className="text-center text-secondary-grey" v-if="isLoading">
 				Laddar
 			</div>
