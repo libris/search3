@@ -1,6 +1,7 @@
 <script lang="js">
 import { mapState } from 'pinia';
 import { useProductStore } from '@/views/ProductPage/store';
+import { getSearchParamValue } from '@/lib/http';
 import WorkSummary from './WorkSummary.vue';
 import Instance from './Instance.vue';
 import Query from '@/views/SearchResults/Query.vue';
@@ -27,11 +28,21 @@ export default {
           const workId = encodeURI(this.mainEntity['@id']);
           return `?q=*&@type=Text&_limit=7&o=${authorId}&_sort=_sortKeyByLang.sv&not-@id=${workId}`;
         },
+		moreByAuthorLink() {
+          // FIXME: hardcoded language sv
+          const authorId = encodeURI(this.author.agent['@id']);
+          return `?q=*&@type=Text&_limit=${getSearchParamValue('_limit')}&o=${authorId}&_sort=_sortKeyByLang.sv`;
+		},
         relatedQuery() {
           // FIXME: hardcoded language sv
           const workId = encodeURI(this.mainEntity['@id']);
           return `?q=*&@type=Text&_limit=7&or-closeMatch.@id=${workId}&or-relatedTo.@id=${workId}&_sort=_sortKeyByLang.sv`;
         },
+		relatedLink() {
+          // FIXME: hardcoded language sv
+          const workId = encodeURI(this.mainEntity['@id']);
+          return `?q=*&@type=Text&_limit=${getSearchParamValue('_limit')}&or-closeMatch.@id=${workId}&or-relatedTo.@id=${workId}&_sort=_sortKeyByLang.sv`;
+		},
     },
 }
 </script>
@@ -57,7 +68,7 @@ export default {
                         Mer av samma författare
                     </h3>
 
-                    <Query mode="preview" :query-string="moreByAuthorQuery" />
+                    <Query mode="preview" :query-string="moreByAuthorQuery" :see-more-link="moreByAuthorLink" />
                 </div>
 
                 <div class="lg:w-1/2">
@@ -65,7 +76,7 @@ export default {
                         Relaterade titlar
                     </h3>
 
-                    <Query mode="preview" :query-string="relatedQuery" />
+                    <Query mode="preview" :query-string="relatedQuery" :see-more-link="relatedLink" />
                 </div>
             </div>
         </div>

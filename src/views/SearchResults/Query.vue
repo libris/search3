@@ -23,6 +23,10 @@ export default {
 			type: String as PropType<'search' | 'preview'>,
 			default: 'search',
 		},
+		seeMoreLink: {
+			type: String,
+			default: null,
+		},
 	},
 	data: () => ({
 		Records: [],
@@ -40,13 +44,6 @@ export default {
 				return this.search.mapping.find((map) =>
 					map.variable == 'o'
 				);
-			}
-
-			return null;
-		},
-		displayAllLink() {
-			if (this.queryString != null) {
-				return '/find' + this.queryString.replace('_limit=3', '_limit=' + getSearchParamValue('_limit'));
 			}
 
 			return null;
@@ -129,9 +126,9 @@ export default {
 			/>
 		</Grid>
 
-		<div v-if="mode == 'preview' && totalItemsCount != null && totalItemsCount > 0">
+		<div v-if="mode == 'preview' && seeMoreLink != null && totalItemsCount != null && totalItemsCount > 0">
 			<div class="flex items-center justify-center w-full absolute bottom-0 left-0 h-28 bg-gradient-to-t from-primary-black/70">
-				<RouterLink :to="displayAllLink">
+				<RouterLink :to="seeMoreLink">
 					<Button>
 						{{ translatePhrase('Show all') }} ({{ totalItemsCount }}st)
 					</Button>
