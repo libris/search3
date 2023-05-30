@@ -1,24 +1,19 @@
 <script lang="ts">
+import { getQueryParams } from '@/lib/http';
 import Facets from '@/components/Facets.vue';
 import Query from './Query.vue';
-import { getQueryParams } from '@/lib/http';
+import PaginationControls from '@/components/PaginationControls.vue';
 
 export default {
 	components: {
 		Facets,
 		Query,
+		PaginationControls
 	},
-	beforeRouteLeave(to, from) {
-		Object.keys(localStorage).forEach((key) => {
-			if (key.indexOf('scroll-') == 0) {
-				localStorage.removeItem(key);
-			}
-		});
-
-		const queryParams = getQueryParams(from.fullPath);
-		if (queryParams['_offset'] != null) {
-			localStorage.setItem('scroll-' + window.location.href, document.scrollingElement.scrollTop + '');
-		}
+	watch: {
+		'$route.fullPath'() {
+			document.documentElement.scrollTo(0, 0);
+		},
 	},
 };
 </script>
@@ -35,6 +30,10 @@ export default {
 
 		<div class="w-3/4">
 			<Query />
+
+			<div class="mt-6 pt-6 border-t border-t-secondary-grey/20">
+				<PaginationControls />
+			</div>
 		</div>
 	</div>
 </template>

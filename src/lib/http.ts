@@ -23,6 +23,9 @@ interface RelatedRecordsResponse {
 	last: {
 		"@id": string;
 	};
+	previous: {
+		"@id": string;
+	};
 	next: {
 		"@id": string;
 	};
@@ -70,9 +73,10 @@ export function getQueryParams(queryString = window.location.search): any {
 
 export const getDefaultSearchParams = () => ({
 	q: '',
-	'_limit': 20,
+	'_limit': 40,
 	'_sort': '',
 	'@type': 'Work',
+	'_offset': 0,
 });
 
 export const getSearchParamValue = (parameter) => {

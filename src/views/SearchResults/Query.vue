@@ -3,13 +3,12 @@ import { PropType } from 'vue';
 import { mapWritableState } from 'pinia';
 import { useSearchResults } from './store';
 import { getResources } from "@/lib/resources";
-import { getQueryParams, getRelatedRecords, buildQueryString } from '@/lib/http';
+import { getQueryParams, getRelatedRecords } from '@/lib/http';
 import settings from "@/lib/settings";
 
 import Grid from '@/components/Grid.vue';
 import RecordListItem from '@/components/RecordListItem.vue';
 import KnowledgeCard from '@/views/KnowledgeCard/index.vue';
-import Button from '@/components/Button.vue';
 
 export default {
 	name: 'Query',
@@ -24,18 +23,15 @@ export default {
 		},
 	},
 	data: () => ({
-		loading: false,
-		nextPage: null,
 		Records: [],
 	}),
 	components: {
 		Grid,
 		RecordListItem,
 		KnowledgeCard,
-		Button,
 	},
 	computed: {
-		...mapWritableState(useSearchResults, ['stats', 'search']),
+		...mapWritableState(useSearchResults, ['stats', 'search', 'first', 'last', 'next', 'previous', 'totalItems']),
 		item() {
 			if (this.search != null && this.search.mapping != null) {
 				return this.search.mapping.find((map) =>
@@ -60,30 +56,13 @@ export default {
 
 			this.stats = response.stats;
 			this.search = response.search;
-
-			if (this.queryString == null && response.next != null) {
-				this.nextPage = response.next['@id'];
-			} else {
-				this.nextPage = null;
-			}
-
-			this.indexData(response.items);
-		},
-
-		async goNextPage() {
-			this.loading = true;
-			this.$router.replace(this.nextPage);
-			const query = getQueryParams(this.nextPage.replace('/find', ''));
-			const response = await getRelatedRecords(query, settings.apiPath);
-
-			if (response.next != null && response.next['@id'] != null) {
-				this.nextPage = response.next['@id'];
-			} else {
-				this.nextPage = null;
-			}
+			this.first = response.first;
+			this.last = response.last;
+			this.next = response.next;
+			this.previous = response.previous;
+			this.totalItems = response.totalItems;
 
 			this.indexData(response.items);
-			this.loading = false;
 		},
 
 		indexData(items) {
@@ -93,9 +72,7 @@ export default {
 
 			items.forEach((item) => {
 				if (getResources().context != null) {
-					this.$data['Records'].push({
-						...item,
-					});
+					this.$data['Records'].push(item);
 				}
 			});
 		},
@@ -109,56 +86,14 @@ export default {
 	async mounted() {
 		this.reset();
 
-		const queryParams = getQueryParams();
-		if (queryParams['_offset'] != null) {
-			const offset = parseInt(queryParams['_offset']);
-			const limit = parseInt(queryParams['_limit'] ?? 10);
-
-			delete queryParams['_offset'];
-			queryParams['_limit'] = ((offset / limit) + 1) * limit;
-			await this.query(buildQueryString(queryParams));
-
-			if (localStorage.getItem('scroll-' + window.location.href) != null) {
-				document.documentElement.scrollTo(0, parseInt(localStorage.getItem('scroll-' + window.location.href)));
-			}
-
-			if (this.nextPage != null) {
-				// Update link for next page to have the same limit as the current url parameter
-				const next = getQueryParams(this.nextPage);
-				next['_limit'] = limit;
-				this.nextPage = decodeURIComponent(buildQueryString(next));
-			}
+		if (this.queryString != null) {
+			this.query(this.queryString);
 		} else {
-			if (this.queryString != null) {
-				this.query(this.queryString);
-			} else {
-				this.query();
-			}
-		}
-
-		if (this.queryString == null) {
-			window.addEventListener('scroll', () => {
-				const triggerPosition = this.$refs.scrollTrigger != null ?
-					this.$refs.scrollTrigger.offsetTop - window.innerHeight - 250
-				: null;
-
-				if (triggerPosition == null || this.loading) {
-					return false;
-				}
-
-				if (document.scrollingElement.scrollTop > triggerPosition) {
-					this.loading = true;
-					this.goNextPage();
-				}
-			});
+			this.query();
 		}
 	},
 	watch: {
 		'$route.fullPath'() {
-			if (this.loading) {
-				return false;
-			}
-
 			if (this.queryString == null) {
 				this.query();
 			}
@@ -180,10 +115,4 @@ export default {
 			:displayMode="mode == 'preview' ? 'small' : null"
 		/>
 	</Grid>
-
-	<div class="mt-8 flex justify-center" v-if="nextPage != null" ref="scrollTrigger">
-		<Button @click="goNextPage" :disabled="loading">
-			Nästa sida
-		</Button>
-	</div>
 </template>

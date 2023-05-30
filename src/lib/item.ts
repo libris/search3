@@ -4,14 +4,15 @@ import { getUiPhraseByLang } from '@/lxljs/string';
 import { getLabelByLang } from "@/lxljs/string";
 import settings from "@/lib/settings";
 import { getResources } from "@/lib/resources";
+
 export const getPropertyLabel = (property: string) => {
 	const label = getLabelByLang(property, settings.language, getResources());
 	return capitalize(label);
 }
 
 export const capitalize = (s: string) => {
-	return s.charAt(0).toUpperCase() + s.slice(1);
-}
+	return s.charAt(0).toUpperCase() + s.slice(1).toLocaleLowerCase();
+};
 
 export const getImageUrl = (id: string, isbn: string) => {
 	return `https://xinfo.libris.kb.se/xinfo/xinfo?type=record&identifier=libris-bib:${id},isbn:${isbn}`
@@ -110,11 +111,11 @@ export const unwrap = (x) => {
 	return x instanceof Array && x.length > 0 ? x[0] : x;
 }
 
-export const translatePhrase = (string: string) => {
+export const translatePhrase = (phrase: string | array): string => {
 	const i18nStore = useI18nStore();
 
 	return getUiPhraseByLang(
-		string,
+		phrase,
 		'sv', // FIXME fancy fix this l8er
 		i18nStore.source,
 	);

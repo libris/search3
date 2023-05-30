@@ -2,8 +2,15 @@
 	<div class="block w-full">
 		<slot name="top" />
 
-		<div class="flex w-full justify-between mb-8" v-if="displayViewOptions">
-			<div class="flex-1"></div>
+		<div class="flex items-center w-full justify-between mb-8" v-if="displayViewOptions">
+			<div class="flex-1">
+				<div v-if="totalItems != null && totalItems > 0">
+					<strong>
+						{{ totalItems }}
+					</strong>
+					{{ translatePhrase('Hits').toLowerCase() }}
+				</div>
+			</div>
 
 			<div class="flex gap-x-3 items-center">
 				<div
@@ -51,7 +58,8 @@
 
 <script lang="ts">
 import { getSearchParamValue, getSearchParams } from '@/lib/http';
-import { mapWritableState } from 'pinia';
+import { mapWritableState, mapState } from 'pinia';
+import { useSearchResults } from '@/views/SearchResults/store';
 import { useDisplayPreferences } from '@/stores/displayPreferences';
 import { translatePhrase } from '@/lib/item';
 import settings from '@/lib/settings';
@@ -84,6 +92,7 @@ export default {
 		...mapWritableState(useDisplayPreferences, {
 			selectedMode: 'mode',
 		}),
+		...mapState(useSearchResults, ['totalItems']),
 		mode() {
 			if (this.displayMode != null) {
 				return this.displayMode;
