@@ -30,7 +30,7 @@ export default {
         },
 		moreByAuthorLink() {
           // FIXME: hardcoded language sv
-          const authorId = encodeURI(this.author.agent['@id']);
+          const authorId = encodeURIComponent(this.author.agent['@id']);
           return `/find?q=*&@type=Text&_limit=${getSearchParamValue('_limit')}&o=${authorId}&_sort=_sortKeyByLang.sv`;
 		},
         relatedQuery() {
@@ -40,7 +40,7 @@ export default {
         },
 		relatedLink() {
           // FIXME: hardcoded language sv
-          const workId = encodeURI(this.mainEntity['@id']);
+          const workId = encodeURIComponent(this.mainEntity['@id']);
           return `/find?q=*&@type=Text&_limit=${getSearchParamValue('_limit')}&or-closeMatch.@id=${workId}&or-relatedTo.@id=${workId}&_sort=_sortKeyByLang.sv`;
 		},
     },
