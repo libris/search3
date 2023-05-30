@@ -45,8 +45,8 @@ export default {
 			return `?@type=Text&_limit=20&o=${encodeURI(this.person['@id'])}`;
 		},
 		properties() {
-      const chip = getDisplayProperties(this.person['@type'], getResources(), settings, 'chips');
-      const properties = getDisplayProperties(this.person['@type'], getResources(), settings, 'full');
+			const chip = getDisplayProperties(this.person['@type'], getResources(), settings, 'chips');
+			const properties = getDisplayProperties(this.person['@type'], getResources(), settings, 'full');
 			return properties.filter((property) =>
 				!chip.includes(property) && this.getValue(property) != null
 			);
@@ -87,11 +87,13 @@ export default {
 		</Card>
 	</div>
 
-	<div class="mt-8 flex gap-x-10">
-		<div class="w-1/4">
+	<div class="mt-8 flex flex-col md:flex-row gap-x-10">
+		<div class="w-full md:w-1/4">
 			<Facets />
 		</div>
 
-		<Query :queryString="searchValue" />
+		<div class="w-full md:w-3/4">
+			<Query :queryString="searchValue" />
+		</div>
 	</div>
 </template>

@@ -112,7 +112,7 @@ export default {
 </script>
 
 <template>
-	<div class="relative" :class="{ ['max-h-[70vh] overflow-hidden']: mode == 'preview' }">
+	<div class="relative w-full" :class="{ ['max-h-[70vh] overflow-hidden']: mode == 'preview' }">
 		<Grid :displayMode="mode == 'preview' ? 'compactlist' : null" :displayViewOptions="queryString == null">
 			<template #top v-if="item != null && queryString == null">
 				<KnowledgeCard :id="item.object['@id']" />

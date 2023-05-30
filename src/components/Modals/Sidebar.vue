@@ -31,6 +31,7 @@ export default {
 			<font-awesome-icon
 				icon="fa-solid fa-xmark"
 				@click="closeModal"
+				class="cursor-pointer"
 			/>
 		</div>
 
