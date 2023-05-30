@@ -72,7 +72,7 @@ export default {
 			this.last = response.last;
 			this.next = response.next;
 			this.previous = response.previous;
-			this.totalItems, this.totalItemsCount = response.totalItems;
+			this.totalItems = this.totalItemsCount = response.totalItems;
 
 			this.indexData(response.items);
 		},
