@@ -42,7 +42,7 @@
 		</div>
 	</div>
 
-	<div class="text-secondary-grey mt-4">
+	<div class="text-secondary-grey mt-4" v-if="getResultRange() != null">
 		{{ capitalize(translatePhrase(['Showing', getResultRange(), 'of', totalItems, 'Hits'])) }}
 	</div>
 </template>
@@ -126,7 +126,11 @@ export default {
 				last = this.totalItems;
 			}
 
-			return `${first}-${last}`;
+			if (first != null && last != null) {
+				return `${first}-${last}`;
+			}
+
+			return null;
 		},
 	},
 };
