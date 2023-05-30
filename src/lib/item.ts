@@ -111,7 +111,7 @@ export const unwrap = (x) => {
 	return x instanceof Array && x.length > 0 ? x[0] : x;
 }
 
-export const translatePhrase = (phrase: string | array): string => {
+export const translatePhrase = (phrase: string | Array<string>): string => {
 	const i18nStore = useI18nStore();
 
 	return getUiPhraseByLang(
