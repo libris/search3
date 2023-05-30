@@ -20,7 +20,7 @@
 		}
 	},
 	"first": {
-		"@id": "/find?q=&@type=Text&_limit=20&and-intendedAudience.@id=https://id.kb.se/marc/Juvenile&and-subject.@id=https://id.kb.se/term/barn/Magi"
+		"@id": "/find?q=&@type=Text&_limit=40&and-intendedAudience.@id=https://id.kb.se/marc/Juvenile&and-subject.@id=https://id.kb.se/term/barn/Magi"
 	}
 	},
 	{
@@ -44,7 +44,7 @@
 			}
 		},
 		"first": {
-			"@id": "/find?q=&@type=Text&_limit=20&and-genreForm.@id=https://id.kb.se/term/saogf/Thrillers"
+			"@id": "/find?q=&@type=Text&_limit=40&and-genreForm.@id=https://id.kb.se/term/saogf/Thrillers"
 		}
 	},
 	{
@@ -68,7 +68,7 @@
 			}
 		},
 		"first": {
-			"@id": "/find?q=&@type=Text&_limit=20&and-genreForm.@id=https://id.kb.se/term/saogf/Arbetarskildringar&and-subject.@id=https://id.kb.se/term/sao/Kvinnor"
+			"@id": "/find?q=&@type=Text&_limit=40&and-genreForm.@id=https://id.kb.se/term/saogf/Arbetarskildringar&and-subject.@id=https://id.kb.se/term/sao/Kvinnor"
 		}
 	},
 	{
@@ -92,7 +92,7 @@
 			}
 		},
 		"first": {
-			"@id": "/find?q=&@type=Text&_limit=20&and-genreForm.@id=https://id.kb.se/term/saogf/Poesi&o=https://libris-qa.kb.se/dbqstw3x359v6bm%23it"
+			"@id": "/find?q=&@type=Text&_limit=40&and-genreForm.@id=https://id.kb.se/term/saogf/Poesi&o=https://libris-qa.kb.se/dbqstw3x359v6bm%23it"
 		}
 	},
 	{
@@ -116,7 +116,7 @@
 			}
 		},
 		"first": {
-			"@id": "/find?q=&@type=Text&_limit=20&and-genreForm.@id=https://id.kb.se/term/barngf/Bildromaner&and-subject.@id=https://id.kb.se/term/barn/V%25C3%25A4nskap"
+			"@id": "/find?q=&@type=Text&_limit=40&and-genreForm.@id=https://id.kb.se/term/barngf/Bildromaner&and-subject.@id=https://id.kb.se/term/barn/V%25C3%25A4nskap"
 		}
 	},
 	{
@@ -140,7 +140,7 @@
 			}
 		},
 		"first": {
-			"@id": "/find?q=&@type=Text&_limit=20&and-genreForm.@id=https://id.kb.se/term/saogf/L%25C3%25A4ttl%25C3%25A4st&and-subject.@id=https://id.kb.se/term/barn/Skolan"
+			"@id": "/find?q=&@type=Text&_limit=40&and-genreForm.@id=https://id.kb.se/term/saogf/L%25C3%25A4ttl%25C3%25A4st&and-subject.@id=https://id.kb.se/term/barn/Skolan"
 		}
 	}
 ]
