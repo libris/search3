@@ -5,7 +5,7 @@ import settings from '@/lib/settings';
 import { getChip, getItemLabel } from '@/lxljs/display';
 import { getLabelByLang } from "@/lxljs/string";
 import { mapState } from 'pinia';
-import {getImageUrl, getFnurgelFromUri, getAtPath, asArray, unwrap} from '@/lib/item';
+import {getImageUrl, getFnurgelFromUri, getAtPath, asArray, unwrap, prepend} from '@/lib/item';
 import { getHoldings } from "@/lib/http";
 import Holding from "./Holding.vue";
 import SidebarModal from '@/components/Modals/Sidebar.vue';
@@ -107,6 +107,7 @@ export default {
         },
     },
     methods: {
+      prepend,
       asArray,
         getFnurgelFromUri,
         toggleExpanded() {
@@ -139,7 +140,7 @@ export default {
         </div>
 
         <div v-for="publication in publications">
-            {{ asArray(publication.country).join('; ') }} {{ asArray(publication.place).join('; ') }} : {{ publication.agent }}, {{ publication.year }}
+            {{ asArray(publication.country).join('; ') }}{{ prepend(' ', asArray(publication.place).join('; ')) }}{{ prepend(' : ', asArray(publication.agent).join(', ')) }}{{ prepend(', ', publication.year) }}
         </div>
 
         <div class="text-secondary-grey">
