@@ -31,8 +31,8 @@
 
 				<div
 					class="cursor-pointer text-lg"
-					:class="mode == 'compactlist' ? 'text-secondary-blue' : 'text-primary-black'"
-					@click="setDisplayMode('compactlist')"
+					:class="mode == 'table' ? 'text-secondary-blue' : 'text-primary-black'"
+					@click="setDisplayMode('table')"
 				>
 					<font-awesome-icon icon="fa-solid fa-table-list" />
 				</div>
@@ -110,6 +110,9 @@ export default {
 
 				case 'compactlist':
 					return 'grid grid-cols-1 gap-y-2 w-full';
+
+				case 'table':
+					return 'table table-auto border-spacing-0 w-full bg-primary-white rounded-lg border border-secondary-grey/20';
 			}
 		},
 		sortOptions(): SortOption[] {

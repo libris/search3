@@ -2,7 +2,7 @@
 	<div
 		v-observe-visibility="{ callback: (v) => { this.isVisible = v }, once: true }"
 		class="transition-all ease-in-out duration-300"
-		:class="{ 'opacity-100 scale-100': isVisible, 'opacity-0 scale-75': !isVisible }"
+		:class="{ 'opacity-100 scale-100': isVisible, 'opacity-0 scale-75': !isVisible, 'table-row': mode == 'table' }"
 	>
 		<div v-if="mode === 'cards' && item != null">
 			<router-link :to="this.routerPath(item['@id'])" :title="title" class="flex justify-center">
@@ -30,12 +30,12 @@
 				</strong>
 			</div>
 
-      <div v-if="contributionsCalculated != null" class="text-secondary-grey mt-1">
-        <div class="mt-1" v-for="c in contributionsCalculated">
-          <router-link v-if="c.link" :to="`/${c.link}`" class="underline">{{c.agent}}</router-link>
-          <span v-else>{{c.agent}}</span><span v-if="c.role.length > 0"> &bull; </span><span>{{c.role.join(`, `)}}</span>
-        </div>
-      </div>
+			<div v-if="contributionsCalculated != null" class="text-secondary-grey mt-1">
+				<div class="mt-1" v-for="c in contributionsCalculated">
+				<router-link v-if="c.link" :to="`/${c.link}`" class="underline">{{c.agent}}</router-link>
+				<span v-else>{{c.agent}}</span><span v-if="c.role.length > 0"> &bull; </span><span>{{c.role.join(`, `)}}</span>
+				</div>
+			</div>
 
 			<div v-if="genreFormCalculated != null" class="mt-1">
 				<div class="flex flex-wrap gap-2">
@@ -47,17 +47,6 @@
 					</span>
 				</div>
 			</div>
-
-			<!--
-			<div class="flex flex-wrap mt-2 gap-1">
-				<div
-					v-if="item.language != null"
-					class="rounded-full text-xs px-2 py-1 bg-signal-yellow text-primary-white"
-				>
-					{{ 'item.language.label' }}
-				</div>
-			</div>
-			-->
 		</div>
 
 		<Card v-if="mode === 'list' && item != null" :image-url="imageUrl">
@@ -76,12 +65,12 @@
 				</div>
 			</router-link>
 
-      <div v-if="contributionsCalculated != null" class="text-secondary-grey mt-1">
-        <div class="mt-1" v-for="c in contributionsCalculated">
-          <router-link v-if="c.link" :to="`/${c.link}`" class="underline">{{c.agent}}</router-link>
-          <span v-else>{{c.agent}}</span><span v-if="c.role.length > 0"> &bull; </span><span>{{c.role.join(`, `)}}</span>
-        </div>
-      </div>
+			<div v-if="contributionsCalculated != null" class="text-secondary-grey mt-1">
+				<div class="mt-1" v-for="c in contributionsCalculated">
+					<router-link v-if="c.link" :to="`/${c.link}`" class="underline">{{c.agent}}</router-link>
+					<span v-else>{{c.agent}}</span><span v-if="c.role.length > 0"> &bull; </span><span>{{c.role.join(`, `)}}</span>
+				</div>
+			</div>
 
 			<div v-if="genreFormCalculated != null" class="mt-4">
 				<div class="font-semibold text-secondary-turquoise">{{ getPropertyLabel('genreForm') }}</div>
@@ -130,41 +119,6 @@
 			</template>
 		</Card>
 
-		<Card v-if="mode === 'compactlist' && item != null" :image-url="imageUrl" image-size="sm">
-			<router-link :to="this.routerPath(item['@id'])" :title="title">
-				<div class="flex items-center">
-					<h3 class="text-xl font-semibold">
-						{{ title }}
-
-						<div v-if="language != null" class="inline text-sm text-secondary-grey">
-							<span v-for="lang in language">
-								<span class="mx-1 font-bold">&bull;</span>
-								{{ lang }}
-							</span>
-						</div>
-					</h3>
-				</div>
-			</router-link>
-
-      <div v-if="contributionsCalculated != null" class="text-secondary-grey mt-1">
-        <div class="mt-1" v-for="c in contributionsCalculated">
-          <router-link v-if="c.link" :to="`/${c.link}`" class="underline">{{c.agent}}</router-link>
-          <span v-else>{{c.agent}}</span><span v-if="c.role.length > 0"> &bull; </span><span>{{c.role.join(`, `)}}</span>
-        </div>
-      </div>
-
-			<div v-if="genreFormCalculated != null" class="mt-1">
-				<div class="flex flex-wrap gap-2">
-					<span
-						class="text-sm text-secondary-turquoise"
-						v-for="genreForm in item.genreFormCalculated"
-					>
-						{{ genreForm }}
-					</span>
-				</div>
-			</div>
-		</Card>
-
 		<Card v-if="mode === 'small' && item != null" :image-url="imageUrl" image-size="sm">
 			<router-link :to="this.routerPath(item['@id'])" :title="title">
 				<div class="flex items-center">
@@ -187,13 +141,63 @@
 					</div>
 				</div>
 			</router-link>
-      <div v-if="contributionsCalculated != null" class="text-secondary-grey mt-1">
-        <div class="mt-1" v-for="c in contributionsCalculated">
-          <router-link v-if="c.link" :to="`/${c.link}`" class="underline">{{c.agent}}</router-link>
-          <span v-else>{{c.agent}}</span><span v-if="c.role.length > 0"> &bull; </span><span>{{c.role.join(`, `)}}</span>
-        </div>
-      </div>
+
+			<div v-if="contributionsCalculated != null" class="text-secondary-grey mt-1">
+				<div class="mt-1" v-for="c in contributionsCalculated">
+				<router-link v-if="c.link" :to="`/${c.link}`" class="underline">{{c.agent}}</router-link>
+				<span v-else>{{c.agent}}</span><span v-if="c.role.length > 0"> &bull; </span><span>{{c.role.join(`, `)}}</span>
+				</div>
+			</div>
 		</Card>
+
+		<td v-if="mode === 'table' && item != null" class="border-b border-secondary-grey/20 p-4 py-2 align-middle">
+			<router-link :to="this.routerPath(item['@id'])" :title="title">
+				<div class="flex items-center">
+					<h3 class="text-md font-semibold">
+						{{ title }}
+
+						<div v-if="language != null" class="inline text-sm text-secondary-grey">
+							<span v-for="lang in language">
+								<span class="mx-1 font-bold">&bull;</span>
+								{{ lang }}
+							</span>
+						</div>
+					</h3>
+				</div>
+			</router-link>
+		</td>
+
+		<td v-if="mode === 'table' && item != null" class="border-b border-secondary-grey/20 p-4 py-2 align-middle">
+			<div v-if="contributionsCalculated != null" class="text-secondary-grey">
+				<div class="mt-1 first-of-type:mt-0" v-for="c in contributionsCalculated">
+					<router-link v-if="c.link" :to="`/${c.link}`" class="underline">{{c.agent}}</router-link>
+					<span v-else>{{c.agent}}</span><span v-if="c.role.length > 0"> &bull; </span><span>{{c.role.join(`, `)}}</span>
+				</div>
+			</div>
+		</td>
+
+		<td v-if="mode === 'table' && item != null" class="border-b border-secondary-grey/20 p-4 py-2 align-middle">
+			<div v-if="genreFormCalculated != null" class="">
+				<div class="flex flex-wrap gap-2">
+					<span
+						class="text-sm text-secondary-turquoise"
+						v-for="genreForm in item.genreFormCalculated"
+					>
+						{{ genreForm }}
+					</span>
+				</div>
+			</div>
+		</td>
+
+		<td v-if="mode === 'table' && item != null" class="border-b border-secondary-grey/20 p-4 py-2 align-middle">
+			<div v-if="imageUrl != null" class="flex justify-end">
+				<div
+					class="bg-no-repeat bg-cover bg-center rounded-lg w-14 h-20"
+					:style="{ backgroundImage: 'url(' + imageUrl + ')' }"
+				/>
+			</div>
+		</td>
+
 	</div>
 </template>
 
@@ -225,7 +229,7 @@ export default {
 			default: null,
 		},
 		displayMode: {
-			type: String as PropType<'small' | 'cards' | 'list' | 'compactlist'>,
+			type: String as PropType<'small' | 'cards' | 'list' | 'table'>,
 			default: null,
 		},
 	},
@@ -299,7 +303,7 @@ export default {
 			return null;
 		},
 		imageUrl() {
-			if (this.instances == null) return null;
+			if (this.instances == null || this.instances.length == 0) return null;
 
 			const fnurgel = this.instances.length > 0 ? getFnurgelFromUri(head(this.instances)['@id']) : '';
 			const isbns = getAtPath(this.instances, ['*', 'identifiedBy', {'@type': 'ISBN'}, 'value']);
@@ -355,7 +359,7 @@ export default {
 						if (instance != null) {
 							return instance;
 						}
-					});
+					}).filter((item) => item != null)
 				}
 			}
 

@@ -4,13 +4,11 @@ import { mapWritableState } from 'pinia';
 import { useSearchResults } from './store';
 import { getResources } from "@/lib/resources";
 import { getQueryParams, getRelatedRecords } from '@/lib/http';
-import { getSearchParamValue } from '@/lib/http';
 import { translatePhrase } from '@/lib/item';
 import settings from "@/lib/settings";
 
 import Grid from '@/components/Grid.vue';
 import RecordListItem from '@/components/RecordListItem.vue';
-import KnowledgeCard from '@/views/KnowledgeCard/index.vue';
 
 export default {
 	name: 'Query',
@@ -35,19 +33,9 @@ export default {
 	components: {
 		Grid,
 		RecordListItem,
-		KnowledgeCard,
 	},
 	computed: {
 		...mapWritableState(useSearchResults, ['stats', 'search', 'first', 'last', 'next', 'previous', 'totalItems']),
-		item() {
-			if (this.search != null && this.search.mapping != null) {
-				return this.search.mapping.find((map) =>
-					map.variable == 'o'
-				);
-			}
-
-			return null;
-		},
 	},
 	methods: {
 		translatePhrase,
@@ -114,10 +102,6 @@ export default {
 <template>
 	<div class="relative w-full" :class="{ ['max-h-[70vh] overflow-hidden']: mode == 'preview' }">
 		<Grid :displayMode="mode == 'preview' ? 'compactlist' : null" :displayViewOptions="queryString == null">
-			<template #top v-if="item != null && queryString == null">
-				<KnowledgeCard :id="item.object['@id']" />
-			</template>
-
 			<RecordListItem
 				v-for="record in Records"
 				:key="record['@id']"

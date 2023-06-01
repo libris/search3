@@ -1,45 +1,45 @@
 <template>
 	<div class="mb-8" v-if="mainEntity != null">
-		<h2 class="flex text-3xl font-semibold mb-4">
-			{{ itemLabel }}
-		</h2>
+		<Card class="flex-1 bg-transparent">
+			<div class="flex mb-4">
+				<h2 class="text-2xl font-semibold flex-1">
+					{{ itemLabel }}
+				</h2>
 
-		<div class="flex gap-x-4 items-start">
-			<Card class="flex-1">
-				<div v-for="key in (Object.keys(card).filter(k => !Object.keys(chip).includes(k)))" class="border-secondary-grey/20 mb-4 last-of-type:mb-0">
-					<PropertyDisplay
-						:label="getLabel(key)"
-						:value="card[key]"
-					/>
-				</div>
-			</Card>
+				<!-- <div class="flex-shrink-0 text-right">
+					<div class="block w-28 float-right">
+						<img class="rounded-lg" :src="imageUrl" />
+					</div>
 
-			<div class="flex-shrink-0 ">
-				<div class="block w-72">
-					<img class="rounded-lg" :src="imageUrl" />
-				</div>
-				
-				<div>
-					<a href="https://commons.wikimedia.org/wiki/User:FrankieF" target="_blank">
-						Frankie Fouganthin
-					</a>
-				</div>
-
-				<div class="flex gap-1">
-					<div v-if="wikiData != null">
-						<a :href="wikiData['@id']" target="_blank">
-							Wikidata
+					<div class="clear-both">
+						<a href="https://commons.wikimedia.org/wiki/User:FrankieF" target="_blank">
+							Frankie Fouganthin
 						</a>
 					</div>
 
-					&bull;
+					<div class="flex gap-1">
+						<div v-if="wikiData != null">
+							<a :href="wikiData['@id']" target="_blank">
+								Wikidata
+							</a>
+						</div>
 
-					<a href="https://creativecommons.org/licenses/by-sa/4.0/deed.en" target="_blank">
-						© CC BY-SA 4.0
-					</a>
-				</div>
+						&bull;
+
+						<a href="https://creativecommons.org/licenses/by-sa/4.0/deed.en" target="_blank">
+							© CC BY-SA 4.0
+						</a>
+					</div>
+				</div> -->
 			</div>
-		</div>
+
+			<div v-for="key in (Object.keys(card).filter(k => !Object.keys(chip).includes(k)))" class="border-secondary-grey/20 mb-4 last-of-type:mb-0">
+				<PropertyDisplay
+					:label="getLabel(key)"
+					:value="card[key]"
+				/>
+			</div>
+		</Card>
 	</div>
 </template>
 
