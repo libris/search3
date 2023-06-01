@@ -48,11 +48,11 @@ export default {
 </script>
 
 <template>
-    <div class="flex gap-8 flex-col lg:flex-row">
-        <div class="flex gap-x-6 flex-col w-full lg:w-3/5">
+    <div class="flex gap-5 flex-col lg:flex-row">
+        <div class="w-full lg:w-6/12">
             <WorkSummary />
 
-            <div class="block w-full lg:hidden mt-12">
+            <div class="mt-5">
                 <h3 class="text-2xl font-semibold mb-2">
                     Tillgängliga format
                 </h3>
@@ -61,34 +61,24 @@ export default {
                     <Instance :key="instance['@id']" :instance="instance" />
                 </div>
             </div>
+        </div>
 
-            <div className="flex flex-col lg:flex-row gap-x-8 gap-y-12 mt-12">
-                <div v-if="author != null" class="lg:w-1/2">
-                    <h3 class="text-2xl font-semibold mb-2">
-                        Mer av samma författare
-                    </h3>
+        <div className="w-full lg:w-3/12">
+            <div v-if="author != null">
+                <h3 class="text-2xl font-semibold mb-2">
+                    Mer av samma författare
+                </h3>
 
-                    <Query mode="preview" :query-string="moreByAuthorQuery" :see-more-link="moreByAuthorLink" />
-                </div>
-
-                <div class="lg:w-1/2">
-                    <h3 class="text-2xl font-semibold mb-2">
-                        Relaterade titlar
-                    </h3>
-
-                    <Query mode="preview" :query-string="relatedQuery" :see-more-link="relatedLink" />
-                </div>
+                <Query mode="preview" :query-string="moreByAuthorQuery" :see-more-link="moreByAuthorLink" />
             </div>
         </div>
 
-        <div class="hidden w-2/5 lg:block">
+        <div class="w-full lg:w-3/12">
             <h3 class="text-2xl font-semibold mb-2">
-                Tillgängliga format
+                Relaterade titlar
             </h3>
 
-            <div v-for="instance in instances" class="mb-2">
-                <Instance :key="instance['@id']" :instance="instance" />
-            </div>
+            <Query mode="preview" :query-string="relatedQuery" :see-more-link="relatedLink" />
         </div>
     </div>
 </template>
