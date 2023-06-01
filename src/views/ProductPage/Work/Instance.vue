@@ -155,7 +155,7 @@ export default {
             <div>
                 <div class="flex gap-3 items-start">
                     <Button @click="showHoldings = true">
-                        Tillgänglighet
+                        Finns på {{numberOfHoldings}} bibliotek
                     </Button>
 
                     <Button
@@ -163,7 +163,7 @@ export default {
                         class="!items-start"
                         :class="{['!border-secondary-grey/20 rounded-b-none border-b-0 z-10 h-14']: isExpanded }"
                     >
-                        Detaljerad info
+                        Detaljer
                         <font-awesome-icon
                             icon="fa-solid fa-chevron-up"
                             class="ml-2 mt-1 transition-all duration-300"
