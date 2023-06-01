@@ -22,6 +22,10 @@ export const getFnurgelFromUri = (id: string) => {
 	if (!id) {
 		return id;
 	}
+	if (typeof id != 'string') {
+		console.log(`getFnurgelFromUri() bad id: [${typeof id}] ${id}`);
+		return id;
+	}
 	
 	const uriParts = id.split('/');
 	const fnurgel = uriParts[uriParts.length - 1].replaceAll('#it', '');

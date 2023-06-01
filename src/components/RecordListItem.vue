@@ -272,7 +272,7 @@ export default {
 			return getAtPath(this.item, ['contribution', '*']).map((c) => {
 				return {
 					'role': asArray(c.role).map(r => getItemLabel(r, getResources(), this.quoted, settings)),
-					'agent': getItemLabel(unwrap(c.agent), getResources(), this.quoted, settings),
+					'agent': getItemLabel(unwrap(c.agent) || '', getResources(), this.quoted, settings),
 					'link': getFnurgelFromUri(unwrap(asArray(c.agent).map(a => a['@id']))),
           'isPrimary': c['@type'] === "PrimaryContribution" || asArray(c.role).some(r => r['@id'] === "http://id.kb.se/relator/primaryRightsHolder")
 				}
@@ -305,7 +305,7 @@ export default {
 		imageUrl() {
 			if (this.instances == null || this.instances.length == 0) return null;
 
-			const fnurgel = this.instances.length > 0 ? getFnurgelFromUri(head(this.instances)['@id']) : '';
+			const fnurgel = this.instances.length > 0 ? getFnurgelFromUri((head(this.instances) || {})['@id']) : '';
 			const isbns = getAtPath(this.instances, ['*', 'identifiedBy', {'@type': 'ISBN'}, 'value']);
 			const isbn = isbns.length > 0 ? head(isbns) : '';
 			return getImageUrl(fnurgel, isbn);
