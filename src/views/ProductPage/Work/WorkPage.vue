@@ -49,7 +49,7 @@ export default {
 
 <template>
     <div class="flex gap-5 flex-col lg:flex-row">
-        <div class="w-full lg:w-6/12">
+        <div class="w-full lg:w-9/12">
             <WorkSummary />
 
             <div class="mt-5">
@@ -71,14 +71,13 @@ export default {
 
                 <Query mode="preview" :query-string="moreByAuthorQuery" :see-more-link="moreByAuthorLink" />
             </div>
-        </div>
-
-        <div class="w-full lg:w-3/12">
-            <h3 class="text-2xl font-semibold mb-2">
-                Relaterade titlar
-            </h3>
-
-            <Query mode="preview" :query-string="relatedQuery" :see-more-link="relatedLink" />
+            <div class="mt-5">
+              <h3 class="text-2xl font-semibold mb-2">
+                  Relaterade titlar
+              </h3>
+  
+              <Query mode="preview" :query-string="relatedQuery" :see-more-link="relatedLink" />
+            </div>
         </div>
     </div>
 </template>
