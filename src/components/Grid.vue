@@ -60,7 +60,7 @@
 import { getSearchParamValue, getSearchParams } from '@/lib/http';
 import { mapWritableState, mapState } from 'pinia';
 import { useSearchResults } from '@/views/SearchResults/store';
-import { useDisplayPreferences } from '@/stores/displayPreferences';
+import { usePreferencesStore } from '@/stores/preferences';
 import { translatePhrase } from '@/lib/item';
 import settings from '@/lib/settings';
 import Select from './Select.vue';
@@ -89,8 +89,8 @@ export default {
 		Select,
 	},
 	computed: {
-		...mapWritableState(useDisplayPreferences, {
-			selectedMode: 'mode',
+		...mapWritableState(usePreferencesStore, {
+			selectedMode: 'displayMode',
 		}),
 		...mapState(useSearchResults, ['totalItems']),
 		mode() {

@@ -1,4 +1,5 @@
 import { useI18nStore } from '@/stores/i18n';
+import { usePreferencesStore } from '@/stores/preferences';
 import { sortBy, head, get } from 'lodash-es';
 import { getUiPhraseByLang } from '@/lxljs/string';
 import { getLabelByLang } from "@/lxljs/string";
@@ -121,10 +122,7 @@ export const prepend = (before: string, s: string) => {
 
 export const translatePhrase = (phrase: string | Array<string>): string => {
 	const i18nStore = useI18nStore();
+	const userLanguage = usePreferencesStore().language;
 
-	return getUiPhraseByLang(
-		phrase,
-		'sv', // FIXME fancy fix this l8er
-		i18nStore.source,
-	);
+	return getUiPhraseByLang(phrase, userLanguage, i18nStore.source);
 };

@@ -204,7 +204,7 @@
 <script lang="ts">
 import { PropType } from 'vue';
 import { asArray, getAtPath, getFnurgelFromUri, getImageUrl, getPropertyLabel, unwrap } from '@/lib/item';
-import { useDisplayPreferences } from '@/stores/displayPreferences';
+import { usePreferencesStore } from '@/stores/preferences';
 import { mapState } from 'pinia';
 import { getLabelByLang } from '@/lxljs/string';
 import { getResources } from '@/lib/resources';
@@ -245,8 +245,8 @@ export default {
 		Card,
 	},
 	computed: {
-		...mapState(useDisplayPreferences, {
-			selectedMode: 'mode',
+		...mapState(usePreferencesStore, {
+			selectedMode: 'displayMode',
 		}),
 		mode() {
 			if (this.displayMode != null) {

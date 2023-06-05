@@ -1,11 +1,17 @@
 <script lang="ts">
+import { mapWritableState } from 'pinia';
 import SearchInput from './SearchInput.vue';
 import { getNumberOfVowels } from "@/lxljs/string";
+import { usePreferencesStore } from '@/stores/preferences';
+import Popper from "vue3-popper";
+import { mapState } from 'pinia';
+import { useI18nStore } from '@/stores/i18n';
 
 export default {
 	name: 'Header',
 	components: {
 		SearchInput,
+		Popper,
 	},
 	methods: {
 		onSearch(values) {
@@ -17,6 +23,8 @@ export default {
 		},
 	},
 	computed: {
+		...mapWritableState(usePreferencesStore, ['language']),
+		...mapState(useI18nStore, ['availableLanguages']),
 		editLink() {
 			const id = this.$route.path.substring(1)
 			const isFnurgel = getNumberOfVowels(id) == 0 && id.length > 14;
@@ -59,6 +67,29 @@ export default {
 			<a v-if="editLink" :href="editLink" class="text-secondary-turquoise hover:underline hover:decoration-secondary-darker-turquoise hover:text-secondary-darker-turquoise">
 				<font-awesome-icon icon="fa-solid fa-pen" />
 			</a>
+
+			<Popper
+				arrow
+				placement="bottom-start"
+				arrow-padding="16"
+				:hover="true"
+			>
+				<router-link to="#" class="text-secondary-turquoise hover:underline hover:decoration-secondary-darker-turquoise hover:text-secondary-darker-turquoise">
+					{{ language }}
+
+					<font-awesome-icon icon="fa-solid fa-chevron-down" />
+				</router-link>
+
+				<template #content>
+					<div
+						v-for="language in availableLanguages"
+						@click="() => this.language = language"
+						class="hover:bg-primary-black/10 cursor-pointer"
+					>
+						{{ language }}
+					</div>
+				</template>
+			</Popper>
 		</div>
 	</div>
 </template>

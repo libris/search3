@@ -5,6 +5,7 @@ import { getSearchParamValue } from '@/lib/http';
 import WorkSummary from './WorkSummary.vue';
 import Instance from './Instance.vue';
 import Query from '@/views/SearchResults/Query.vue';
+import { usePreferencesStore } from '@/stores/preferences';
 
 export default {
     name: "WorkPage",
@@ -14,6 +15,7 @@ export default {
         Query,
     },
     computed: {
+        ...mapState(usePreferencesStore, ['language']),
         ...mapState(useProductStore, [
             'mainEntity',
             'instanceIds',
@@ -23,25 +25,21 @@ export default {
             'author'
         ]),
         moreByAuthorQuery() {
-          // FIXME: hardcoded language sv
           const authorId = encodeURI(this.author.agent['@id']);
           const workId = encodeURI(this.mainEntity['@id']);
-          return `?q=*&@type=Text&_limit=7&o=${authorId}&_sort=_sortKeyByLang.sv&not-@id=${workId}`;
+          return `?q=*&@type=Text&_limit=7&o=${authorId}&_sort=_sortKeyByLang.${this.language}&not-@id=${workId}`;
         },
 		moreByAuthorLink() {
-          // FIXME: hardcoded language sv
           const authorId = encodeURIComponent(this.author.agent['@id']);
-          return `/find?q=*&@type=Text&_limit=${getSearchParamValue('_limit')}&o=${authorId}&_sort=_sortKeyByLang.sv`;
+          return `/find?q=*&@type=Text&_limit=${getSearchParamValue('_limit')}&o=${authorId}&_sort=_sortKeyByLang.${this.language}`;
 		},
         relatedQuery() {
-          // FIXME: hardcoded language sv
           const workId = encodeURI(this.mainEntity['@id']);
-          return `?q=*&@type=Text&_limit=7&or-closeMatch.@id=${workId}&or-relatedTo.@id=${workId}&_sort=_sortKeyByLang.sv`;
+          return `?q=*&@type=Text&_limit=7&or-closeMatch.@id=${workId}&or-relatedTo.@id=${workId}&_sort=_sortKeyByLang.${this.language}`;
         },
 		relatedLink() {
-          // FIXME: hardcoded language sv
           const workId = encodeURIComponent(this.mainEntity['@id']);
-          return `/find?q=*&@type=Text&_limit=${getSearchParamValue('_limit')}&or-closeMatch.@id=${workId}&or-relatedTo.@id=${workId}&_sort=_sortKeyByLang.sv`;
+          return `/find?q=*&@type=Text&_limit=${getSearchParamValue('_limit')}&or-closeMatch.@id=${workId}&or-relatedTo.@id=${workId}&_sort=_sortKeyByLang.${this.language}`;
 		},
     },
 }
