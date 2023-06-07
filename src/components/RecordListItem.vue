@@ -208,7 +208,7 @@ import { usePreferencesStore } from '@/stores/preferences';
 import { mapState } from 'pinia';
 import { getLabelByLang } from '@/lxljs/string';
 import { getResources } from '@/lib/resources';
-import settings from '@/lib/settings';
+import getSettings from '@/lib/settings';
 import { getDocument, noFragment } from '@/lib/http';
 import { splitJson } from '@/lxljs/data';
 import { getItemLabel } from '@/lxljs/display';
@@ -247,6 +247,7 @@ export default {
 	computed: {
 		...mapState(usePreferencesStore, {
 			selectedMode: 'displayMode',
+			selectedLanguage: 'selectedLanguage',
 		}),
 		mode() {
 			if (this.displayMode != null) {
@@ -265,29 +266,29 @@ export default {
 		title() {
       // FIXME: should be chip
 			if (this.item == null) return null;
-			return getItemLabel(getAtPath(this.item, ['hasTitle', 0]), getResources(), this.quoted, settings);
+			return getItemLabel(getAtPath(this.item, ['hasTitle', 0]), getResources(), this.quoted, getSettings());
 		},
 		contributionsCalculated() {
 			if (this.item == null) return null;
 			return getAtPath(this.item, ['contribution', '*']).map((c) => {
 				return {
-					'role': asArray(c.role).map(r => getItemLabel(r, getResources(), this.quoted, settings)),
-					'agent': getItemLabel(unwrap(c.agent) || '', getResources(), this.quoted, settings),
+					'role': asArray(c.role).map(r => getItemLabel(r, getResources(), this.quoted, getSettings())),
+					'agent': getItemLabel(unwrap(c.agent) || '', getResources(), this.quoted, getSettings()),
 					'link': getFnurgelFromUri(unwrap(asArray(c.agent).map(a => a['@id']))),
-          'isPrimary': c['@type'] === "PrimaryContribution" || asArray(c.role).some(r => r['@id'] === "http://id.kb.se/relator/primaryRightsHolder")
+					'isPrimary': c['@type'] === "PrimaryContribution" || asArray(c.role).some(r => r['@id'] === "http://id.kb.se/relator/primaryRightsHolder")
 				}
 			}).sort((a, b) => Number(b['isPrimary']) - Number(a['isPrimary']));;
 		},
 		language() {
 			if (this.item == null) return null;
 			return getAtPath(this.item, ['language', '*']).map(l => {
-				return getItemLabel(l, getResources(), this.quoted, settings);
+				return getItemLabel(l, getResources(), this.quoted, getSettings());
 			});
 		},
 		subjectCalculated() {
 			if (this.item != null && this.item.subject != null && Array.isArray(this.item.subject)) {
 				return this.item.subject.map((subject) => {
-					return getItemLabel(subject, getResources(), this.quoted, settings);
+					return getItemLabel(subject, getResources(), this.quoted, getSettings());
 				}).filter(label => !label.includes('{'));
 			}
 
@@ -296,7 +297,7 @@ export default {
 		genreFormCalculated() {
 			if (this.item != null && this.item.genreForm != null && Array.isArray(this.item.genreForm)) {
 				return this.item.genreForm.map((genre) => {
-					return getItemLabel(genre, getResources(), this.quoted, settings);
+					return getItemLabel(genre, getResources(), this.quoted, getSettings());
 				});
 			}
 
@@ -318,7 +319,7 @@ export default {
 			return `/${getFnurgelFromUri(id)}`;
 		},
 		getLabel(label) {
-			return getLabelByLang(label, settings.language, getResources());
+			return getLabelByLang(label, this.selectedLanguage, getResources());
 		},
 		getInstanceTypes() {
 			if (this.instances == null) {

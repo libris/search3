@@ -1,7 +1,7 @@
 <script lang="ts">
 import { getResources } from '@/lib/resources';
 import { getItemLabel } from '@/lxljs/display';
-import settings from '@/lib/settings';
+import getSettings from '@/lib/settings';
 import { mapState } from 'pinia';
 import { useSearchResults } from '@/views/SearchResults/store';
 
@@ -36,7 +36,7 @@ export default {
 					o.object,
 					getResources(),
 					null,
-					settings,
+					getSettings(),
 				);
 			} else {
 				label = this.determineLabel(o.object);
@@ -58,13 +58,14 @@ export default {
 			};
 		},
 		determineLabel(object) {
+			const settings = getSettings();
 			if (object.hasOwnProperty('mainEntity')) {
 				object = object.mainEntity;
 			}
 
 			for (const prop of ['@id', '_key']) {
 				if (object.hasOwnProperty(prop)) {
-					const chains = settings.propertyChains;
+					const chains = getSettings().propertyChains;
 					const id = object[prop];
 					if (chains.hasOwnProperty(id)) {
 						return chains[id][settings.language];

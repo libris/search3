@@ -48,7 +48,7 @@ import { mapActions, mapState } from 'pinia';
 import { useKnowledgeCardStore } from './store';
 import { getItemLabel } from '@/lxljs/display';
 import { getResources } from '@/lib/resources';
-import settings from '@/lib/settings';
+import getSettings from '@/lib/settings';
 import { getPropertyLabel } from "@/lib/item";
 
 import Card from '@/components/Card.vue';
@@ -70,7 +70,7 @@ export default {
 		...mapState(useKnowledgeCardStore, ['mainEntity', 'card', 'chip', 'quoted', 'wikiData', 'imageUrl']),
 		itemLabel() {
 			if (this.mainEntity != null) {
-				return getItemLabel(this.mainEntity, getResources(), this.quoted, settings);
+				return getItemLabel(this.mainEntity, getResources(), this.quoted, getSettings());
 			}
 
 			return null;

@@ -1,7 +1,7 @@
 <script lang="ts">
 import SearchInput from '@/components/SearchInput.vue';
 import { getLabelFromObject } from '@/lxljs/string';
-import settings from '@/lib/settings';
+import getSettings from '@/lib/settings';
 import { getAssetUrl } from '@/lib/http';
 
 export default {
@@ -24,7 +24,7 @@ export default {
 		this.fictionCollection = await fetch('./json/collection_fiction.json').then(async (response) => {
 			const items = await response.json();
 			return items.map((item) => {
-				item.label = getLabelFromObject(item, settings.language);
+				item.label = getLabelFromObject(item, getSettings().language);
 
 				return item;
 			});

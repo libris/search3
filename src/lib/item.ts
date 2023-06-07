@@ -3,11 +3,11 @@ import { usePreferencesStore } from '@/stores/preferences';
 import { sortBy, head, get } from 'lodash-es';
 import { getUiPhraseByLang } from '@/lxljs/string';
 import { getLabelByLang } from "@/lxljs/string";
-import settings from "@/lib/settings";
 import { getResources } from "@/lib/resources";
 
 export const getPropertyLabel = (property: string) => {
-	const label = getLabelByLang(property, settings.language, getResources());
+	const language = usePreferencesStore().selectedLanguage;
+	const label = getLabelByLang(property, language, getResources());
 	return capitalize(label);
 }
 

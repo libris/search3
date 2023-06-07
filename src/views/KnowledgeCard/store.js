@@ -5,7 +5,7 @@ import { getCard, getChip, getItemLabel, getItemSummary } from '@/lxljs/display'
 import { getResources } from '@/lib/resources';
 import { getAtPath, getFnurgelFromUri, getFullImageUrl, asArray, unwrap } from '@/lib/item';
 import { getRecordType } from "@/lxljs/vocab";
-import settings from '@/lib/settings';
+import getSettings from '@/lib/settings';
 import { isLink } from "@/lib/jsonld";
 
 export const useKnowledgeCardStore = defineStore('knowledgeCard', {
@@ -45,12 +45,12 @@ export const useKnowledgeCardStore = defineStore('knowledgeCard', {
 		},
         chip: (state) => {
             if (state.mainEntity != null) {
-                return getChip(state.mainEntity, getResources(), state.quoted, settings);
+                return getChip(state.mainEntity, getResources(), state.quoted, getSettings());
             }
         },
 		card: (state) => {
 			if (state.mainEntity != null) {
-				return getCard(state.mainEntity, getResources(), state.quoted, settings);
+				return getCard(state.mainEntity, getResources(), state.quoted, getSettings());
 			}
 		},
 		contributions: (state) => {
@@ -58,8 +58,8 @@ export const useKnowledgeCardStore = defineStore('knowledgeCard', {
 			if (state.mainEntity != null) {
 				return getAtPath(state.mainEntity, ['contribution', '*']).map(c => {
 					return {
-						'role': asArray(c.role).map(r => getItemLabel(r, getResources(), state.quoted, settings)),
-						'agent': getItemLabel(unwrap(c.agent), getResources(), state.quoted, settings),
+						'role': asArray(c.role).map(r => getItemLabel(r, getResources(), state.quoted, getSettings())),
+						'agent': getItemLabel(unwrap(c.agent), getResources(), state.quoted, getSettings()),
 						'link': getFnurgelFromUri(unwrap(asArray(c.agent).map(a => a['@id'])))
 					}
 				});
@@ -71,7 +71,7 @@ export const useKnowledgeCardStore = defineStore('knowledgeCard', {
                     state.mainEntity,
                     getResources(),
                     state.quoted,
-                    settings,
+                    getSettings(),
                     getResources().displayGroups,
                 );
             }

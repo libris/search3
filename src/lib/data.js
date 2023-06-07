@@ -2,12 +2,11 @@ import { isEmpty, cloneDeep, isArray, isObject, forEach, uniq, difference, each 
 import * as VocabUtil from '../lxljs/vocab';
 import * as DisplayUtil from '../lxljs/display';
 import * as HttpUtil from './http';
-import settings from './settings';
+import getSettings from './settings';
 
 export function getDisplayDefinitions() {
-  const baseUri = settings.idPath;
   return new Promise((resolve, reject) => {
-    HttpUtil.getResourceFromCache(`${settings.idPath}/vocab/display/data.jsonld`).then((result) => {
+    HttpUtil.getResourceFromCache(`${getSettings().idPath}/vocab/display/data.jsonld`).then((result) => {
       resolve(DisplayUtil.expandInherited(result));
     }, (error) => {
       reject(error);
@@ -17,7 +16,7 @@ export function getDisplayDefinitions() {
 
 export function getVocab() {
   return new Promise((resolve, reject) => {
-    HttpUtil.getResourceFromCache(`${settings.idPath}/vocab/data.jsonld`).then((result) => {
+    HttpUtil.getResourceFromCache(`${getSettings().idPath}/vocab/data.jsonld`).then((result) => {
       resolve(result);
     }, (error) => {
       reject(error);
@@ -27,7 +26,7 @@ export function getVocab() {
 
 export function getContext() {
   return new Promise((resolve, reject) => {
-    HttpUtil.getResourceFromCache(`${settings.idPath}/context.jsonld`).then((result) => {
+    HttpUtil.getResourceFromCache(`${getSettings().idPath}/context.jsonld`).then((result) => {
       resolve(VocabUtil.preprocessContext(result));
     }, (error) => {
       reject(error);
@@ -210,9 +209,8 @@ export function xmlToJson(xml) {
   return obj;
 }
 
-const SITE_ALIAS = JSON.parse(settings.siteAlias || '{}');
-
 export function translateAliasedUri(uri) {
+  const SITE_ALIAS = JSON.parse(getSettings().siteAlias || '{}');
   let translatedUri = uri;
 
   each(SITE_ALIAS, (from, to) => {
@@ -225,7 +223,7 @@ export function translateAliasedUri(uri) {
 
   // TODO: why is this needed?
   if (uri.startsWith('https://libris.kb.se')) {
-    translatedUri = uri.replace('https://libris.kb.se', settings.apiPath);
+    translatedUri = uri.replace('https://libris.kb.se', getSettings().apiPath);
   }
   // if (uri.startsWith('https://id.kb.se')) {
   //   translatedUri = uri.replace('https://id.kb.se', process.env.VUE_APP_ID_PATH);

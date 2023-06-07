@@ -23,7 +23,7 @@ export default {
 		},
 	},
 	computed: {
-		...mapWritableState(usePreferencesStore, ['language']),
+		...mapWritableState(usePreferencesStore, ['selectedLanguage']),
 		...mapState(useI18nStore, ['availableLanguages']),
 		editLink() {
 			const id = this.$route.path.substring(1)
@@ -75,7 +75,7 @@ export default {
 				:hover="true"
 			>
 				<router-link to="#" class="text-secondary-turquoise hover:underline hover:decoration-secondary-darker-turquoise hover:text-secondary-darker-turquoise">
-					{{ language }}
+					{{ selectedLanguage }}
 
 					<font-awesome-icon icon="fa-solid fa-chevron-down" />
 				</router-link>
@@ -83,7 +83,7 @@ export default {
 				<template #content>
 					<div
 						v-for="language in availableLanguages"
-						@click="() => this.language = language"
+						@click="() => this.selectedLanguage = language"
 						class="hover:bg-primary-black/10 cursor-pointer"
 					>
 						{{ language }}

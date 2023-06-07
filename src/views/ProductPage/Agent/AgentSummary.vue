@@ -4,7 +4,7 @@ import { mapState } from 'pinia';
 import { getCard, getDisplayProperties, getItemLabel } from '@/lxljs/display';
 import { getResources } from '@/lib/resources';
 import { getPropertyLabel } from '@/lib/item';
-import settings from '@/lib/settings';
+import getSettings from '@/lib/settings';
 
 import Query from '@/views/SearchResults/Query.vue';
 import Card from '@/components/Card.vue';
@@ -27,7 +27,7 @@ export default {
 			const value = this.itemData[key];
 
 			if (value != null && typeof value == 'object') {
-				const card = getCard(this.itemData, getResources(), this.quoted, settings);
+				const card = getCard(this.itemData, getResources(), this.quoted, getSettings());
 				if (card.hasOwnProperty(key)) {
 					return card[key];
 				}
@@ -45,8 +45,8 @@ export default {
 			return `?@type=Text&_limit=20&o=${encodeURI(this.person['@id'])}`;
 		},
 		properties() {
-			const chip = getDisplayProperties(this.person['@type'], getResources(), settings, 'chips');
-			const properties = getDisplayProperties(this.person['@type'], getResources(), settings, 'full');
+			const chip = getDisplayProperties(this.person['@type'], getResources(), getSettings(), 'chips');
+			const properties = getDisplayProperties(this.person['@type'], getResources(), getSettings(), 'full');
 			return properties.filter((property) =>
 				!chip.includes(property) && this.getValue(property) != null
 			);
@@ -60,7 +60,7 @@ export default {
 		},
 		itemLabel() {
 			if (this.person != null) {
-				return getItemLabel(this.person, getResources(), this.quoted, settings);
+				return getItemLabel(this.person, getResources(), this.quoted, getSettings());
 			}
 
 			return null;

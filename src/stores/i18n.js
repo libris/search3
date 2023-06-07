@@ -15,7 +15,7 @@ export const useI18nStore = defineStore('i18n', {
 			);
 
 			this.availableLanguages = Object.keys(result);
-			this.current = result[preferencesStore.language];
+			this.current = result[preferencesStore.selectedLanguage];
 			this.source = result;
 
 			preferencesStore.$subscribe((mutation) => {

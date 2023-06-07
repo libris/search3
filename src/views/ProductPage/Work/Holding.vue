@@ -1,7 +1,7 @@
 <script>
 import { getItemLabel } from "@/lxljs/display";
 import { getResources } from "@/lib/resources";
-import settings from "@/lib/settings";
+import getSettings from "@/lib/settings";
 import { mapState } from "pinia";
 import { useProductStore } from "@/views/ProductPage/store";
 import { getLoanStatus } from "@/lib/item";
@@ -55,7 +55,7 @@ export default {
             return this.holding['heldBy'];
         },
         library() {
-            return getItemLabel(this.heldBy, getResources(), this.quoted, settings);
+            return getItemLabel(this.heldBy, getResources(), this.quoted, getSettings());
         },
         sigel() {
           const parts = this.heldBy['@id'].split("/");

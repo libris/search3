@@ -2,10 +2,10 @@
 import { mapState } from 'pinia';
 import { useProductStore } from '@/views/ProductPage/store';
 import { getSearchParamValue } from '@/lib/http';
+import { usePreferencesStore } from '@/stores/preferences';
 import WorkSummary from './WorkSummary.vue';
 import Instance from './Instance.vue';
 import Query from '@/views/SearchResults/Query.vue';
-import { usePreferencesStore } from '@/stores/preferences';
 
 export default {
     name: "WorkPage",
@@ -15,7 +15,7 @@ export default {
         Query,
     },
     computed: {
-        ...mapState(usePreferencesStore, ['language']),
+        ...mapState(usePreferencesStore, ['selectedLanguage']),
         ...mapState(useProductStore, [
             'mainEntity',
             'instanceIds',
@@ -27,19 +27,19 @@ export default {
         moreByAuthorQuery() {
           const authorId = encodeURI(this.author.agent['@id']);
           const workId = encodeURI(this.mainEntity['@id']);
-          return `?q=*&@type=Text&_limit=7&o=${authorId}&_sort=_sortKeyByLang.${this.language}&not-@id=${workId}`;
+          return `?q=*&@type=Text&_limit=7&o=${authorId}&_sort=_sortKeyByLang.${this.selectedLanguage}&not-@id=${workId}`;
         },
 		moreByAuthorLink() {
           const authorId = encodeURIComponent(this.author.agent['@id']);
-          return `/find?q=*&@type=Text&_limit=${getSearchParamValue('_limit')}&o=${authorId}&_sort=_sortKeyByLang.${this.language}`;
+          return `/find?q=*&@type=Text&_limit=${getSearchParamValue('_limit')}&o=${authorId}&_sort=_sortKeyByLang.${this.selectedLanguage}`;
 		},
         relatedQuery() {
           const workId = encodeURI(this.mainEntity['@id']);
-          return `?q=*&@type=Text&_limit=7&or-closeMatch.@id=${workId}&or-relatedTo.@id=${workId}&_sort=_sortKeyByLang.${this.language}`;
+          return `?q=*&@type=Text&_limit=7&or-closeMatch.@id=${workId}&or-relatedTo.@id=${workId}&_sort=_sortKeyByLang.${this.selectedLanguage}`;
         },
 		relatedLink() {
           const workId = encodeURIComponent(this.mainEntity['@id']);
-          return `/find?q=*&@type=Text&_limit=${getSearchParamValue('_limit')}&or-closeMatch.@id=${workId}&or-relatedTo.@id=${workId}&_sort=_sortKeyByLang.${this.language}`;
+          return `/find?q=*&@type=Text&_limit=${getSearchParamValue('_limit')}&or-closeMatch.@id=${workId}&or-relatedTo.@id=${workId}&_sort=_sortKeyByLang.${this.selectedLanguage}`;
 		},
     },
 }

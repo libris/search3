@@ -2,13 +2,13 @@ import { defineStore } from "pinia";
 
 type Preferences = {
 	displayMode: 'cards' | 'list' | 'table',
-	language: 'sv' | 'en',
+	selectedLanguage: 'sv' | 'en',
 };
 
 export const usePreferencesStore = defineStore('preferences', {
 	state: (): Preferences => ({
 		displayMode: 'list',
-		language: 'sv',
+		selectedLanguage: 'sv',
 	}),
 	persist: {
 		enabled: true,

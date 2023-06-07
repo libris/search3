@@ -3,7 +3,7 @@ import { mapState } from "pinia";
 import { useProductStore } from "@/views/ProductPage/store";
 import { getItemLabel } from "@/lxljs/display";
 import { getResources } from "@/lib/resources";
-import settings from '@/lib/settings';
+import getSettings from '@/lib/settings';
 import { getPropertyLabel } from "@/lib/item";
 import BookmarkButton from "@/components/BookmarkButton.vue";
 
@@ -56,7 +56,7 @@ export default {
         },
         summary() {
             if (this.workData != null && this.workData.hasOwnProperty('summary')) {
-                return getItemLabel(this.workData.summary[0], getResources(), this.quoted, settings);
+                return getItemLabel(this.workData.summary[0], getResources(), this.quoted, getSettings());
             }
         }
     },

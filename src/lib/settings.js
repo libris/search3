@@ -1,6 +1,7 @@
-export default {
+import { usePreferencesStore } from "@/stores/preferences";
+
+export const settings = {
 	title: 'Libris katalogisering',
-	language: 'sv',
 	debounceTimer: 500, // Wait this long for input to stop before reacting
 	version: import.meta.env.VITE_VUE_APP_VERSION,
 	gitDescribe: JSON.parse(import.meta.env.VITE_VUE_APP_GIT_DESCRIBE || null),
@@ -446,4 +447,14 @@ export default {
 		},
 	  ],
 	},
-  };
+};
+
+const getSettings = () => {
+	const preferences = usePreferencesStore();
+	return {
+		language: preferences.selectedLanguage,
+		...settings,
+	};
+};
+
+export default getSettings;

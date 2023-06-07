@@ -46,7 +46,7 @@ interface ResponseObject {
 
 import { each } from 'lodash-es';
 import { translateAliasedUri } from './data';
-import settings from './settings';
+import getSettings from './settings';
 
 export function getAssetUrl(path: string) {
 	if (path.indexOf('http') == -1) {
@@ -208,7 +208,7 @@ export function getHoldings(instanceUri) {
 		'@type': 'Item',
 	};
 
-	let query = `${settings.apiPath}/find.jsonld?`;
+	let query = `${getSettings().apiPath}/find.jsonld?`;
 	each(queryPairs, (v, k) => {
 		query += (`${encodeURIComponent(k)}=${encodeURIComponent(v)}&`);
 	});
@@ -243,7 +243,7 @@ export async function getDocument(uri, contentType = 'application/ld+json', embe
 	let translatedUri = translateAliasedUri(uri);
 
 	if (!uri.includes('http')) {
-		translatedUri = settings.apiPath + '/' + translatedUri;
+		translatedUri = getSettings().apiPath + '/' + translatedUri;
 	}
 
 	if (!uri.includes('embellished=')) {

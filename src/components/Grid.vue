@@ -62,7 +62,7 @@ import { mapWritableState, mapState } from 'pinia';
 import { useSearchResults } from '@/views/SearchResults/store';
 import { usePreferencesStore } from '@/stores/preferences';
 import { translatePhrase } from '@/lib/item';
-import settings from '@/lib/settings';
+import getSettings from '@/lib/settings';
 import Select from './Select.vue';
 
 interface SortOption {
@@ -117,7 +117,7 @@ export default {
 		},
 		sortOptions(): SortOption[] {
 			// FIXME l8er? Or are we good using just "work"?
-			return settings.sortOptions.Work;
+			return getSettings().sortOptions.Work;
 		},
 	},
 	methods: {

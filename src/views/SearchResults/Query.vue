@@ -5,7 +5,7 @@ import { useSearchResults } from './store';
 import { getResources } from "@/lib/resources";
 import { getQueryParams, getRelatedRecords } from '@/lib/http';
 import { translatePhrase } from '@/lib/item';
-import settings from "@/lib/settings";
+import getSettings from "@/lib/settings";
 
 import Grid from '@/components/Grid.vue';
 import RecordListItem from '@/components/RecordListItem.vue';
@@ -47,7 +47,7 @@ export default {
 			}
 
 			this.Records = [];
-			const response = await getRelatedRecords(query, settings.apiPath);
+			const response = await getRelatedRecords(query, getSettings().apiPath);
 
 			this.reset();
 

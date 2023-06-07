@@ -2,7 +2,8 @@
 import { getResources } from '@/lib/resources';
 import { getItemLabel } from '@/lxljs/display';
 import { getCompactNumber } from '@/lib/math';
-import settings from '@/lib/settings';
+import { capitalize } from '@/lib/item';
+import getSettings from '@/lib/settings';
 
 import Facet from './Facet.vue';
 import Expandable from './Expandable.vue';
@@ -21,6 +22,7 @@ export default {
 	},
 	computed: {
 		groupLabel() {
+			const settings = getSettings();
 			const facetType = this.group.dimension;
 			return (settings.propertyChains[facetType] || {})[settings.language] || facetType;
 		},
@@ -38,7 +40,7 @@ export default {
 					o.object,
 					getResources(),
 					null,
-					settings,
+					getSettings(),
 				);
 			} else {
 				label = this.determineLabel(o.object);
@@ -53,10 +55,8 @@ export default {
 				link = link.replace('and-contribution.agent.@id', 'o')
 			}
 
-			// label = this.$options.filters.capitalize(label);
-
 			return {
-				label,
+				label: capitalize(label),
 				link,
 				object: o.object,
 				amount: o.totalItems,
@@ -64,6 +64,7 @@ export default {
 			};
 		},
 		determineLabel(object) {
+			const settings = getSettings();
 			if (object.hasOwnProperty('mainEntity')) {
 				object = object.mainEntity;
 			}
@@ -103,6 +104,7 @@ export default {
 			return `${idArray[idArray.length - 1]} [has no label]`;
 		},
 		getLabel(o) {
+			const settings = getSettings();
 			if (o.hasOwnProperty('labelByLang')) {
 				return o.labelByLang[settings.language];
 			} else if (o.hasOwnProperty('titleByLang')) {

@@ -5,9 +5,9 @@ import { getCard, getChip, getItemLabel, getItemSummary } from '@/lxljs/display'
 import { getResources } from '@/lib/resources';
 import {getAtPath, getFnurgelFromUri, getFullImageUrl, asArray, unwrap, sortInstances} from '@/lib/item';
 import { isLink } from "@/lib/jsonld";
+import getSettings from '@/lib/settings';
 
 import { getRecordType } from "@/lxljs/vocab";
-import settings from '@/lib/settings';
 
 export const useProductStore = defineStore('product', {
 	state: () => ({
@@ -33,15 +33,16 @@ export const useProductStore = defineStore('product', {
 		},
         workChip: (state) => {
             if (state.mainEntity != null) {
-                return getChip(state.mainEntity, getResources(), state.quoted, settings);
+                return getChip(state.mainEntity, getResources(), state.quoted, getSettings());
             }
         },
 		workCard: (state) => {
 			if (state.mainEntity != null) {
-				return getCard(state.mainEntity, getResources(), state.quoted, settings);
+				return getCard(state.mainEntity, getResources(), state.quoted, getSettings());
 			}
 		},
 		contributions: (state) => {
+			const settings = getSettings();
 			// FIXME
 			if (state.mainEntity != null) {
 				return getAtPath(state.mainEntity, ['contribution', '*']).map(c => {
@@ -65,6 +66,7 @@ export const useProductStore = defineStore('product', {
 		},
 		subjects: (state) => {
 			if (state.mainEntity != null) {
+				const settings = getSettings();
 				return getAtPath(state.mainEntity, ['subject', '*']).map(s => {
 					if (s['@id'] != null && state.quoted[s['@id']]) {
 						const inScheme = state.quoted[s['@id']].inScheme;
@@ -107,6 +109,7 @@ export const useProductStore = defineStore('product', {
 		},
 		genreForms: (state) => {
 			if (state.mainEntity != null) {
+				const settings = getSettings();
 				return getAtPath(state.mainEntity, ['genreForm', '*']).map(gf => {
 					if (gf['@id'] != null && state.quoted[gf['@id']]) {
 						const inScheme = state.quoted[gf['@id']].inScheme;
@@ -165,7 +168,7 @@ export const useProductStore = defineStore('product', {
                     state.mainEntity,
                     getResources(),
                     state.quoted,
-                    settings,
+                    getSettings(),
                     getResources().displayGroups,
                 );
             }

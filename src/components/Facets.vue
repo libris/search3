@@ -44,7 +44,7 @@
 <script lang="ts">
 import { mapState } from 'pinia';
 import { useSearchResults } from '@/views/SearchResults/store';
-import settings from '@/lib/settings';
+import getSettings from '@/lib/settings';
 import FacetGroup from './FacetGroup.vue';
 import SelectedFacets from './SelectedFacets.vue'
 import SidebarModal from '@/components/Modals/Sidebar.vue';
@@ -67,6 +67,7 @@ export default {
 				return {};
 			}
 
+			const settings = getSettings();
 			const facetSettings = settings.propertyChains;
 			const unordered = this.stats.sliceByDimension;
 

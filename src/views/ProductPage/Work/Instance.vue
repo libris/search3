@@ -1,11 +1,11 @@
 <script>
 import { useProductStore } from '@/views/ProductPage/store';
 import { getResources } from '@/lib/resources';
-import settings from '@/lib/settings';
+import getSettings from '@/lib/settings';
 import { getChip, getItemLabel } from '@/lxljs/display';
 import { getLabelByLang } from "@/lxljs/string";
 import { mapState } from 'pinia';
-import {getImageUrl, getFnurgelFromUri, getAtPath, asArray, unwrap, prepend} from '@/lib/item';
+import { getImageUrl, getFnurgelFromUri, getAtPath, asArray, unwrap, prepend } from '@/lib/item';
 import { getHoldings } from "@/lib/http";
 import Holding from "./Holding.vue";
 import SidebarModal from '@/components/Modals/Sidebar.vue';
@@ -38,20 +38,20 @@ export default {
 
         publications() {
             return getAtPath(this.instance, ['publication']).map((publication) => {
-                return getChip(publication, getResources(), this.quoted, settings);
+                return getChip(publication, getResources(), this.quoted, getSettings());
             });
         },
         title() {
-            return getItemLabel(getAtPath(this.instance, ['hasTitle', 0]), getResources(), this.quoted, settings)
+            return getItemLabel(getAtPath(this.instance, ['hasTitle', 0]), getResources(), this.quoted, getSettings())
         },
         extent() {
-            return getItemLabel(getAtPath(this.instance, ['extent', 0]), getResources(), this.quoted, settings);
+            return getItemLabel(getAtPath(this.instance, ['extent', 0]), getResources(), this.quoted, getSettings());
         },
         dimensions() {
-            return getItemLabel(getAtPath(this.instance, ['hasDimensions']), getResources(), this.quoted, settings)
+            return getItemLabel(getAtPath(this.instance, ['hasDimensions']), getResources(), this.quoted, getSettings())
         },
         responsibilityStatement() {
-          const r = getItemLabel(getAtPath(this.instance, ['responsibilityStatement']), getResources(), this.quoted, settings)
+          const r = getItemLabel(getAtPath(this.instance, ['responsibilityStatement']), getResources(), this.quoted, getSettings())
           return r ? `/ ${r}` : ''
         },
         editionStatement() {
@@ -65,12 +65,13 @@ export default {
             );
         },
         identifiedBy() {
-            return getItemLabel(getAtPath(this.instance, ['identifiedBy', 0]), getResources(), this.quoted, settings);
+            return getItemLabel(getAtPath(this.instance, ['identifiedBy', 0]), getResources(), this.quoted, getSettings());
         },
         type() {
-            return getLabelByLang(this.instance['@type'], settings.language, getResources());
+            return getLabelByLang(this.instance['@type'], getSettings().language, getResources());
         },
         contributions() {
+            const settings = getSettings();
           return getAtPath(this.instance, ['contribution', '*']).map(c => {
             return {
               'role': asArray(c.role).map(r => getItemLabel(r, getResources(), this.quoted, settings)),
