@@ -357,9 +357,11 @@ export default {
 				if (instanceIds != null) {
 					this.instances = instanceIds.map((instanceId) => {
 						const instance = split.quoted[instanceId];
-						if (instance != null) {
-							return instance;
-						}
+            if (instance != null) {
+              return instance;
+            } else {
+              return this.entity;
+            }
 					}).filter((item) => item != null)
 				}
 			}
