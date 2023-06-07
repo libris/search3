@@ -115,7 +115,6 @@ export const useProductStore = defineStore('product', {
 						const inScheme = state.quoted[gf['@id']].inScheme;
 						let schemeLabel = '';
 						if (inScheme) {
-							console.log('inScheme', JSON.stringify(inScheme['@id']));
 							const chip = getChip(inScheme, getResources(), state.quoted, settings);
 							if (chip.hasOwnProperty('title')) {
 								schemeLabel = chip.title;
@@ -194,7 +193,6 @@ export const useProductStore = defineStore('product', {
 			let response = await getDocument(`${documentId}/data.jsonld`);
 			let split = splitJson(response.data);
 
-			console.log('split', JSON.parse(JSON.stringify(split)));
 			if (isLink(split.mainEntity.instanceOf)) {
 				this.parentEntity = split.mainEntity;
 
