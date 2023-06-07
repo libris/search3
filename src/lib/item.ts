@@ -122,7 +122,7 @@ export const prepend = (before: string, s: string) => {
 
 export const translatePhrase = (phrase: string | Array<string>): string => {
 	const i18nStore = useI18nStore();
-	const userLanguage = usePreferencesStore().language;
+	const userLanguage = usePreferencesStore().selectedLanguage;
 
 	return getUiPhraseByLang(phrase, userLanguage, i18nStore.source);
 };
