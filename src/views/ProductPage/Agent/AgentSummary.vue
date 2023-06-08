@@ -46,7 +46,7 @@ export default {
 		}),
 		...mapState(useProductStore, ['quoted']),
 		searchValue() {
-			return `?@type=Work&_limit=20&o=${encodeURI(this.person['@id'])}`;
+			return `?@type=Work&_limit=40&contribution.agent.@id=${encodeURI(this.person['@id'])}`;
 		},
 		properties() {
 			const chip = getDisplayProperties(this.person['@type'], getResources(), getSettings(), 'chips');
