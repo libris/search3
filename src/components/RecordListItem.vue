@@ -96,15 +96,14 @@
 			<template #footer>
 				<div class="flex items-end justify-between border-t border-t-secondary-grey/20 pt-4">
 					<div>
-						<div v-if="holdings != null && holdings > 0">
-							Finns på <u class="text-secondary-turquoise">{{ holdings }} bibliotek</u>
-						</div>
-
-						<div class="flex gap-x-2" v-if="getInstanceTypes().length > 0">
-							<div class="rounded-md bg-secondary-grey/20 mt-2 py-2 px-4" v-for="instanceType in getInstanceTypes()">
+						<div class="flex gap-x-2">
+              <div class="rounded-md bg-secondary-grey/20 mt-2 py-2 px-4" v-for="(instanceCount, instanceType) in getInstanceTypes()">
 								<font-awesome-icon icon="fa fa-book" class="mr-2 text-secondary-grey" />
-								{{ getLabel(instanceType) }}
+								{{ getLabel(instanceType) }} ({{instanceCount}})
 							</div>
+              <div v-if="holdings != null && holdings > 0" class="mt-2 py-2 px-4">
+                Finns på <u class="text-secondary-turquoise">{{ holdings }} bibliotek</u>
+              </div>
 						</div>
 					</div>
 
@@ -321,11 +320,12 @@ export default {
 				return [];
 			}
 
-			let result = [];
+			let result = {};
 			this.instances.forEach((instance) => {
-				if (result.indexOf(instance['@type']) == -1) {
-					result.push(instance['@type']);
-				}
+        const type = instance['@type']
+        if (type) {
+          result[type] = (result[type] || 0) + 1
+        }
 			});
 
 			return result;
