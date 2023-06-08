@@ -98,7 +98,7 @@ export default {
 
 		<div class="w-full md:w-3/4">
 			<SearchControls :queryString="searchValue" />
-			<Query :queryString="searchValue" :display-view-options="true" />
+			<Query :queryString="searchValue" />
 
 			<div class="mt-6 pt-6 border-t border-t-secondary-grey/20">
 				<PaginationControls />
