@@ -83,9 +83,9 @@ export const getSearchParamValue = (parameter) => {
 	return getQueryParams()[parameter] ?? getDefaultSearchParams()[parameter];
 };
 
-export const getSearchParams = () => ({
+export const getSearchParams = (queryString: String = undefined) => ({
 	...getDefaultSearchParams(),
-	...getQueryParams()
+	...getQueryParams(queryString)
 });
 
 export function buildQueryString(params) {
