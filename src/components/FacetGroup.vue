@@ -52,7 +52,6 @@ export default {
 
 			if (o.view != null) {
 				link = o.view['@id'];
-				link = link.replace('and-contribution.agent.@id', 'o')
 			}
 
 			return {
