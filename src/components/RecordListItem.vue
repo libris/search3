@@ -1,7 +1,7 @@
 <template>
 	<div
 		v-observe-visibility="{ callback: (v) => { this.isVisible = v }, once: true }"
-		class="transition-all ease-in-out duration-300"
+		class=""
 		:class="{ 'opacity-100 scale-100': isVisible, 'opacity-0 scale-75': !isVisible, 'table-row': mode == 'table' }"
 	>
 		<div v-if="mode === 'cards' && item != null">
