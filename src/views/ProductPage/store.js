@@ -3,7 +3,7 @@ import { getDocument } from '@/lib/http';
 import { splitJson } from "@/lxljs/data";
 import { getCard, getChip, getItemLabel, getItemSummary } from '@/lxljs/display';
 import { getResources } from '@/lib/resources';
-import {getAtPath, getFnurgelFromUri, getFullImageUrl, asArray, unwrap, sortInstances} from '@/lib/item';
+import { getAtPath, getFnurgelFromUri, getFullImageUrl, asArray, unwrap, sortInstances } from '@/lib/item';
 import { isLink } from "@/lib/jsonld";
 import getSettings from '@/lib/settings';
 
@@ -31,7 +31,15 @@ export const useProductStore = defineStore('product', {
 				.map((i) => isLink(i) ? state.quoted[i['@id']] : i);
 			return sortInstances(instances);
 		},
-        workChip: (state) => {
+		instanceTitle: (state) => {
+			if (state.instances != null) {
+				return state.instances.map((i) => {
+					const titles = getAtPath(i, ['hasTitle', '*']);
+					return getItemLabel(titles[0], getResources(), state.quoted, getSettings());
+				});
+			}
+		},
+		workChip: (state) => {
             if (state.mainEntity != null) {
                 return getChip(state.mainEntity, getResources(), state.quoted, getSettings());
             }

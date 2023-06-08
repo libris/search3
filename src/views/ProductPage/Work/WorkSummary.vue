@@ -24,6 +24,7 @@ export default {
             'subjectSchemes',
             'classifications',
             'genreForms',
+            'instanceTitle',
             'gfSchemes']
         ),
         contribution() {
@@ -37,7 +38,12 @@ export default {
         },
         titles() {
             if (this.workCard != null) {
-                return this.workCard['hasTitle'];
+              const title = this.workCard['hasTitle'];
+              if (title) {
+                return title;
+              } else {
+                return this.instanceTitle;
+              }
             }
         },
         gfLabel() {
