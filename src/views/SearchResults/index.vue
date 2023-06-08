@@ -5,6 +5,7 @@ import Facets from '@/components/Facets.vue';
 import Query from './Query.vue';
 import PaginationControls from '@/components/PaginationControls.vue';
 import KnowledgeCard from '@/views/KnowledgeCard/index.vue';
+import SearchControls from '@/components/SearchControls.vue';
 
 export default {
 	components: {
@@ -12,6 +13,7 @@ export default {
 		Query,
 		PaginationControls,
 		KnowledgeCard,
+		SearchControls,
 	},
 	data: () => ({
 		facetModal: false,
@@ -48,6 +50,7 @@ export default {
 			</div>
 
 			<div class="w-full md:w-3/4">
+				<SearchControls />
 				<Query />
 
 				<div class="mt-6 pt-6 border-t border-t-secondary-grey/20">

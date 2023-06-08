@@ -10,6 +10,8 @@ import Query from '@/views/SearchResults/Query.vue';
 import Card from '@/components/Card.vue';
 import PropertyDisplay from '@/components/PropertyDisplay.vue';
 import Facets from '@/components/Facets.vue';
+import PaginationControls from '@/components/PaginationControls.vue';
+import SearchControls from '@/components/SearchControls.vue';
 
 export default {
 	name: 'PersonSummary',
@@ -17,7 +19,9 @@ export default {
 		Query,
 		Card,
 		PropertyDisplay,
-		Facets
+		Facets,
+		PaginationControls,
+		SearchControls,
 	},
 	methods: {
 		getLabel(label) {
@@ -71,9 +75,9 @@ export default {
 
 <template>
 	<div>
-        <h2 class="flex text-3xl font-semibold">
+		<h2 class="flex text-3xl font-semibold">
 			{{ itemLabel }}
-        </h2>
+		</h2>
 	</div>
 
 	<div class="mt-4">
@@ -93,7 +97,12 @@ export default {
 		</div>
 
 		<div class="w-full md:w-3/4">
-			<Query :queryString="searchValue" />
+			<SearchControls :queryString="searchValue" />
+			<Query :queryString="searchValue" :display-view-options="true" />
+
+			<div class="mt-6 pt-6 border-t border-t-secondary-grey/20">
+				<PaginationControls />
+			</div>
 		</div>
 	</div>
 </template>

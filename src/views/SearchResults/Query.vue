@@ -101,7 +101,7 @@ export default {
 
 <template>
 	<div class="relative w-full" :class="{ ['max-h-[70vh] overflow-hidden']: mode == 'preview' }">
-		<Grid :displayMode="mode == 'preview' ? 'compactlist' : null" :displayViewOptions="queryString == null">
+		<Grid :displayMode="mode == 'preview' ? 'compactlist' : null">
 			<RecordListItem
 				v-for="record in Records"
 				:key="record['@id']"
