@@ -27,11 +27,11 @@ export default {
         moreByAuthorQuery() {
           const authorId = encodeURI(this.author.agent['@id']);
           const workId = encodeURI(this.mainEntity['@id']);
-          return `?q=*&@type=Work&_limit=7&o=${authorId}&_sort=_sortKeyByLang.${this.selectedLanguage}&not-@id=${workId}`;
+          return `?q=*&@type=Work&_limit=7&contribution.agent.@id=${authorId}&_sort=_sortKeyByLang.${this.selectedLanguage}&not-@id=${workId}`;
         },
 		moreByAuthorLink() {
           const authorId = encodeURIComponent(this.author.agent['@id']);
-          return `/find?q=*&@type=Work&_limit=${getSearchParamValue('_limit')}&o=${authorId}&_sort=_sortKeyByLang.${this.selectedLanguage}`;
+          return `/find?q=*&@type=Work&_limit=${getSearchParamValue('_limit')}&contribution.agent.@id=${authorId}&_sort=_sortKeyByLang.${this.selectedLanguage}`;
 		},
         relatedQuery() {
           const workId = encodeURI(this.mainEntity['@id']);
