@@ -32,17 +32,6 @@
 				<span v-else>{{c.agent}}</span><span v-if="c.role.length > 0"> &bull; </span><span>{{c.role.join(`, `)}}</span>
 				</div>
 			</div>
-
-			<div v-if="genreFormCalculated != null" class="mt-1">
-				<div class="flex flex-wrap gap-2">
-					<span
-						class="text-xs text-secondary-turquoise"
-						v-for="genreForm in genreFormCalculated"
-					>
-						{{ genreForm }}
-					</span>
-				</div>
-			</div>
 		</div>
 
 		<Card v-if="mode === 'list' && item != null" :image-url="imageUrl">
