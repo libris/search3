@@ -1,9 +1,5 @@
 <template>
-	<div
-		v-observe-visibility="{ callback: (v) => { this.isVisible = v }, once: true }"
-		class=""
-		:class="{ 'opacity-100 scale-100': isVisible, 'opacity-0 scale-75': !isVisible, 'table-row': mode == 'table' }"
-	>
+	<div :class="{ 'table-row': mode == 'table' }">
 		<div v-if="mode === 'cards' && item != null">
 			<router-link :to="this.routerPath(item['@id'])" :title="title" class="flex justify-center">
 				<div
@@ -197,7 +193,6 @@
 				/>
 			</div>
 		</td>
-
 	</div>
 </template>
 
