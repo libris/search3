@@ -82,7 +82,7 @@ export const useProductStore = defineStore('product', {
 						return {
 							'inScheme': schemeLabel,
 							'subject': getItemLabel(s, getResources(), state.quoted, settings),
-							'link': `find?o=${encodeURI(s['@id'])}&@type=Text&_limit=20&_sort=`
+							'link': `find?o=${encodeURI(s['@id'])}&@type=Work&_limit=20&_sort=`
 						}
 					} else {
 						return {
@@ -125,7 +125,7 @@ export const useProductStore = defineStore('product', {
 						return {
 							'inScheme': schemeLabel,
 							'genreForm': getItemLabel(gf, getResources(), state.quoted, settings),
-							'link': `find?o=${encodeURI(gf['@id'])}&@type=Text&_limit=20&_sort=`
+							'link': `find?o=${encodeURI(gf['@id'])}&@type=Work&_limit=20&_sort=`
 						}
 					} else {
 						return {

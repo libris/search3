@@ -42,7 +42,7 @@ export default {
 		}),
 		...mapState(useProductStore, ['quoted']),
 		searchValue() {
-			return `?@type=Text&_limit=20&o=${encodeURI(this.person['@id'])}`;
+			return `?@type=Work&_limit=20&o=${encodeURI(this.person['@id'])}`;
 		},
 		properties() {
 			const chip = getDisplayProperties(this.person['@type'], getResources(), getSettings(), 'chips');
