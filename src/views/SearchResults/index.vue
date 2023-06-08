@@ -61,9 +61,3 @@ export default {
 		</div>
 	</div>
 </template>
-
-1920
-
-kolumn 1: 360
-kolumn 2: 1040
-kolumn 3: 460
