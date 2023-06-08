@@ -33,7 +33,7 @@ export default {
 					return 'grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-8 w-full';
 
 				case 'list':
-					return 'grid grid-cols-1 gap-y-6 w-full';
+					return 'grid grid-cols-1 w-full';
 
 				case 'compactlist':
 					return 'grid grid-cols-1 gap-y-2 w-full';

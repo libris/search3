@@ -94,7 +94,7 @@
 			</div>
 
 			<template #footer>
-				<div class="flex items-end justify-between border-t border-t-secondary-grey/20 pt-4">
+				<div class="flex items-end justify-between pt-4">
 					<div>
 						<div class="flex gap-x-2">
               <div class="rounded-md bg-secondary-grey/20 mt-2 py-2 px-4" v-for="(instanceCount, instanceType) in getInstanceTypes()">
