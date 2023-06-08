@@ -23,13 +23,13 @@ export default {
 		item() {
 			if (this.search != null && this.search.mapping != null) {
 				const contributionAgent = this.search.mapping.find((map) =>
-					map.variable == 'contribution.agent.@id'
+					map.variable == 'contribution.agent.@id' || map.variable == 'and-contribution.agent.@id'
 				);
 
 				if (contributionAgent != null) return contributionAgent;
 
 				const subject = this.search.mapping.find((map) =>
-					map.variable == 'and-subject.@id'
+					map.variable == 'subject.@id' || map.variable == 'and-subject.@id'
 				);
 
 				if (subject != null) return subject;
