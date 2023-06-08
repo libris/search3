@@ -48,7 +48,7 @@
 		<Card v-if="mode === 'list' && item != null" :image-url="imageUrl">
 			<router-link :to="this.routerPath(item['@id'])" :title="title">
 				<div class="flex items-center">
-					<h3 class="text-xl font-semibold">
+					<h3 class="text-l font-semibold">
 						{{ title }}
 
 						<div v-if="language != null" class="inline text-sm text-secondary-grey">
@@ -69,7 +69,7 @@
 			</div>
 
 			<div v-if="genreFormCalculated != null" class="mt-4">
-				<div class="font-semibold text-secondary-turquoise">{{ getPropertyLabel('genreForm') }}</div>
+				<div class="text-xs text-secondary-grey">{{ getPropertyLabel('genreForm') }}</div>
 
 				<div class="flex flex-wrap gap-2">
 					<span
@@ -82,7 +82,7 @@
 			</div>
 
 			<div v-if="subjectCalculated != null" class="mt-2">
-				<div class="font-semibold text-secondary-turquoise">{{ getPropertyLabel('subject') }}</div>
+				<div class="text-xs text-secondary-grey">{{ getPropertyLabel('subject') }}</div>
 				<div class="flex flex-wrap gap-2">
 					<span
 						class="text-sm text-secondary-turquoise"
