@@ -1,19 +1,27 @@
 <template>
-	<select
-		v-model="selected"
-		:disabled="disabled"
-		@change="handleChange"
-		class="`
-			border
-			border-secondary-grey
-			py-2 px-4
-			rounded-sm
-			bg-primary-white
-		`"
-		:class="class"
-	>
-		<slot />
-	</select>
+	<div class="relative">
+		<select
+			v-model="selected"
+			:disabled="disabled"
+			@change="handleChange"
+			class="`relative
+				border
+				border-secondary-grey
+				py-2 px-4
+				rounded-sm
+				bg-primary-white
+				appearance-none
+			`"
+			:class="class"
+			v-bind="$attrs"
+		>
+			<slot />
+		</select>
+
+		<div class="absolute top-0 right-4 h-full text-sm flex items-center">
+			<font-awesome-icon icon="fa-solid fa-chevron-down" />
+		</div>
+	</div>
 </template>
 
 <script lang="ts">
