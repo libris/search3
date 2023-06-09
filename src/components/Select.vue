@@ -6,9 +6,9 @@
 			@change="handleChange"
 			class="`relative
 				border
-				border-secondary-grey
+				border-secondary-grey/20
 				py-2 px-4
-				rounded-sm
+				rounded-md
 				bg-primary-white
 				appearance-none
 			`"
