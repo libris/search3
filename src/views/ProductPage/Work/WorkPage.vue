@@ -48,7 +48,9 @@ export default {
 <template>
     <div class="flex gap-5 flex-col lg:flex-row">
         <div class="w-full lg:w-9/12">
-            <WorkSummary />
+            <div>
+                <WorkSummary />
+            </div>
 
             <div class="mt-5">
                 <h3 class="text-2xl font-semibold mb-2">
@@ -69,6 +71,7 @@ export default {
 
                 <Query mode="preview" :query-string="moreByAuthorQuery" :see-more-link="moreByAuthorLink" />
             </div>
+
             <div class="mt-5">
               <h3 class="text-2xl font-semibold mb-2">
                   Relaterade titlar

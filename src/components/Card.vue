@@ -38,7 +38,7 @@ export default {
 </script>
 
 <template>
-	<div class="flex flex-col gap-y-4 border border-secondary-grey/20 p-4 bg-primary-white">
+	<div class="flex flex-col gap-y-4 border border-secondary-grey/20 border-b-0 p-4 bg-primary-white first-of-type:rounded-t-lg last-of-type:rounded-b-lg last-of-type:border-b">
 		<div className="flex items-start gap-x-4">
 			<div
 				v-if="icon != null"

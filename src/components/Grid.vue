@@ -36,7 +36,7 @@ export default {
 					return 'grid grid-cols-1 w-full';
 
 				case 'compactlist':
-					return 'grid grid-cols-1 gap-y-2 w-full';
+					return 'grid grid-cols-1 w-full';
 
 				case 'table':
 					return 'table table-auto border-spacing-0 w-full bg-primary-white rounded-lg border border-secondary-grey/20';

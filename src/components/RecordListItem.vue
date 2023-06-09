@@ -1,140 +1,140 @@
 <template>
-	<div :class="{ 'table-row': mode == 'table' }">
-		<div v-if="mode === 'cards' && item != null">
-			<router-link :to="this.routerPath(item['@id'])" :title="title" class="flex justify-center">
-				<div
-					class="w-32 h-52 bg-no-repeat bg-cover bg-center rounded-lg"
-					:style="{ backgroundImage: 'url(' + imageUrl + ')' }"
-				/>
-			</router-link>
+	<div v-if="mode === 'cards' && item != null">
+		<router-link :to="this.routerPath(item['@id'])" :title="title" class="flex justify-center">
+			<div
+				class="w-32 h-52 bg-no-repeat bg-cover bg-center rounded-lg"
+				:style="{ backgroundImage: 'url(' + imageUrl + ')' }"
+			/>
+		</router-link>
 
-			<div class="mt-2">
-				<div v-if="language != null" class="text-secondary-grey text-xs font-semibold">
-					<span v-for="lang in language">
-						{{ lang }}
-					</span>
-				</div>
-
-				<h3 class="font-semibold">
-					<router-link :to="this.routerPath(item['@id'])" :title="title" class="block truncate text-ellipsis">
-						{{ title }}
-					</router-link>
-				</h3>
-
-				<strong v-if="item.originDate != null">
-					&bull; {{ item.originDate }}
-				</strong>
+		<div class="mt-2">
+			<div v-if="language != null" class="text-secondary-grey text-xs font-semibold">
+				<span v-for="lang in language">
+					{{ lang }}
+				</span>
 			</div>
 
-			<div v-if="contributionsCalculated != null" class="text-secondary-grey mt-1">
-				<div class="mt-1" v-for="c in contributionsCalculated">
-				<router-link v-if="c.link" :to="`/${c.link}`" class="underline">{{c.agent}}</router-link>
-				<span v-else>{{c.agent}}</span><span v-if="c.role.length > 0"> &bull; </span><span>{{c.role.join(`, `)}}</span>
-				</div>
-			</div>
+			<h3 class="font-semibold">
+				<router-link :to="this.routerPath(item['@id'])" :title="title" class="block truncate text-ellipsis">
+					{{ title }}
+				</router-link>
+			</h3>
+
+			<strong v-if="item.originDate != null">
+				&bull; {{ item.originDate }}
+			</strong>
 		</div>
 
-		<Card v-if="mode === 'list' && item != null" :image-url="imageUrl">
-			<router-link :to="this.routerPath(item['@id'])" :title="title">
-				<div class="flex items-center">
-					<h3 class="text-l font-semibold">
-						{{ title }}
-
-						<div v-if="language != null" class="inline text-sm text-secondary-grey">
-							<span v-for="lang in language">
-								<span class="mx-1 font-bold">&bull;</span>
-								{{ lang }}
-							</span>
-						</div>
-					</h3>
-				</div>
-			</router-link>
-
-			<div v-if="contributionsCalculated != null" class="text-secondary-grey mt-1">
-				<div class="mt-1" v-for="c in contributionsCalculated">
-					<router-link v-if="c.link" :to="`/${c.link}`" class="underline">{{c.agent}}</router-link>
-					<span v-else>{{c.agent}}</span><span v-if="c.role.length > 0"> &bull; </span><span>{{c.role.join(`, `)}}</span>
-				</div>
+		<div v-if="contributionsCalculated != null" class="text-secondary-grey mt-1">
+			<div class="mt-1" v-for="c in contributionsCalculated">
+			<router-link v-if="c.link" :to="`/${c.link}`" class="underline">{{c.agent}}</router-link>
+			<span v-else>{{c.agent}}</span><span v-if="c.role.length > 0"> &bull; </span><span>{{c.role.join(`, `)}}</span>
 			</div>
+		</div>
+	</div>
 
-			<div v-if="genreFormCalculated != null" class="mt-4">
-				<div class="text-xs text-secondary-grey">{{ getPropertyLabel('genreForm') }}</div>
-
-				<div class="flex flex-wrap gap-2">
-					<span
-						class="text-sm text-secondary-turquoise"
-						v-for="genreForm in genreFormCalculated"
-					>
-						{{ genreForm }}
-					</span>
-				</div>
-			</div>
-
-			<div v-if="subjectCalculated != null" class="mt-2">
-				<div class="text-xs text-secondary-grey">{{ getPropertyLabel('subject') }}</div>
-				<div class="flex flex-wrap gap-2">
-					<span
-						class="text-sm text-secondary-turquoise"
-						v-for="subject in subjectCalculated"
-					>
-						{{ subject }}
-					</span>
-				</div>
-			</div>
-
-			<template #footer>
-				<div class="flex items-end justify-between pt-4">
-					<div>
-						<div class="flex gap-x-2">
-              <div class="rounded-md bg-secondary-grey/20 mt-2 py-2 px-4" v-for="(instanceCount, instanceType) in getInstanceTypes()">
-								<font-awesome-icon icon="fa fa-book" class="mr-2 text-secondary-grey" />
-								{{ getLabel(instanceType) }} ({{instanceCount}})
-							</div>
-              <div v-if="holdings != null && holdings > 0" class="mt-2 py-2 px-4">
-                Finns på <u class="text-secondary-turquoise">{{ holdings }} bibliotek</u>
-              </div>
-						</div>
-					</div>
-
-					<div>
-						<BookmarkButton :id="item['@id']" />
-					</div>
-				</div>
-			</template>
-		</Card>
-
-		<Card v-if="mode === 'small' && item != null" :image-url="imageUrl" image-size="sm">
-			<router-link :to="this.routerPath(item['@id'])" :title="title">
-				<div class="flex items-center">
-					<h3 class="text-l font-semibold">
-						{{ title }}
-					</h3>
-				</div>
-
-				<div>
-					<strong v-if="item.originDate != null" class="text-sm text-secondary-grey">
-						{{ item.originDate }}
-						<span class="mx-1 font-bold" v-if="language != null">&bull;</span>
-					</strong>
+	<Card v-if="mode === 'list' && item != null" :image-url="imageUrl">
+		<router-link :to="this.routerPath(item['@id'])" :title="title">
+			<div class="flex items-center">
+				<h3 class="text-l font-semibold">
+					{{ title }}
 
 					<div v-if="language != null" class="inline text-sm text-secondary-grey">
-						<span v-for="(lang, index) in language">
-							<span class="mx-1 font-bold" v-if="index > 0">&bull;</span>
+						<span v-for="lang in language">
+							<span class="mx-1 font-bold">&bull;</span>
 							{{ lang }}
 						</span>
 					</div>
-				</div>
-			</router-link>
+				</h3>
+			</div>
+		</router-link>
 
-			<div v-if="contributionsCalculated != null" class="text-secondary-grey mt-1">
-				<div class="mt-1" v-for="c in contributionsCalculated">
+		<div v-if="contributionsCalculated != null" class="text-secondary-grey mt-1">
+			<div class="mt-1" v-for="c in contributionsCalculated">
 				<router-link v-if="c.link" :to="`/${c.link}`" class="underline">{{c.agent}}</router-link>
 				<span v-else>{{c.agent}}</span><span v-if="c.role.length > 0"> &bull; </span><span>{{c.role.join(`, `)}}</span>
+			</div>
+		</div>
+
+		<div v-if="genreFormCalculated != null" class="mt-4">
+			<div class="text-xs text-secondary-grey">{{ getPropertyLabel('genreForm') }}</div>
+
+			<div class="flex flex-wrap gap-2">
+				<span
+					class="text-sm text-secondary-turquoise"
+					v-for="genreForm in genreFormCalculated"
+				>
+					{{ genreForm }}
+				</span>
+			</div>
+		</div>
+
+		<div v-if="subjectCalculated != null" class="mt-2">
+			<div class="text-xs text-secondary-grey">{{ getPropertyLabel('subject') }}</div>
+			<div class="flex flex-wrap gap-2">
+				<span
+					class="text-sm text-secondary-turquoise"
+					v-for="subject in subjectCalculated"
+				>
+					{{ subject }}
+				</span>
+			</div>
+		</div>
+
+		<template #footer>
+			<div class="flex items-end justify-between pt-4">
+				<div>
+					<div class="flex gap-x-2">
+			<div class="rounded-md bg-secondary-grey/20 mt-2 py-2 px-4" v-for="(instanceCount, instanceType) in getInstanceTypes()">
+							<font-awesome-icon icon="fa fa-book" class="mr-2 text-secondary-grey" />
+							{{ getLabel(instanceType) }} ({{instanceCount}})
+						</div>
+			<div v-if="holdings != null && holdings > 0" class="mt-2 py-2 px-4">
+			Finns på <u class="text-secondary-turquoise">{{ holdings }} bibliotek</u>
+			</div>
+					</div>
+				</div>
+
+				<div>
+					<BookmarkButton :id="item['@id']" />
 				</div>
 			</div>
-		</Card>
+		</template>
+	</Card>
 
-		<td v-if="mode === 'table' && item != null" class="border-b border-secondary-grey/20 p-4 py-2 align-middle">
+	<Card v-if="mode === 'small' && item != null" :image-url="imageUrl" image-size="sm">
+		<router-link :to="this.routerPath(item['@id'])" :title="title">
+			<div class="flex items-center">
+				<h3 class="text-l font-semibold">
+					{{ title }}
+				</h3>
+			</div>
+
+			<div>
+				<strong v-if="item.originDate != null" class="text-sm text-secondary-grey">
+					{{ item.originDate }}
+					<span class="mx-1 font-bold" v-if="language != null">&bull;</span>
+				</strong>
+
+				<div v-if="language != null" class="inline text-sm text-secondary-grey">
+					<span v-for="(lang, index) in language">
+						<span class="mx-1 font-bold" v-if="index > 0">&bull;</span>
+						{{ lang }}
+					</span>
+				</div>
+			</div>
+		</router-link>
+
+		<div v-if="contributionsCalculated != null" class="text-secondary-grey mt-1">
+			<div class="mt-1" v-for="c in contributionsCalculated">
+			<router-link v-if="c.link" :to="`/${c.link}`" class="underline">{{c.agent}}</router-link>
+			<span v-else>{{c.agent}}</span><span v-if="c.role.length > 0"> &bull; </span><span>{{c.role.join(`, `)}}</span>
+			</div>
+		</div>
+	</Card>
+
+	<div class="table-row" v-if="mode === 'table' && item != null">
+		<td class="border-b border-secondary-grey/20 p-4 py-2 align-middle">
 			<router-link :to="this.routerPath(item['@id'])" :title="title">
 				<div class="flex items-center">
 					<h3 class="text-md font-semibold">
@@ -151,7 +151,7 @@
 			</router-link>
 		</td>
 
-		<td v-if="mode === 'table' && item != null" class="border-b border-secondary-grey/20 p-4 py-2 align-middle">
+		<td class="border-b border-secondary-grey/20 p-4 py-2 align-middle">
 			<div v-if="contributionsCalculated != null" class="text-secondary-grey">
 				<div class="mt-1 first-of-type:mt-0" v-for="c in contributionsCalculated">
 					<router-link v-if="c.link" :to="`/${c.link}`" class="underline">{{c.agent}}</router-link>
@@ -160,7 +160,7 @@
 			</div>
 		</td>
 
-		<td v-if="mode === 'table' && item != null" class="border-b border-secondary-grey/20 p-4 py-2 align-middle">
+		<td class="border-b border-secondary-grey/20 p-4 py-2 align-middle">
 			<div v-if="genreFormCalculated != null" class="">
 				<div class="flex flex-wrap gap-2">
 					<span
@@ -173,7 +173,7 @@
 			</div>
 		</td>
 
-		<td v-if="mode === 'table' && item != null" class="border-b border-secondary-grey/20 p-4 py-2 align-middle">
+		<td class="border-b border-secondary-grey/20 p-4 py-2 align-middle">
 			<div v-if="imageUrl != null" class="flex justify-end">
 				<div
 					class="bg-no-repeat bg-cover bg-center rounded-lg w-14 h-20"
