@@ -2,7 +2,7 @@
 	<div class="md:hidden mb-4">
 		<Button @click="() => this.modalOpen = !this.modalOpen">
 			<font-awesome-icon icon="fa-solid fa-filter" class="mr-2" />
-			Visa facetter
+			Filtrera
 		</Button>
 
 		<div class="mt-4">
