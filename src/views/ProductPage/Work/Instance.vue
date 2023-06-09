@@ -2,10 +2,10 @@
 import { useProductStore } from '@/views/ProductPage/store';
 import { getResources } from '@/lib/resources';
 import getSettings from '@/lib/settings';
-import { getChip, getItemLabel } from '@/lxljs/display';
+import {getCard, getChip, getDisplayProperties, getItemLabel} from '@/lxljs/display';
 import { getLabelByLang } from "@/lxljs/string";
 import { mapState } from 'pinia';
-import { getImageUrl, getFnurgelFromUri, getAtPath, asArray, unwrap, prepend } from '@/lib/item';
+import {getImageUrl, getFnurgelFromUri, getAtPath, asArray, unwrap, prepend, getPropertyLabel} from '@/lib/item';
 import { getHoldings } from "@/lib/http";
 import Holding from "./Holding.vue";
 import SidebarModal from '@/components/Modals/Sidebar.vue';
@@ -106,6 +106,13 @@ export default {
 
             return false;
         },
+        detailProperties() {
+            const chip = getDisplayProperties(this.instance['@type'], getResources(), getSettings(), 'chips');
+            const properties = getDisplayProperties(this.instance['@type'], getResources(), getSettings(), 'full');
+            return properties.filter((property) =>
+                !chip.includes(property) && this.getValue(property) != null
+            );
+        },
     },
     methods: {
       prepend,
@@ -114,6 +121,22 @@ export default {
         toggleExpanded() {
             this.isExpanded = !this.isExpanded;
         },
+      getLabel(label) {
+        return getPropertyLabel(label);
+      },
+      getValue(key) {
+        //FIXME: copy-pasted from agentsummary
+        const value = this.instance[key];
+
+        if (value != null && typeof value == 'object') {
+          const card = getCard(this.instance, getResources(), this.quoted, getSettings());
+          if (card.hasOwnProperty(key)) {
+            return card[key];
+          }
+        }
+
+        return value;
+      },
     },
     async mounted() {
         // This is necessary unless we embellish the holdings to the work (currently we only get the holding ids).
@@ -178,34 +201,11 @@ export default {
                         class="border rounded-lg relative border-secondary-grey/20 p-4 flex flex-col gap-y-3"
                         style="background: #eaf5f6; top: -1px;"
                     >
-                        <div>
-                            <strong class="block text-secondary-grey font-semibold text-sm">
-                                Utgivning
-                            </strong>
-
-                            <div v-for="publication in publications">
-                                {{ publication.country }} &bull; {{ publication.agent }} &bull; {{ publication.year }}
-                            </div>
-                        </div>
-
-                        <div>
-                            <strong class="block text-secondary-grey font-semibold text-sm">
-                                Mått
-                            </strong>
-
-                            <div>
-                                {{ dimensions }}
-                            </div>
-                        </div>
-
-                        <div>
-                            <strong class="block text-secondary-grey font-semibold text-sm">
-                                Omfång
-                            </strong>
-
-                            <div>
-                                {{ extent }}
-                            </div>
+                        <div v-for="key in detailProperties" class="mb-4">
+                          <PropertyDisplay
+                              :label="getLabel(key)"
+                              :value="getValue(key)"
+                          />
                         </div>
                     </div>
                 </Expandable>
