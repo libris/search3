@@ -19,7 +19,7 @@ export const useI18nStore = defineStore('i18n', {
 			this.source = result;
 
 			preferencesStore.$subscribe((mutation) => {
-				if (mutation.events.key === 'language') {
+				if (mutation.events?.key === 'language') {
 					this.current = result[mutation.events.newValue];
 				}
 			});
