@@ -36,7 +36,7 @@
 	<Card v-if="mode === 'list' && item != null" :image-url="imageUrl">
 		<router-link :to="this.routerPath(item['@id'])" :title="title">
 			<div class="flex items-center">
-				<h3 class="text-l font-semibold">
+				<h3 class="text-lg font-semibold">
 					{{ title }}
 
 					<div v-if="language != null" class="inline text-sm text-secondary-grey">
