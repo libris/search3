@@ -133,8 +133,8 @@
 		</div>
 	</Card>
 
-	<div class="table-row" v-if="mode === 'table' && item != null">
-		<td class="border-b border-secondary-grey/20 p-4 py-2 align-middle">
+	<div class="table-row group" v-if="mode === 'table' && item != null">
+		<td class="border-b border-secondary-grey/20 p-4 py-2 align-middle group-last-of-type:border-b-0">
 			<router-link :to="this.routerPath(item['@id'])" :title="title">
 				<div class="flex items-center">
 					<h3 class="text-md font-semibold">
@@ -151,7 +151,7 @@
 			</router-link>
 		</td>
 
-		<td class="border-b border-secondary-grey/20 p-4 py-2 align-middle">
+		<td class="border-b border-secondary-grey/20 p-4 py-2 align-middle group-last-of-type:border-b-0">
 			<div v-if="contributionsCalculated != null" class="text-secondary-grey">
 				<div class="mt-1 first-of-type:mt-0" v-for="c in contributionsCalculated">
 					<router-link v-if="c.link" :to="`/${c.link}`" class="underline">{{c.agent}}</router-link>
@@ -160,7 +160,7 @@
 			</div>
 		</td>
 
-		<td class="border-b border-secondary-grey/20 p-4 py-2 align-middle">
+		<td class="border-b border-secondary-grey/20 p-4 py-2 align-middle group-last-of-type:border-b-0">
 			<div v-if="genreFormCalculated != null" class="">
 				<div class="flex flex-wrap gap-2">
 					<span
@@ -173,7 +173,7 @@
 			</div>
 		</td>
 
-		<td class="border-b border-secondary-grey/20 p-4 py-2 align-middle">
+		<td class="border-b border-secondary-grey/20 p-4 py-2 align-middle group-last-of-type:border-b-0">
 			<div v-if="imageUrl != null" class="flex justify-end">
 				<div
 					class="bg-no-repeat bg-cover bg-center rounded-lg w-14 h-20"
