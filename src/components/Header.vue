@@ -48,11 +48,11 @@ export default {
 		</div>
 
 		<div class="hidden lg:flex gap-x-4">
-			<router-link to="#" class="text-secondary-turquoise hover:underline hover:decoration-secondary-darker-turquoise hover:text-secondary-darker-turquoise">
+			<router-link to="/" class="text-secondary-turquoise hover:underline hover:decoration-secondary-darker-turquoise hover:text-secondary-darker-turquoise">
 				Hjälp
 			</router-link>
 
-			<router-link to="#" class="text-secondary-turquoise hover:underline hover:decoration-secondary-darker-turquoise hover:text-secondary-darker-turquoise">
+			<router-link to="/" class="text-secondary-turquoise hover:underline hover:decoration-secondary-darker-turquoise hover:text-secondary-darker-turquoise">
 				Mina bibliotek
 			</router-link>
 
@@ -60,7 +60,7 @@ export default {
 				Mina bokmärken
 			</router-link>
 
-			<router-link to="#" class="text-secondary-turquoise hover:underline hover:decoration-secondary-darker-turquoise hover:text-secondary-darker-turquoise">
+			<router-link to="/" class="text-secondary-turquoise hover:underline hover:decoration-secondary-darker-turquoise hover:text-secondary-darker-turquoise">
 				Logga in
 			</router-link>
 
@@ -74,11 +74,11 @@ export default {
 				arrow-padding="16"
 				:hover="true"
 			>
-				<router-link to="#" class="text-secondary-turquoise hover:underline hover:decoration-secondary-darker-turquoise hover:text-secondary-darker-turquoise">
+				<div class="cursor-pointer text-secondary-turquoise hover:underline hover:decoration-secondary-darker-turquoise hover:text-secondary-darker-turquoise">
 					{{ selectedLanguage }}
 
 					<font-awesome-icon icon="fa-solid fa-chevron-down" />
-				</router-link>
+				</div>
 
 				<template #content>
 					<div

@@ -18,7 +18,7 @@ export default {
 			<div class="w-full md:w-1/4 flex flex-col mt-4 md:mt-0">
 				<h4 class="text-md font-semibold mb-2">Om Libris</h4>
 
-				<router-link to="#" class="text-secondary-turquoise hover:underline hover:decoration-secondary-darker-turquoise hover:text-secondary-darker-turquoise">
+				<router-link to="/" class="text-secondary-turquoise hover:underline hover:decoration-secondary-darker-turquoise hover:text-secondary-darker-turquoise">
 					Sekretess
 				</router-link>
 			</div>
@@ -26,15 +26,15 @@ export default {
 			<div class="w-full md:w-1/4 flex flex-col mt-4 md:mt-0">
 				<h4 class="text-md font-semibold mb-2">Hjälp</h4>
 
-				<router-link to="#" class="text-secondary-turquoise hover:underline hover:decoration-secondary-darker-turquoise hover:text-secondary-darker-turquoise">
+				<router-link to="/" class="text-secondary-turquoise hover:underline hover:decoration-secondary-darker-turquoise hover:text-secondary-darker-turquoise">
 					Kontakt
 				</router-link>
 
-				<router-link to="#" class="text-secondary-turquoise hover:underline hover:decoration-secondary-darker-turquoise hover:text-secondary-darker-turquoise">
+				<router-link to="/" class="text-secondary-turquoise hover:underline hover:decoration-secondary-darker-turquoise hover:text-secondary-darker-turquoise">
 					Bibblan svarar
 				</router-link>
 
-				<router-link to="#" class="text-secondary-turquoise hover:underline hover:decoration-secondary-darker-turquoise hover:text-secondary-darker-turquoise">
+				<router-link to="/" class="text-secondary-turquoise hover:underline hover:decoration-secondary-darker-turquoise hover:text-secondary-darker-turquoise">
 					Teknik och format
 				</router-link>
 			</div>
