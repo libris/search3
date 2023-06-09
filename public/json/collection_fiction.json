@@ -92,7 +92,7 @@
 			}
 		},
 		"first": {
-			"@id": "/find?q=&@type=Work&_limit=40&and-genreForm.@id=https://id.kb.se/term/saogf/Poesi&o=https://libris-qa.kb.se/dbqstw3x359v6bm%23it"
+			"@id": "/find?q=&@type=Work&_limit=40&and-genreForm.@id=https://id.kb.se/term/saogf/Poesi&o=https://libris-dev2.kb.se/dbqstw3x359v6bm%23it"
 		}
 	},
 	{
