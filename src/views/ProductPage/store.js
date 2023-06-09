@@ -183,14 +183,18 @@ export const useProductStore = defineStore('product', {
             return null;
         },
 		imageUrl: (state) => {
-			const foundInstance = state.instances.find((instance) => {
+			let foundInstance = state.instances.find((instance) => {
 				return instance.identifiedBy != null && instance.identifiedBy.find((identify) =>
 					identify['@type'] == 'ISBN'
 				);
 			});
 
+			if (foundInstance == null && state.instances.length > 0) {
+				foundInstance = state.instances[0];
+			}
+
 			if (foundInstance != null) {
-				return getFullImageUrl(getFnurgelFromUri(foundInstance['@id']), foundInstance.identifiedBy[0].value);
+				return getFullImageUrl(getFnurgelFromUri(foundInstance['@id']), getAtPath(foundInstance, ['identifiedBy', 0, 'value', '']));
 			}
 
 			return '';
