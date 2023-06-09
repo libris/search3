@@ -80,14 +80,14 @@
 				</span>
 			</div>
 		</div>
-
+    
 		<template #footer>
 			<div class="flex items-end justify-between pt-4">
 				<div>
 					<div class="flex gap-x-2">
 			<div class="rounded-md bg-secondary-grey/20 mt-2 py-2 px-4" v-for="(instanceCount, instanceType) in getInstanceTypes()">
 							<font-awesome-icon icon="fa fa-book" class="mr-2 text-secondary-grey" />
-							{{ getLabel(instanceType) }} ({{instanceCount}})
+              {{ getLabel(instanceType) }}{{ instanceCount > 1 ? ` (${instanceCount})` : '' }}
 						</div>
 			<div v-if="holdings != null && holdings > 0" class="mt-2 py-2 px-4">
 			Finns på <u class="text-secondary-turquoise">{{ holdings }} bibliotek</u>
