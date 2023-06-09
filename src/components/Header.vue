@@ -6,6 +6,7 @@ import { usePreferencesStore } from '@/stores/preferences';
 import Popper from "vue3-popper";
 import { mapState } from 'pinia';
 import { useI18nStore } from '@/stores/i18n';
+import {settings} from "@/lib/settings";
 
 export default {
 	name: 'Header',
@@ -28,7 +29,7 @@ export default {
 		editLink() {
 			const id = this.$route.path.substring(1)
 			const isFnurgel = getNumberOfVowels(id) == 0 && id.length > 14;
-			return isFnurgel ? `/katalogisering/${id}` : null;
+			return isFnurgel ? settings.apiPath + `/katalogisering/${id}` : null;
 		}
 	}
 };
