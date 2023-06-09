@@ -1,8 +1,8 @@
 <template>
 	<div>
-		<h1 class="text-3xl">Mina bokmärken</h1>
+		<h1 class="text-3xl font-semibold">Mina bokmärken</h1>
 
-		<div class="flex flex-col gap-y-6 mt-4">
+		<div class="flex flex-col mt-4">
 			<RecordListItem
 				v-for="id in bookmarks"
 				:key="id"
