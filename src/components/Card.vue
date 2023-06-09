@@ -54,7 +54,7 @@ export default {
 
 			<div v-if="imageUrl != null">
 				<div
-					class="bg-no-repeat bg-cover bg-center rounded-lg"
+					class="bg-no-repeat bg-contain bg-top rounded-lg"
 					:class="coverClassNames"
 					:style="{ backgroundImage: 'url(' + imageUrl + ')' }"
 				/>

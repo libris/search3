@@ -180,7 +180,7 @@
 		<td class="border-b border-secondary-grey/20 p-4 py-2 align-middle group-last-of-type:border-b-0">
 			<div v-if="imageUrl != null" class="flex justify-end">
 				<div
-					class="bg-no-repeat bg-cover bg-center rounded-lg w-14 h-20"
+					class="bg-no-repeat bg-contain bg-top rounded-lg w-14 h-20"
 					:style="{ backgroundImage: 'url(' + imageUrl + ')' }"
 				/>
 			</div>
