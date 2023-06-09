@@ -29,7 +29,7 @@ export default {
 		},
 		containerClassName() {
 			switch (this.mode) {
-				case 'cards':
+				case 'grid':
 					return 'grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-8 w-full';
 
 				case 'list':

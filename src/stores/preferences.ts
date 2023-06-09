@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 
 type Preferences = {
-	displayMode: 'cards' | 'list' | 'table',
+	displayMode: 'grid' | 'list' | 'table',
 	selectedLanguage: 'sv' | 'en',
 };
 

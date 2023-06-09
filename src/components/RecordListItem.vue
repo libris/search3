@@ -1,5 +1,5 @@
 <template>
-	<div v-if="mode === 'cards' && item != null">
+	<div v-if="mode === 'grid' && item != null">
 		<router-link :to="this.routerPath(item['@id'])" :title="title" class="flex justify-center">
 			<div
 				class="w-32 h-52 bg-no-repeat bg-cover bg-center rounded-lg"
@@ -12,7 +12,9 @@
 				<span v-for="lang in language">
 					{{ lang }}
 				</span>
+        <span v-if="item && item['@type'] && item['@type'] !== 'Text'"> &bull; {{ getLabel(item['@type']) }}</span>
 			</div>
+      
 
 			<h3 class="font-semibold">
 				<router-link :to="this.routerPath(item['@id'])" :title="title" class="block truncate text-ellipsis">
@@ -45,6 +47,9 @@
 							{{ lang }}
 						</span>
 					</div>
+          <div v-if="item && item['@type'] && item['@type'] !== 'Text'" class="inline text-sm text-secondary-grey">
+            <span class="mx-1">&bull; {{ getLabel(item['@type']) }}</span>
+          </div>
 				</h3>
 			</div>
 		</router-link>
@@ -212,7 +217,7 @@ export default {
 			default: null,
 		},
 		displayMode: {
-			type: String as PropType<'small' | 'cards' | 'list' | 'table'>,
+			type: String as PropType<'small' | 'grid' | 'list' | 'table'>,
 			default: null,
 		},
 	},
