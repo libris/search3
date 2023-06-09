@@ -22,6 +22,12 @@ export default {
 		...mapState(useSearchResults, ['search']),
 		item() {
 			if (this.search != null && this.search.mapping != null) {
+				const oParameter = this.search.mapping.find((map) =>
+					map.variable == 'o'
+				);
+
+				if (oParameter != null) return oParameter;
+
 				const contributionAgent = this.search.mapping.find((map) =>
 					map.variable == 'contribution.agent.@id' || map.variable == 'and-contribution.agent.@id'
 				);
