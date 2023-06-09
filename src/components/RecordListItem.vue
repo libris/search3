@@ -2,21 +2,20 @@
 	<div v-if="mode === 'grid' && item != null">
 		<router-link :to="this.routerPath(item['@id'])" :title="title" class="flex justify-center">
 			<div
-				class="w-32 h-52 bg-no-repeat bg-cover bg-center rounded-lg"
+				class="w-48 h-52 bg-no-repeat bg-contain bg-bottom rounded-lg"
 				:style="{ backgroundImage: 'url(' + imageUrl + ')' }"
 			/>
 		</router-link>
 
 		<div class="mt-2">
-			<div v-if="language != null" class="text-secondary-grey text-xs font-semibold">
+			<div v-if="language != null" class="text-secondary-grey text-xs">
 				<span v-for="lang in language">
 					{{ lang }}
 				</span>
         <span v-if="item && item['@type'] && item['@type'] !== 'Text'"> &bull; {{ getLabel(item['@type']) }}</span>
 			</div>
       
-
-			<h3 class="font-semibold">
+			<h3 class="text-base">
 				<router-link :to="this.routerPath(item['@id'])" :title="title" class="block truncate text-ellipsis">
 					{{ title }}
 				</router-link>
@@ -27,7 +26,7 @@
 			</strong>
 		</div>
 
-		<div v-if="contributionsCalculated != null" class="text-secondary-grey mt-1">
+		<div v-if="contributionsCalculated != null" class="text-secondary-grey text-sm mt-1">
 			<div class="mt-1" v-for="c in contributionsCalculated">
 			<router-link v-if="c.link" :to="`/${c.link}`" class="underline">{{c.agent}}</router-link>
 			<span v-else>{{c.agent}}</span><span v-if="c.role.length > 0"> &bull; </span><span>{{c.role.join(`, `)}}</span>
