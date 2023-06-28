@@ -12,8 +12,8 @@
 		<div class="flex gap-x-3 items-center">
 			<div
 				class="cursor-pointer text-lg"
-				:class="displayMode == 'cards' ? 'text-secondary-blue' : 'text-primary-black'"
-				@click="setDisplayMode('cards')"
+				:class="displayMode == 'grid' ? 'text-secondary-blue' : 'text-primary-black'"
+				@click="setDisplayMode('grid')"
 			>
 				<font-awesome-icon icon="fa-solid fa-table-cells-large" />
 			</div>

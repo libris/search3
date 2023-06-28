@@ -1,20 +1,21 @@
 <template>
-	<div v-if="mode === 'cards' && item != null">
+	<div v-if="mode === 'grid' && item != null">
 		<router-link :to="this.routerPath(item['@id'])" :title="title" class="flex justify-center">
 			<div
-				class="w-32 h-52 bg-no-repeat bg-cover bg-center rounded-lg"
+				class="w-48 h-52 bg-no-repeat bg-contain bg-bottom rounded-lg"
 				:style="{ backgroundImage: 'url(' + imageUrl + ')' }"
 			/>
 		</router-link>
 
 		<div class="mt-2">
-			<div v-if="language != null" class="text-secondary-grey text-xs font-semibold">
+			<div v-if="language != null" class="text-secondary-grey text-xs">
 				<span v-for="lang in language">
 					{{ lang }}
 				</span>
+        <span v-if="item && item['@type'] && item['@type'] !== 'Text'"> &bull; {{ getLabel(item['@type']) }}</span>
 			</div>
-
-			<h3 class="font-semibold">
+      
+			<h3 class="text-base">
 				<router-link :to="this.routerPath(item['@id'])" :title="title" class="block truncate text-ellipsis">
 					{{ title }}
 				</router-link>
@@ -25,7 +26,7 @@
 			</strong>
 		</div>
 
-		<div v-if="contributionsCalculated != null" class="text-secondary-grey mt-1">
+		<div v-if="contributionsCalculated != null" class="text-secondary-grey text-sm mt-1">
 			<div class="mt-1" v-for="c in contributionsCalculated">
 			<router-link v-if="c.link" :to="`/${c.link}`" class="underline">{{c.agent}}</router-link>
 			<span v-else>{{c.agent}}</span><span v-if="c.role.length > 0"> &bull; </span><span>{{c.role.join(`, `)}}</span>
@@ -45,6 +46,9 @@
 							{{ lang }}
 						</span>
 					</div>
+          <div v-if="item && item['@type'] && item['@type'] !== 'Text'" class="inline text-sm text-secondary-grey">
+            <span class="mx-1">&bull; {{ getLabel(item['@type']) }}</span>
+          </div>
 				</h3>
 			</div>
 		</router-link>
@@ -176,7 +180,7 @@
 		<td class="border-b border-secondary-grey/20 p-4 py-2 align-middle group-last-of-type:border-b-0">
 			<div v-if="imageUrl != null" class="flex justify-end">
 				<div
-					class="bg-no-repeat bg-cover bg-center rounded-lg w-14 h-20"
+					class="bg-no-repeat bg-contain bg-top rounded-lg w-14 h-20"
 					:style="{ backgroundImage: 'url(' + imageUrl + ')' }"
 				/>
 			</div>
@@ -212,7 +216,7 @@ export default {
 			default: null,
 		},
 		displayMode: {
-			type: String as PropType<'small' | 'cards' | 'list' | 'table'>,
+			type: String as PropType<'small' | 'grid' | 'list' | 'table'>,
 			default: null,
 		},
 	},
