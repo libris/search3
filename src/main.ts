@@ -25,6 +25,6 @@ app.use(vfm);
 
 app.component('Button', Button);
 app.component('Card', Card);
-
 app.component('font-awesome-icon', FontAwesomeIcon);
+
 app.mount('#app');
